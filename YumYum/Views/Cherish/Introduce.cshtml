@@ -1,0 +1,182 @@
+﻿<style>
+	/* 一般的按鈕樣式 */
+	.yum-btn {
+		font-size: 1rem;
+		color: var(--yum-primary-2);
+		background-color: var(--yum-primary-3);
+		box-shadow: 2px 2px 2px #30533fa6;
+		display: inline-block;
+		padding: 0.375rem 0.75rem;
+		border-radius: 0.375rem;
+		border: 1px solid var(--yum-primary-2);
+		line-height: 1.5;
+		text-align: center;
+		text-decoration: none;
+		vertical-align: middle;
+		cursor: pointer;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		user-select: none;
+	}
+
+	/* 退回按鈕的樣式 */
+	.back-btn {
+		font-size: 1rem;
+		color: var(--yum-primary-2);
+		background-color: var(--yum-secondary-3);
+		box-shadow: 2px 2px 2px #30533fa6;
+		display: inline-block;
+		padding: 0.375rem 0.75rem;
+		border-radius: 0.375rem;
+		border: 1px solid var(--yum-primary-2);
+		line-height: 1.5;
+		text-align: center;
+		text-decoration: none;
+		vertical-align: middle;
+		cursor: pointer;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		user-select: none;
+	}
+
+		/* hover 按鈕時的樣式變化 */
+		.back-btn:hover,
+		.yum-btn:hover {
+			color: var(--yum-primary-3);
+			background-color: var(--yum-primary-2);
+			transition-duration: 0.5s;
+		}
+
+	/* 有使用 svg 圖形的要增加下方的設定 */
+	svg path {
+		fill: var(--yum-primary-2);
+	}
+
+	.yum-btn:hover svg path {
+		fill: var(--yum-primary-3);
+		transition-duration: 0.5s;
+	}
+
+	/* 設定 svg 圖形的大小 */
+	svg {
+		width: 1.15rem;
+		height: 1.15rem;
+	}
+</style>
+
+@* 標示目前所在頁面路徑位置 *@
+@await Html.PartialAsync("_PartialBreadcrumb", (List<BreadcrumbItem>)ViewBag.Breadcrumbs)
+
+@* 【大圖區塊】 *@
+<div class="row text-center">
+	<img class="mx-auto" src="/img/cherish/cover.jpg" alt="介紹惜食封面照片" style="width:85%;">
+</div>
+
+
+
+
+
+@* 【主題區塊】 *@
+
+<!-- 分隔線  可直接調整 -->
+<hr style="margin-top:4.5rem; border: 0.2rem solid var(--yum-primary-2)" />
+<hr style="margin-bottom:4.5rem; border: 1rem solid var(--yum-primary-3)" />
+
+<!-- 大標題！ -->
+<h2 class="my-3 px-4 py-3 d-block text-center ">「食材不浪費，愛心傳遞」</h2>
+<div class="mt-5"><!--這是拿來排版空間的--></div>
+
+<!-- 內文 -->
+<p class=" mx-auto text-center" style="width:70%; letter-spacing:0.125rem;">
+	&ensp;&ensp;「惜食專區」是一個以共享食材為核心的公益平台，旨在減少食物浪費，促進社區內的資源循環。我們鼓勵大家把即將過期但仍然安全可用的食材分享給有需要的人，讓這些食材不會被浪費，反而能發揮它們最大的價值。
+</p>
+
+<!-- 流程圖片 -->
+<div class="row" style="width:100%;height:400px;">
+	<img src="/img/cherish/step.jpg" style="height:100%;width:100%;object-fit:cover;" alt="惜食專區流程圖">
+</div>
+
+
+<!-- 分隔線 可直接調整 -->
+<hr style="border: 1rem solid var(--yum-primary-3)" />
+<hr style="margin-bottom:4.5rem; border: 0.2rem solid var(--yum-primary-2)" />
+
+
+
+
+
+
+@* 【規則區塊】 *@
+
+<!-- 規則說明 --> <!-- pre 段落縮牌要注意！ -->
+<h2 class="ms-5">規則說明</h2>
+<pre class="fs-5 fw-400"> 
+		【如何使用】
+		-《使用指南》：
+			- 註冊和登錄
+			- 如何上架食材
+			- 如何尋找和聯絡需求者
+			- 如何管理已上架的食材
+		</pre>
+<pre class="fs-5 fw-400">
+		【理念背景】
+		-《惜食的意義》：介紹惜食的概念，包括食物浪費的影響及其對環境和社會的負面影響。
+		-《數據支持》：提供一些有關食物浪費的統計數據和研究結果，強調這個平台的必要性。
+		</pre>
+
+
+<!-- 分隔線 可直接調整 -->
+<hr class="" style="margin-bottom:0rem; border: 1rem solid var(--yum-secondary-4)" />
+<hr class="" style="margin-bottom:4.5rem; border: 0.2rem solid var(--yum-secondary-2)" />
+
+
+
+
+
+@* 【最後一個段落】 *@
+<!-- 最後一個段落 -->
+<div class="w-100 text-center">
+	<h3 class="mb-5">為什麼珍惜食材、減少浪費如此重要？</h3>
+	<div class="px-5 girdf">
+		<style>
+			.girdf div {
+				padding: 0.5rem 4rem;
+			}
+		</style>
+
+		<!-- 上排左右 -->
+		<div class="d-flex">
+			<div style="flex-basis:50%;">
+				<p class="d-flex flex-column">
+					<h5>環境保護</h5>
+					食物浪費會產生大量的廢棄物，對環境造成負擔。通過減少浪費，我們能減少食物的生產、運輸、處理過程中的碳排放，有助於減緩氣候變遷。
+				</p>
+			</div>
+			<div style="flex-basis:50%;">
+				<p class="d-flex flex-column">
+					<h5>資源節省</h5>
+					食物的生產需要大量的水、土地、能源和勞力。每一個被浪費的食物背後，都代表著資源的巨大浪費。通過共享食材，我們能最大化資源的利用。
+				</p>
+			</div>
+		</div>
+
+		<!-- 下排左右 -->
+		<div class="d-flex">
+			<div style="flex-basis:50%;">
+				<p class="d-flex flex-column">
+					<h5>關懷他人</h5>
+					許多人面臨著食物短缺的問題，通過「惜食專區」，我們能將過剩的食材提供給需要的人，減輕他們的經濟壓力，傳遞社會的溫暖和關懷。
+				</p>
+			</div>
+			<div style="flex-basis:50%;">
+				<p class="d-flex flex-column">
+					<h5>珍惜食材</h5>
+					從每一個小小的行動開始，讓我們一起為減少浪費，保護地球、關愛他人，做出實際貢獻。
+				</p>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+

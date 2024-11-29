@@ -1,0 +1,277 @@
+﻿@using YumYum.Models.DataTransferObject
+@model CherishMatch
+
+@{
+    var c = Model;
+}
+<!-- 標題 -->
+<div class="d-flex position-relative">
+
+    <!-- 圖片 -->
+    <div class="d-flex align-items-center ms-2 popup-imgbox">
+        <img src="@(Url.Content(c.CherishPhoto))" style="width:100%;height:100%; object-fit:cover;">
+    </div>
+
+    <!-- 圖片右側主要資訊 -->
+    <div class="d-flex flex-column">
+
+        <!-- 第一列，主要資訊 -->
+        <div>
+            <!-- 標題 -->
+            <div class="popup-title position-relative mb-1" style="padding: 0; margin: 0;">
+                <div>
+                    <h5 class=" ms-2 fw-600">@c.IngredientName</h5>
+                </div>
+                <div class="popup-title-span fw-600">
+                    數量<span class="ms-3">@c.Quantity</span>
+                    <p>截止日期<span class="ms-3">@c.EndDate.ToString("yyyy-MM-dd")</span></p>
+                </div>
+            </div>
+
+            <!-- 食材屬性標籤飄起來 -->
+            <div class="attr-tag">
+                <p class="position-absolute ">
+                    @c.IngredAttributeName
+                </p>
+            </div>
+        </div>
+
+        <!-- 第二列，日期資訊 -->
+        <div class="d-flex" style="width:36rem;align-items:baseline;" >
+            
+            <!-- 購買日期、採購日期 -->
+            <div class="d-inline-flex align-items-center popup-buydate ms-2" style="flex-basis:60%;">
+                <span class="fw-bold d-inline-block ">
+                    購買日期 或 採收日期
+                </span>
+                <span class="ms-3" >@(c.ObtainDate.ToString("yyyy-MM-dd"))</span>
+            </div>
+
+            <!-- 有效期限 -->
+            <div class="d-inline-flex align-items-center popup-valid " style="flex-basis:35%;">
+                <span class="fw-bold d-inline-block ">
+                    有效期限
+                </span>
+                <span class="ms-3">@(c.CherishValidDate is null ? "未備註" : ((DateOnly)c.CherishValidDate).ToString("yyyy-MM-dd"))</span>
+            </div>
+        </div>
+
+        <!-- 第三列，來源資訊 -->
+        <div class="d-flex" style="width:36rem;align-items:baseline;">
+
+            <div style="flex-basis:60%;"></div>
+
+            <!-- 食材來源 -->
+            <div class="popup-obtain ms-2" style="flex-basis:35%;">
+                <span class="fw-bold ">
+                    食材來源
+                </span>
+                <span>@c.ObtainSource</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 詳細內容 -->
+<div class="d-flex flex-column mt-3 ps-5">
+
+    <!-- 贈與人 -->
+    <div class="d-inline-flex align-items-center popup-from" style="margin-bottom: 0.7rem;">
+        <span class="fw-bold d-inline-block ">
+            From
+        </span>
+        <svg class="me-1" width="13" height="14" viewBox="0 0 32 32" fill="none">
+            <path d="M16 15.6427C13.8 15.6427 11.9722 14.9003 10.5165 13.4156C9.06117 11.9305 8.3335 10.0658 8.3335 7.82134C8.3335 5.57691 9.06117 3.71216 10.5165 2.22709C11.9722 0.742365 13.8 0 16 0C18.2 0 20.0278 0.742365 21.4835 2.22709C22.9388 3.71216 23.6665 5.57691 23.6665 7.82134C23.6665 10.0658 22.9388 11.9305 21.4835 13.4156C20.0278 14.9003 18.2 15.6427 16 15.6427ZM0 32V26.899C0 25.652 0.308333 24.5609 0.925 23.6257C1.54167 22.6905 2.3445 21.9793 3.3335 21.492C5.51117 20.4606 7.63883 19.6869 9.7165 19.171C11.7945 18.6551 13.889 18.3972 16 18.3972C18.111 18.3972 20.1998 18.6608 22.2665 19.1879C24.3332 19.715 26.4545 20.4852 28.6305 21.4986C29.6485 21.989 30.4645 22.6999 31.0785 23.6313C31.6928 24.5628 32 25.652 32 26.899V32H0ZM3.3335 28.5992H28.6665V26.899C28.6665 26.4117 28.5305 25.9526 28.2585 25.5218C27.9862 25.0909 27.6445 24.7678 27.2335 24.5526C25.2112 23.5436 23.3055 22.8323 21.5165 22.4188C19.7278 22.005 17.889 21.798 16 21.798C14.111 21.798 12.261 22.005 10.45 22.4188C8.639 22.8323 6.7335 23.5436 4.7335 24.5526C4.32217 24.7678 3.986 25.0909 3.725 25.5218C3.464 25.9526 3.3335 26.4117 3.3335 26.899V28.5992ZM16 12.2424C17.2333 12.2424 18.2638 11.82 19.0915 10.9753C19.9195 10.1309 20.3335 9.07958 20.3335 7.82134C20.3335 6.5631 19.9195 5.51178 19.0915 4.6674C18.2638 3.82268 17.2333 3.40032 16 3.40032C14.7667 3.40032 13.7362 3.82268 12.9085 4.6674C12.0805 5.51178 11.6665 6.5631 11.6665 7.82134C11.6665 9.07958 12.0805 10.1309 12.9085 10.9753C13.7362 11.82 14.7667 12.2424 16 12.2424Z"
+                  fill="#5F6368" />
+            <path d="M16 12.2424C17.2333 12.2424 18.2638 11.82 19.0915 10.9753C19.9195 10.1309 20.3335 9.07958 20.3335 7.82134C20.3335 6.5631 19.9195 5.51178 19.0915 4.6674C18.2638 3.82268 17.2333 3.40032 16 3.40032C14.7667 3.40032 13.7362 3.82268 12.9085 4.6674C12.0805 5.51178 11.6665 6.5631 11.6665 7.82134C11.6665 9.07958 12.0805 10.1309 12.9085 10.9753C13.7362 11.82 14.7667 12.2424 16 12.2424Z"
+                  fill="#5F6368" />
+            <path d="M3.3335 28.5992H28.6665V26.899C28.6665 26.4117 28.5305 25.9526 28.2585 25.5218C27.9862 25.0909 27.6445 24.7678 27.2335 24.5526C25.2112 23.5436 23.3055 22.8323 21.5165 22.4188C19.7278 22.005 17.889 21.798 16 21.798C14.111 21.798 12.261 22.005 10.45 22.4188C8.639 22.8323 6.7335 23.5436 4.7335 24.5526C4.32217 24.7678 3.986 25.0909 3.725 25.5218C3.464 25.9526 3.3335 26.4117 3.3335 26.899V28.5992Z"
+                  fill="#5F6368" />
+        </svg>
+
+        <span class=" me-3">@c.UserNickname</span>
+
+        <!-- 交易地區 -->
+        <div class=" card-text " style="padding: 0; margin: 0;">
+            <svg class="" width="13" height="14" viewBox="0 0 14 17" fill="none">
+                <path d="M6.8 8.5C7.2675 8.5 7.66771 8.33354 8.00062 8.00063C8.33354 7.66771 8.5 7.2675 8.5 6.8C8.5 6.3325 8.33354 5.93229 8.00062 5.59938C7.66771 5.26646 7.2675 5.1 6.8 5.1C6.3325 5.1 5.93229 5.26646 5.59937 5.59938C5.26646 5.93229 5.1 6.3325 5.1 6.8C5.1 7.2675 5.26646 7.66771 5.59937 8.00063C5.93229 8.33354 6.3325 8.5 6.8 8.5ZM6.8 14.7475C8.52833 13.1608 9.81042 11.7194 10.6462 10.4231C11.4821 9.12688 11.9 7.97583 11.9 6.97C11.9 5.42583 11.4077 4.16146 10.4231 3.17688C9.43854 2.19229 8.23083 1.7 6.8 1.7C5.36917 1.7 4.16146 2.19229 3.17687 3.17688C2.19229 4.16146 1.7 5.42583 1.7 6.97C1.7 7.97583 2.11792 9.12688 2.95375 10.4231C3.78958 11.7194 5.07167 13.1608 6.8 14.7475ZM6.8 17C4.51917 15.0592 2.81562 13.2565 1.68937 11.5919C0.563125 9.92729 0 8.38667 0 6.97C0 4.845 0.683542 3.15208 2.05062 1.89125C3.41771 0.630417 5.00083 0 6.8 0C8.59917 0 10.1823 0.630417 11.5494 1.89125C12.9165 3.15208 13.6 4.845 13.6 6.97C13.6 8.38667 13.0369 9.92729 11.9106 11.5919C10.7844 13.2565 9.08083 15.0592 6.8 17Z"
+                      fill="#5F6368" />
+            </svg>
+            <span class="">@c.CityName</span>
+            <span class="ms-2">@c.RegionName</span>
+        </div>
+
+
+    </div>
+
+    <!-- 聯絡方式 -->
+    <div class=" d-flex align-items-center popup-contact" style="margin-bottom: 0.7rem;">
+        <span class="fw-bold d-inline-block" style="width:5rem;margin-right:2rem;">聯絡資訊</span>
+        
+        @{
+            if (c.ContactLine is not null)
+            {
+                <span class="ps-0 my-0 me-3"><span class="m-0 me-1 d-inline-block"><img src="~/img/icon/line.svg" width="20px" height="20px" /></span>@c.ContactLine</span>
+            }
+            if (c.ContactPhone is not null)
+            {
+                <span class="ps-0 my-0 me-3"><span class="m-0 me-1 d-inline-block"><img src="~/img/icon/phone.svg" width="20px" height="20px" /></span>@c.ContactPhone</span>
+            }
+            if (c.ContactOther is not null)
+            {
+                <span class="ps-0 my-0 me-3"><p class="m-0 me-1 d-inline-block"><img src="~/img/icon/contacts.svg" width="20px" height="20px" /></p>@c.ContactOther</span>
+            }
+        }
+
+
+    </div>
+
+    <!-- 面交日期 -->
+    <div class="d-flex popup-day">
+
+        <!-- 標題 -->
+        <span class="fw-bold d-inline-block">交易日期</span>
+
+        <!-- 資料內容 -->
+        <div class="day-data">
+            @{
+                if (((IEnumerable<CherishTradeTime>)ViewBag.Mon).Any())
+                {
+                    <div>
+                        <span class="fw-600 me-2">
+                            星期一
+                        </span>
+                        @foreach (var d in ViewBag.Mon)
+                        {
+                            <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                        }
+                    </div>
+                }
+                if (((IEnumerable<CherishTradeTime>)ViewBag.Tue).Any())
+                {
+                    <div>
+                        <span class="fw-600 me-2">
+                            星期二
+                        </span>
+                        @foreach (var d in ViewBag.Tue)
+                        {
+                            <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                        }
+                    </div>
+                }
+                if (((IEnumerable<CherishTradeTime>)ViewBag.Wes).Any())
+                {
+                    <div>
+                        <span class="fw-600 me-2">
+                            星期三
+                        </span>
+                        @foreach (var d in ViewBag.Wes)
+                        {
+                            <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                        }
+                    </div>
+                }
+                if (((IEnumerable<CherishTradeTime>)ViewBag.Thr).Any())
+                {
+                    <div>
+                        <span class="fw-600 me-2">
+                            星期四
+                        </span>
+                        @foreach (var d in ViewBag.Thr)
+                        {
+                            <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                        }
+                    </div>
+                }
+                if (((IEnumerable<CherishTradeTime>)ViewBag.Fri).Any())
+                {
+                    <div>
+                        <span class="fw-600 me-2">
+                            星期五
+                        </span>
+                        @foreach (var d in ViewBag.Fri)
+                        {
+                            <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                        }
+                    </div>
+                }
+                if (((IEnumerable<CherishTradeTime>)ViewBag.Sat).Any())
+                {
+                    <div>
+                        <span class="fw-600 me-2">
+                            星期六
+                        </span>
+                        @foreach (var d in ViewBag.Sat)
+                        {
+                            <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                        }
+                    </div>
+                }
+                if (((IEnumerable<CherishTradeTime>)ViewBag.Sun).Any())
+                {
+                    <div>
+                        <span class="fw-600 me-2">
+                            星期日
+                        </span>
+                        @foreach (var d in ViewBag.Sun)
+                        {
+                            <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                        }
+                    </div>
+                }
+
+
+
+                string TransText(string text)
+                {
+                    switch (Convert.ToInt32(text.Split('-')[1]))
+                    {
+                        case 1:
+                            return "上午";
+
+                        case 2:
+                            return "下午";
+
+                        case 3:
+                            return "晚上";
+                        default:
+                            return "";
+                    }
+                }
+            }
+        </div>
+
+    </div>
+
+    <!-- 配對按鈕 -->
+    <button href="#" id="btn-match"
+            class="position-absolute text-center justify-content-center lh-5 btn-hover btn-wanna-match-style">
+
+        <svg width="19" height="18" viewBox="0 0 19 18" fill="">
+            <path d="M13.333 9.83268L9.87467 6.45768C9.44412 6.04102 9.07954 5.57921 8.78092 5.07227C8.48231 4.56532 8.33301 4.01324 8.33301 3.41602C8.33301 2.65213 8.60037 2.00282 9.13509 1.4681C9.66981 0.933377 10.3191 0.666016 11.083 0.666016C11.5275 0.666016 11.9441 0.759766 12.333 0.947266C12.7219 1.13477 13.0552 1.38824 13.333 1.70768C13.6108 1.38824 13.9441 1.13477 14.333 0.947266C14.7219 0.759766 15.1386 0.666016 15.583 0.666016C16.3469 0.666016 16.9962 0.933377 17.5309 1.4681C18.0656 2.00282 18.333 2.65213 18.333 3.41602C18.333 4.01324 18.1872 4.56532 17.8955 5.07227C17.6038 5.57921 17.2427 6.04102 16.8122 6.45768L13.333 9.83268ZM13.333 7.49935L15.6038 5.27018C15.8677 5.00629 16.1108 4.72504 16.333 4.42643C16.5552 4.12782 16.6663 3.79102 16.6663 3.41602C16.6663 3.11046 16.5622 2.85352 16.3538 2.64518C16.1455 2.43685 15.8886 2.33268 15.583 2.33268C15.3886 2.33268 15.2045 2.37088 15.0309 2.44727C14.8573 2.52365 14.708 2.63824 14.583 2.79102L13.333 4.29102L12.083 2.79102C11.958 2.63824 11.8087 2.52365 11.6351 2.44727C11.4615 2.37088 11.2775 2.33268 11.083 2.33268C10.7775 2.33268 10.5205 2.43685 10.3122 2.64518C10.1038 2.85352 9.99967 3.11046 9.99967 3.41602C9.99967 3.79102 10.1108 4.12782 10.333 4.42643C10.5552 4.72504 10.7983 5.00629 11.0622 5.27018L13.333 7.49935ZM5.83301 14.416L11.6247 15.9993L16.583 14.4577C16.5136 14.3327 16.4129 14.225 16.2809 14.1348C16.149 14.0445 15.9997 13.9993 15.833 13.9993H11.6247C11.2497 13.9993 10.9511 13.9855 10.7288 13.9577C10.5066 13.9299 10.2775 13.8743 10.0413 13.791L8.10384 13.1452L8.56217 11.5202L10.2497 12.0827C10.4858 12.1521 10.7636 12.2077 11.083 12.2493C11.4025 12.291 11.8747 12.3188 12.4997 12.3327C12.4997 12.1799 12.4545 12.0341 12.3643 11.8952C12.274 11.7563 12.1663 11.666 12.0413 11.6243L7.16634 9.83268H5.83301V14.416ZM0.833008 17.3327V8.16602H7.16634C7.26356 8.16602 7.36079 8.17643 7.45801 8.19727C7.55523 8.2181 7.64551 8.2424 7.72884 8.27018L12.6247 10.0827C13.083 10.2493 13.4545 10.541 13.7393 10.9577C14.024 11.3743 14.1663 11.8327 14.1663 12.3327H15.833C16.5275 12.3327 17.1177 12.5618 17.6038 13.0202C18.09 13.4785 18.333 14.0827 18.333 14.8327V15.666L11.6663 17.7493L5.83301 16.1243V17.3327H0.833008ZM2.49967 15.666H4.16634V9.83268H2.49967V15.666Z"
+                  fill="#5F6368" />
+        </svg>
+        我要配對
+    </button>
+
+    <!-- 返回 -->
+    <button href="#" id="btn-pop-off" class="btn btn-outline-success position-absolute text-center  lh-5  btn-back-style">
+        返回
+    </button>
+
+</div>
+
+<script>
+    // 我要匹配 + 取消  【 -> (2)彈出/關閉輸入資訊的視窗】
+    $('#btn-match').click(function () {
+        $('#CherishId').val('@c.CherishId')
+        $('#popup-order-info').addClass('visible-hide')
+        $('#popup-order-match').removeClass('visible-hide')
+    })
+
+    $('#btn-pop-off').click(function () {
+        $(this).parent().parent().addClass('visible-hide');
+        $('#mask').hide()
+        enableScroll()
+    })
+</script>

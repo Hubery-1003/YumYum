@@ -1,0 +1,266 @@
+﻿@model IEnumerable<dynamic>
+@* 1125更新 *@
+<div style="text-align:center" class="mt-5">
+	<h1 class="mb-4 fw-600">食材在手 靈感不愁</h1>
+	<p class="fw-600">請點選食材Tag 或 查詢食材</p>
+	@* 搜尋列 *@
+	<div class="mb-4">
+		<nav class="navbar">
+			<div class="container-fluid" style="width:60%">
+				<div class="input-group">
+					<button class="btn btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions" id="filter-menu">
+						<svg height="22" width="22">
+							<image x="2" y="0" width="20" height="20" href="/img/icon/filter.svg" />
+						</svg>
+					</button>
+					<input type="text" class="form-control" placeholder="查詢食材" aria-label="Username" aria-describedby="basic-addon1" id="search-input">
+					<button class="btn btn-menu input-group-text" id="basic-addon1">
+						<svg height="22" width="22">
+							<image x="0" y="0" width="20" height="20" href="/img/icon/search.svg" />
+						</svg>
+					</button>
+				</div>
+			</div>
+		</nav>
+	</div>
+	@* 食材標籤 *@
+	<div id="tags" class="mb-4">
+		@foreach (var userId in Model)
+		{
+			@if (userId.GetType().GetProperty("UserId") != null)
+			{
+				<p>這是冰箱的食材，建議優先使用</p>
+				<p>或使用搜尋功能，瀏覽所有食材</p>
+				break;
+			}
+		}
+		<div class="ms-5 mb-5">
+			@{
+				int count = 0;
+			}
+			@foreach (var tag in Model)
+			{
+				count++;
+				<label class="btn-tags btn mb-4 me-5" style="border-radius:20px;" for="tag-id@(tag.IngredientId)">
+					<img src="@tag.IngredientIcon" width="25" height="25" class="pe-1 pb-0"><text>@tag.IngredientName</text>
+				</label>
+				<input type="checkbox" name="tags" id="tag-id@(tag.IngredientId)" value="@(tag.IngredientId)" hidden>
+				if (count % 8 == 0)
+				{
+					<br />
+				}
+			}
+		</div>
+	</div>
+	<p class="mb-3 fs-4 fw-600">已選的食材</p>
+	<div id="tags-selected" class="mb-4">
+		<div class="ms-5 mb-5"></div>
+	</div>
+	<button class="btn btn-primary mb-5 fs-4" id="btn-select">
+		查食譜
+	</button>
+	<div>
+		@* 搜尋結果 *@
+		<div class="card-body" style="display:flex; flex-flow:wrap row;justify-content:space-around" id="context">
+		</div>
+	</div>
+</div>
+
+@* 選單 *@
+<div class="offcanvas offcanvas-start align-items-center" style="background-color:var(--yum-primary-1);max-width:300px;" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+	<div class="offcanvas-header mb-3">
+		<h4 class="offcanvas-title ms-2 pt-3" id="offcanvasWithBothOptionsLabel">分類</h4>
+		@* <button type="button" class="btn-close pt-4" data-bs-dismiss="offcanvas" aria-label="Close"></button> *@
+	</div>
+	<div class="d-flex flex-column align-items-center " id="Ifilter">
+		<label class="btn-outline-success btn rounded-4 align-content-center mb-5 fw-600" for="IAttr-1">
+			<img src="~/img/food_attr/1.svg" width="30px" height="30px">
+			<span>全穀雜糧類</span>
+		</label>
+		<input type="checkbox" name="filter-IAttr" id="IAttr-1" value="1" hidden>
+		<label class="btn-outline-success btn rounded-4 align-content-center mb-5 fw-600" for="IAttr-2">
+			<img src="~/img/food_attr/2.svg" width="30px" height="30px">
+			<span>豆魚蛋肉類</span>
+		</label>
+		<input type="checkbox" name="filter-IAttr" id="IAttr-2" value="2" hidden>
+		<label class="btn-outline-success btn rounded-4 align-content-center mb-5 fw-600" for="IAttr-3">
+			<img src="~/img/food_attr/3.svg" width="30px" height="30px">
+			<span>乳品類</span>
+		</label>
+		<input type="checkbox" name="filter-IAttr" id="IAttr-3" value="3" hidden>
+		<label class="btn-outline-success btn rounded-4 align-content-center mb-5 fw-600" for="IAttr-4">
+			<img src="~/img/food_attr/4.svg" width="30px" height="30px">
+			<span>蔬菜類</span>
+		</label>
+		<input type="checkbox" name="filter-IAttr" id="IAttr-4" value="4" hidden>
+		<label class="btn-outline-success btn rounded-4 align-content-center mb-5 fw-600" for="IAttr-5">
+			<img src="~/img/food_attr/5.svg" width="30px" height="30px">
+			<span>水果類</span>
+		</label>
+		<input type="checkbox" name="filter-IAttr" id="IAttr-5" value="5" hidden>
+		<label class="btn-outline-success btn rounded-4 align-content-center mb-5 fw-600" for="IAttr-6">
+			<img src="~/img/food_attr/6.svg" width="30px" height="30px">
+			<span>油與堅果類</span>
+		</label>
+		<input type="checkbox" name="filter-IAttr" id="IAttr-6" value="6" hidden>
+	</div>
+</div>
+
+
+<script src="~/js/shared/jquery.js"></script>
+@* <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+ *@
+<script>
+	$(document).ready(function () {
+		$('[data-bs-toggle="offcanvas"]').tooltip();
+		$('#Ifilter input[type="checkbox"]').change(function () {
+			console.log($('#Ifilter input[type="checkbox"]:checked'));
+			var selectedCheckboxes = $('#Ifilter input[type="checkbox"]:checked').map(
+				function () {
+					return $(this).val();
+				}).get();
+			$(this).prev().toggleClass('selected');
+			loadPartialView();
+			// 發送AJAX請求到Controller
+			function loadPartialView() {
+				$.ajax(
+					{
+						url: '/Recipe/Index', // 伺服器的URL
+						type: 'POST', // 請求類型
+						data: JSON.stringify(selectedCheckboxes), // 傳送數據
+						contentType: 'application/json; charset=utf-8',
+						success: function (response) {
+							console.log('成功:', response);
+							//更新畫面
+							$('#tags').html(response);
+						}, error: function (xhr, status, error) { console.log('發生錯誤:', error); }
+					});
+			};
+		});
+
+		var elements = document.querySelectorAll('.btn-tags');
+		if (elements.length > 0) {
+			// 操作元素
+			console.log('btn');
+		}
+
+		console.log(document.querySelectorAll);
+		// 應該顯示function querySelectorAll() { [native code] }
+		console.log(document.querySelectorAll('.btn-tags'));
+		// 應該顯示元素的NodeList
+
+		$("body").on("click", "#tags > div > label", function () {
+			Element = $(this);
+			ElementNext = Element.next();
+			if (Element.parent().parent().attr('id') === 'tags') {
+				$("#tags-selected > div").append(Element);
+				$("#tags-selected > div").append(ElementNext);
+			}
+		});
+
+		$("body").on("click", "#tags-selected > div > label", function () {
+			Element = $(this);
+			ElementNext = Element.next();
+			if (Element.parent().parent().attr('id') === 'tags-selected') {
+				$("#tags > div").append(Element);
+				$("#tags > div").append(ElementNext);
+			}
+		});
+
+
+		// $('[data-bs-toggle="tooltip"]').tooltip();
+		$("body").on("click", "#filter-menu", function () {
+			// var offcanvasTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="offcanvas"]'))
+			// offcanvasTriggerList.map(function (offcanvasTriggerEl) {
+			// 	return new bootstrap.Offcanvas(offcanvasTriggerEl); });
+			// var offcanvasElements = document.querySelectorAll('[data-bs-toggle="offcanvas"]');
+			// offcanvasElements.forEach(function (element) {
+			// 	console.log(element);
+			// 	bootstrap.Offcanvas.getOrCreateInstance(element);
+			// });
+			// $('[data-bs-toggle="offcanvas"]').offcanvas('dispose');
+			// 重新初始化所有 Bootstrap 工具提示
+			// $('[data-bs-toggle="offcanvas"]').offcanvas();
+			// $('[data-bs-toggle="tooltip"]').tooltip('dispose');
+			// $('[data-bs-toggle="tooltip"]').tooltip();
+			// var offcanvasElements = document.querySelectorAll('.offcanvas');
+			// offcanvasElements.forEach(function (element) {
+			// 	console.log(element);
+			// 	bootstrap.Offcanvas.getInstance(element)?.dispose(); 銷毀現有實例
+			// 	bootstrap.Offcanvas.getOrCreateInstance(element); 重新初始化實例
+			// 	});
+
+		});
+
+
+
+
+
+
+		// $("#tags > div > label").on("click", function () {
+		// 	Element = $(this);
+		// 	ElementNext = Element.next();
+		// 	$("#tags-selected").append(Element);
+		// 	$("#tags-selected").append(ElementNext);
+		// 	Element.appendTo("#tags-selected > div");
+		// 	ElementNext.appendTo("#tags-selected > div");
+		//
+		// });
+
+		// var offcanvasElementOptions = document.getElementById('offcanvasWithBothOptions');
+		// var offcanvasElementLabel = document.getElementById('offcanvasWithBothOptionsLabel')
+		// bootstrap.Offcanvas.getOrCreateInstance(offcanvasElementOptions);
+		// bootstrap.Offcanvas.getOrCreateInstance(offcanvasElementLabel);
+
+
+		$("#btn-select").on('click', () => {
+			console.log($('#tags-selected input[type="checkbox"]:checked'));
+			var selectedtags = $('#tags-selected input[type="checkbox"]:checked').map(
+				function () {
+					return $(this).val();
+				}).get();
+			console.log(selectedtags);
+			$.ajax(
+				{
+					url: '/Recipe/IndexQuery', //伺服器的URL
+					type: 'POST', //請求類型
+					data: JSON.stringify(selectedtags), //傳送數據
+					contentType: 'application/json; charset=utf-8',
+					success: function (response) {
+						console.log('成功:', response);
+						//更新畫面
+						$('#context').html(response);
+					},
+					error: function (xhr, status, error) { console.log('發生錯誤:', error); }
+				});
+		})
+
+		// $("body").on('click', '#filter-menu', function () {
+		// 	console.log("hello");
+		// 	$(this).toggleClass("btn btn-menu");
+		// })
+
+		$("#basic-addon1").on('click', () => {
+			var inputValue = $('#search-input').val();
+			// alert('輸入的值是: ' + inputValue);
+			$.ajax(
+				{
+					url: '/Recipe/IngredientQuery', //伺服器的URL
+					type: 'POST', //請求類型
+					data: JSON.stringify({ searchString: inputValue }),//傳送數據
+					contentType: 'application/json; charset=utf-8',
+					success: function (response) {
+						console.log('成功:', response);
+						//更新畫面
+						$('#tags').html(response);
+					},
+					error: function (xhr, status, error) { console.log('發生錯誤:', error); }
+				});
+		});
+
+	});
+</script>
+
+

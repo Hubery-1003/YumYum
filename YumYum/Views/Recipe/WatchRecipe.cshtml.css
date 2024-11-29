@@ -1,0 +1,84 @@
+﻿.br-gray {
+    border: 1px solid var(--yum-secondary-4);
+    border-radius: 6px;
+}
+
+.text-big {
+    font-weight: 400;
+    font-size: 1.25rem;
+}
+
+.step-bk {
+    background-color: rgba(128, 128, 128, 0.26);
+}
+
+.tag-button {
+    border: 1px solid #dee2e6;
+    border-radius: 1.5rem;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    background-color: var( --yum-secondary-3);
+}
+
+    .tag-button:hover {
+        background-color: var(--yum-primary-3);
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+    }
+
+/*烹調及人數input css*/
+.input-type {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    font-size: 1.25rem;
+    width: 270px;
+}
+/*偶數步驟div*/
+.step-right {
+    width: 18rem;
+    margin-top: 38rem;
+    margin-left: 14.25rem;
+}
+/*奇數步驟div*/
+.step-left {
+    width: 18rem;
+    margin-left: 7rem;
+    margin-top: 38rem;
+}
+/*離下方200px*/
+.mb-200 {
+    margin-bottom: 200px
+}
+/*FINISH DIV*/
+.finish-block {
+    bottom: 0;
+    position: absolute;
+    text-align: center;
+    z-index: 1;
+    width: 100%;
+    height: 40px
+}
+/*FINISH INNER DIV*/
+.finish-ineer {
+    width: 10%;
+    height: 100%;
+    background-color: var(--yum-primary-2);
+    color: white;
+    border-radius: 10px
+}
+
+.bg-gray {
+    background-color: #e4e4e4
+}
+/*icon大小*/
+.ingredient-icon {
+    width: 30px;
+    height: 30px;
+}
+/*使用者資訊*/
+.user-infor :hover {
+    cursor: pointer;
+}

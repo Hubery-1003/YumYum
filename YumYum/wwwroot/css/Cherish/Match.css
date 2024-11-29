@@ -1,0 +1,561 @@
+﻿
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}
+
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+/* 遮罩 */
+.mask {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 120%;
+    width: 100%;
+    background-color: var(--yum-secondary-4);
+    opacity: 60%;
+    z-index: 98;
+}
+/* 上方搜尋列的樣式控制  */
+#searchbar {
+    left: 36%;
+    top: 9.3rem;
+    z-index: 97;
+}
+
+#searchbar-addr select, select[id="CitySelect"] {
+    margin: 0 0.5rem;
+    padding: auto 10%;
+    height: 30px;
+    width: 10rem;
+    background-color: var(--yum-secondary-3);
+    border: 0;
+    border-radius: 0.2rem;
+    border-bottom: 2px solid #0000005c;
+}
+
+#searchbar-text input[type='text'] {
+    padding: 0 1rem;
+    margin: 0;
+    height: 2.3rem;
+    width: 100%;
+    background-color: var(--yum-secondary-3);
+    border: 0;
+    border-radius: 0.5rem;
+}
+
+#searchbar-text button:hover {
+    background-color: var(--yum-secondary-4);
+}
+
+    #searchbar-text button:hover svg,
+    #searchbar-text button:hover svg path {
+        stroke: var(--yum-secondary-3);
+        color: var(--yum-secondary-3);
+    }
+
+
+/* 左側面板 */
+#left-pannel {
+    height: max-content;
+    width: 30%;
+    background-color: var(--yum-secondary-3);
+}
+
+.filter-head {
+    display: flex;
+    align-items: center;
+}
+
+#filter-head span:first-child {
+    font-size: 1.5rem;
+    line-height: 4rem;
+    padding-left: 3rem;
+}
+
+
+
+    #filter-head button:hover {
+        opacity: 100%;
+    }
+
+   
+
+#Ifilter-active:checked + label,
+#Cfilter-active:checked + label,
+#Dfilter-active:checked + label {
+    transform: scaleY(-1);
+}
+
+.Ifilter {
+    display: flex;
+    height: 14rem;
+    width: 13rem;
+    transition: 0.1s;
+    z-index: 97;
+}
+
+/* 左側收和鈕 */
+.extend-tag {
+    position: absolute;
+    right: 1rem;
+    width: 15rem;
+    text-align: end;
+}
+
+
+/* 左側區域的類別篩選  */
+.Ifilter label span {
+    display: inline-block;
+    width: 75%;
+    text-wrap: nowrap;
+    letter-spacing: 0.3rem;
+}
+
+.Ifilter label img {
+    width: 30px;
+}
+
+
+/* 左側區域的 ck hover 事件  */
+.Ifilter label {
+    margin-bottom: 0.7rem;
+    width: 12rem;
+    height: 3rem;
+    background-color: var(--yum-primary-3);
+    opacity: 65%;
+    font-size: 1.25rem;
+    box-shadow: 2px 2px var(--yum-primary-2);
+}
+
+#Ifilter label:hover {
+    background-color: var(--yum-primary-2);
+    box-shadow: 2px 2px var(--yum-secondary-4);
+}
+
+/* 左側區域的 ck selected 事件  */
+#Ifilter .selected {
+    background-color: var(--yum-primary-2);
+    color: var(--yum-primary-3);
+    box-shadow: 2px 2px var(--yum-secondary-4);
+    opacity: 60%;
+}
+
+.Cfilter {
+    height: 6.5rem;
+    transition: 0.1s ease;
+}
+
+.Dfilter {
+    height: 8rem;
+    transition: 0.1s ease;
+}
+
+.filter-hide {
+    /* display: none; */
+    height: 0;
+    margin: 0;
+    padding: 0;
+    /* 防止內容外露 */
+    overflow: hidden;
+    transition: 0.4s ease;
+}
+
+/* 左側的其他ck */
+#left-pannel input[type='checkbox']:checked {
+    background-color: var(--yum-secondary-4);
+    border: 2px solid var(--yum-primary-2);
+}
+
+#left-pannel input[type='checkbox']:focus {
+    outline: none;
+    box-shadow: none;
+    border: 2px solid var(--yum-primary-2);
+}
+
+#left-pannel p {
+    margin: 0;
+    padding: 0;
+}
+
+.Cfilter label {
+    display: block;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+
+
+/* 篩選 */
+#date-order {
+    position: absolute;
+    width: 6rem;
+    height: 2rem;
+}
+
+    #date-order:hover + .date-order-extend,
+    .date-order-extend:hover {
+        display: block;
+    }
+
+.date-order-extend {
+    margin-top: 0;
+    display: none;
+    padding: 0;
+    right: -2%;
+    z-index: 100;
+    background-color: var(--yum-secondary-4);
+    border-radius: 0.3rem;
+    text-align: center;
+    width: 12rem;
+    border: 0.1rem solid var(--yum-primary-2);
+}
+
+    .date-order-extend p {
+        margin: 0 0rem;
+        line-height: 2.5rem;
+        padding: 0rem 0;
+        border: 0.05rem solid var(--yum-primary-2);
+    }
+
+        .date-order-extend p:hover {
+            opacity: 60%;
+            background-color: var(--yum-secondary-3);
+        }
+
+
+/* 此頁面中間區域的 btn hover 事件  */
+.btn-hover:hover svg path {
+    fill: var(--yum-primary-3);
+    transition-duration: 0.6s;
+}
+
+.btn-hover {
+    background-color: var(--yum-primary-3);
+}
+
+    .btn-hover:hover {
+        color: var(--yum-primary-3);
+        background-color: var(--yum-primary-2);
+    }
+
+    .btn-hover > svg path {
+        color: var(--yum-primary-3);
+        fill: var(--yum-primary-2);
+    }
+
+
+
+
+/*  中間的卡片  */
+.result-div {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 3px 7px 0px #30533fa6
+}
+
+.result-imgbox {
+    border: 1px solid rgba(178, 178, 178, 0.14);
+    width: 22%;
+    height: 16rem;
+    margin-right: 2%;
+}
+
+
+
+.result-div img {
+}
+
+.result-title {
+    position: relative;
+}
+
+    .result-title h5 {
+        display: inline-block;
+        font-weight: bold;
+        font-size: 1.5rem;
+        padding-right: 30rem;
+    }
+
+.result-title-span {
+    position: absolute;
+    left: 12rem;
+}
+
+
+    .result-title-span p {
+        position: absolute;
+        width: 13rem;
+        right: -25rem;
+        top: 0rem;
+    }
+
+.result-buydate span,
+.result-from > span:nth-child(1),
+.result-contact span,
+.result-valid span {
+    width: 12rem;
+}
+
+.result-from > span:nth-child(1) {
+    letter-spacing: 0.3rem
+}
+
+.list-unstyled input {
+    margin: 0;
+    padding: 0;
+    margin-right: 0.5rem;
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.list-unstyled label {
+    letter-spacing: 0.2rem;
+    font-size: 1.2rem;
+}
+
+/* 顯示詳細資訊  */
+.popup-order-info {
+    z-index: 100;
+    position: fixed;
+    top: 13%;
+    left: 20%;
+    width: 63%;
+    height: 68%;
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: 0.2rem;
+    border: 6px solid #30533f7a;
+    box-shadow: 3px 3px var(--yum-secondary-4);
+}
+
+
+.popup-imgbox {
+    border: 1px solid rgba(178, 178, 178, 0.14);
+    width: 25%;
+    height: 14rem;
+    margin-right: 2%;
+}
+
+    .popup-imgbox img {
+        width: 100%;
+        border-radius: 0.7rem;
+    }
+
+.popup-title h5 {
+    display: block;
+    padding-top: 3rem;
+    font-size: 1.8rem;
+}
+
+.popup-title-span {
+    font-size: 1.6rem;
+    width: 30rem;
+    position: absolute;
+    left: 9rem;
+    top: 3rem;
+}
+
+    .popup-title-span p {
+        display: inline-block;
+        position: absolute;
+        left: 11rem;
+    }
+
+.attr-tag p {
+    padding: 0.2rem 0;
+    margin: 0.5rem 0;
+    right: 8%;
+    bottom: 5rem;
+    border-radius: 15px;
+    width: 5.7rem;
+    background-color: #0000002c;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.popup-buydate {
+    padding-top: 4.5rem;
+}
+
+.popup-obtain {
+    left: 36.8rem;
+}
+
+    .popup-obtain span:first-child {
+        padding-right: 0.8rem;
+    }
+
+.popup-from span:first-child {
+    width: 5rem;
+    letter-spacing: 0.3rem;
+    margin-right: 2rem;
+}
+
+
+
+.popup-day span:first-child {
+    display: inline-block;
+    width: 5rem;
+    margin-right: 2rem;
+}
+
+.day-data {
+    width: 32rem;
+}
+
+    .day-data div {
+        width: 15rem;
+        display: inline-block;
+    }
+
+        .day-data div h5 {
+            display: inline;
+        }
+
+    .day-data span {
+        margin-right: 0.5rem;
+    }
+
+/* 查詢結果的個別物件中，那個"匹配btn"在該div的位置樣式  */
+.btn-wanna-match-style {
+    margin: 0;
+    padding: 1% 0;
+    width: 18%;
+    border-radius: 0.5rem;
+    border: 0;
+    box-shadow: 3px 3px 0px #30533fa6;
+    right: 4%;
+    bottom: 19%;
+}
+
+
+.btn-back-style,
+.btn-fill-info {
+    width: 18%;
+    padding: 1% 0;
+    margin: 0;
+    right: 4%;
+    bottom: 7%;
+    border-radius: 0.5rem;
+    box-shadow: 3px 3px 0px #30533fa6;
+    color: var(--yum-primary-2);
+}
+
+    .btn-back-style:hover,
+    .btn-fill-info:hover {
+        background-color: var(--yum-primary-2);
+        color: var(--yum-primary-3);
+    }
+
+.btn {
+    background-color: null;
+}
+
+.visible-hide {
+    visibility: hidden;
+}
+
+.popup-order-match {
+    position: fixed;
+    width: 40%;
+    height: 75%;
+    top: 16%;
+    left: 30%;
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: 0.2rem;
+    border: 6px solid #30533f7a;
+    box-shadow: 3px 3px var(--yum-secondary-4);
+    z-index: 100;
+}
+
+    .popup-order-match .btn-wanna-match-style {
+        left: 54%;
+        bottom: 7%;
+        color:black;
+    }
+        .popup-order-match .btn-wanna-match-style:hover {
+            color: var(--yum-primary-3);
+        }
+
+        .popup-order-match .btn-wanna-match-style + button {
+            left: 30%;
+            bottom: 7%;
+        }
+
+.btn-fill-info {
+    color: black;
+    text-wrap: nowrap;
+    width: fit-content;
+    padding: 0.5rem 0.5rem;
+    margin-top: 1rem;
+}
+
+#match-info-form {
+    width: 90%;
+}
+
+.form-contact-info {
+    margin-bottom: 0.5rem;
+}
+
+.contact-info {
+    z-index: 100;
+    position: fixed;
+    top: 13%;
+    left: 26%;
+    width: 50%;
+    height: 82%;
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: 0.2rem;
+    border: 6px solid #30533f7a;
+    box-shadow: 3px 3px var(--yum-secondary-4);
+    overflow-y: scroll;
+}
+
+.left-contact label, .left-contact span,
+.left-contact input {
+    width: 16rem;
+}

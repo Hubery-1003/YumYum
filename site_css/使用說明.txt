@@ -1,0 +1,49 @@
+操作前，請先確認你撰寫程式的環境是 Visual Studio Code（藍色）或 Visual Studio 2022（紫色）。
+根據不同環境，會有不同的注意事項。
+
+【使用－site.css】
+步驟一：
+　　把 site.css 和 bootstrap.css 這兩個檔案［複製］帶走。
+　　（藍色）擺放位置隨便，放在你找得到的地方就好。
+　　（紫色）請把檔案安放在 \wwwroot\css\ 裡。
+
+步驟二：
+　　在 head 標籤中［加入］一段引用。
+　　<link rel="stylesheet" href="檔案路徑">
+
+步驟三：
+　　注意引用順序。
+　　先引用 bootstrap.css → 再引用 site.css  → 最後引用自己編寫的 .css
+
+步驟四：
+　　完成！
+
+【使用－範例及參考】
+步驟一：
+　　把 範例及參考 裡的檔案［複製］帶走。
+　　（藍色）請挑選［副檔名_html_範例及參考］這個資料夾。
+　　　　　　擺放位置隨便，放在你找得到的地方就好。
+　　（紫色）請挑選［副檔名_cshtml_範例及參考］這個資料夾。
+　　　　　　請把 ExampleController.cs 放到 Controllers 資料夾裡。
+　　　　　　請把 Example資料夾 放到 Views 資料夾裡。
+　　　　　　修改 ExampleController.cs 的內容。
+　　　　　　→ 第三行程式碼，改成：namespace 你的專案名稱.Controllers
+
+步驟二：
+　　［修改］帶走的各個檔案裡引用的［檔案路徑］。
+　　<link rel="stylesheet" href="修改這裡">
+　　<link rel="stylesheet" href="修改這裡">
+
+步驟三：
+　　注意引用順序。
+　　先引用 bootstrap.css → 再引用 site.css
+
+步驟四：
+　　完成！
+
+
+
+※ 你可能沒有看這份說明，所以失敗 ※
+※ 重新讀一遍這份說明 ※
+※ 再讀一遍 ※
+※ 好吧，你來問我，可能是我寫錯或是說明寫得不好 ※

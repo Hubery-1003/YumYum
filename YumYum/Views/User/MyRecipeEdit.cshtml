@@ -1,0 +1,185 @@
+﻿@* --麵包屑導覽-- *@
+
+
+@await Html.PartialAsync("_PartialBreadcrumb", (List<BreadcrumbItem>)ViewBag.Breadcrumbs)
+
+
+@model YumYum.Models.ViewModels.MyRecipeViewModel
+
+
+
+@* --tabs 卡片-- *@
+
+<section class="section-content">
+    <div class="container mt-5 mb-4 d-flex justify-content-center align-items-center">
+
+        <div class="card text-center mb-2 ">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs nav-fill">
+                    <li class="nav-item RecipeTitle">
+                        <a class="nav-link active" asp-controller="User" asp-action="MyRecipeEdit">我的食譜</a>
+                    </li>
+                    <li class="nav-item RecipeTitle">
+                        <a class="nav-link" asp-controller="User" asp-action="MyRecipeCollect">收藏食譜</a>
+                    </li>
+                </ul>
+            </div>
+
+            
+
+
+            
+            @if (Model.RecipeDetails != null && Model.RecipeDetails.Any())
+            {
+            @foreach (var recipeGroup in Model.RecipeDetails.GroupBy(r => r.RecipeID))
+            {
+            var recipe = recipeGroup.First();
+            recipe.FieldShot = recipe.FieldShot == "/img/icon/addPhoto.png" ? "/img/icon/EmptyPhoto.png" : recipe.FieldShot;
+            <div class="card mb-3 mx-auto" style="max-width: 95%;width: 100%;">
+            <div class="row">
+            <!-- 左側圖片區域 -->
+            <div class="col-md-3 d-flex justify-content-center align-items-center">
+            <div class="card-img position-relative">
+            @if (recipe.RecipeStatusCode == 0)
+            {
+            <button type="button" class="btn btn-secondary md-4" style="max-width: 50%;position: absolute;top: 50%; left: 55%; transform: translate(-50%, -50%); z-index: 2;">
+            草稿
+            </button>
+            }
+            else if (recipe.RecipeStatusCode == 2)
+            {
+            <img src="/img/icon/pleaseEditStamp.svg" style="max-width: 50%;position: absolute;top: 50%; left: 55%; transform: translate(-50%, -50%); z-index: 2;">
+            }
+
+            <img src="@recipe.FieldShot" ?? "/img/icon/EmptyPhoto.png"
+            class="rounded"
+            style="max-width: 100%;@(recipe.RecipeStatusCode == 0 || recipe.RecipeStatusCode == 2 ? "opacity:20%;" : "") z-index: 1; position: relative;"
+            alt="recipe_intro"
+            onerror="this.src='/img/icon/EmptyPhoto.png';">
+            </div>
+            </div>
+
+            <!-- 中間文字區域 -->
+            <div class="col-md-7">
+            <div class="card-body2">
+            <h4 class="card-title text-start">@recipe.RecipeName</h4>
+            <p class="card-title text-start">@recipe.UserNickname</p>
+            <p class="card-text text-start">@recipe.FieldDescript</p>
+            <p class="card-title text-start">
+                食材:
+                @{
+                    var ingredients = recipe.Ingredients ?? new List<string>();
+                    var ingredientsText = string.Join(", ", ingredients);
+                }
+                @ingredientsText
+            </p>
+
+            <div class="d-flex align-items-center">
+            <img src="/img/icon/timer.svg" alt="timer">
+            <div class="card-text text-start mb-0">
+            <small class="text-muted">@recipe.FinishMinute min</small>
+            </div>
+            </div>
+            </div>
+            </div>
+
+            <!-- 右側按鈕區域 -->
+            <div class="col-md-2 d-flex justify-content-center align-items-center flex-column">
+            @if (recipe.RecipeStatusCode == 0)
+            {
+            <form method="post" action="/RecipeBriefs/Approved">
+            <input type="hidden" name="recipeId" value="@recipe.RecipeID" />
+            <input type="hidden" name="recipeRecVersion" value="@recipe.RecipeRecVersion" />
+             <button type="submit" class="btn yum-btn align-content-center fw-600 md-4">
+             <svg height="20px" viewBox="0 -960 960 960" width="20px" fill="#30533f">
+            <path d="M444-336v-342L339-573l-51-51 192-192 192 192-51 51-105-105v342h-72ZM263.72-192Q234-192 213-213.15T192-264v-72h72v72h432v-72h72v72q0 29.7-21.16 50.85Q725.68-192 695.96-192H263.72Z" fill="#e2e3cf" />
+            </svg>
+            立即發布 
+            </button>
+            </form>
+            }
+
+             <button type="button" class="yum-btn btn align-content-center fw-600" onclick="window.location.href='@Url.Action("EditRecipe", "Recipe", new { recipeId = @recipe.RecipeID })';">
+                <svg height="20px" viewBox="0 -960 960 960" width="20px" fill="#30533f">
+                    <path d="M216-216h51l375-375-51-51-375 375v51Zm-72 72v-153l498-498q11-11 23.84-16 12.83-5 27-5 14.16 0 27.16 5t24 16l51 51q11 11 16 24t5 26.54q0 14.45-5.02 27.54T795-642L297-144H144Zm600-549-51-51 51 51Zm-127.95 76.95L591-642l51 51-25.95-25.05Z" />
+                </svg>
+                <span>編輯食譜 </span>
+            </button>
+
+
+
+            </div>
+            </div>
+            </div>
+
+            }
+            }
+            else
+            {
+            <p>No recipes available.</p>
+            }
+
+
+            @* --發佈日期彈跳視窗跟 顯示訊息-- *@
+            @* -- Toast 提示訊息 -- *@
+           
+           @*  <div id="toast" style="display:none; position:fixed; bottom:20px; right:20px; background:#333; color:#fff; padding:15px; border-radius:5px; z-index:9999;">
+                <span id="toast-message"></span>
+            </div> *@
+
+
+        </div>
+
+
+    </div>
+</section>
+
+
+
+@section Scripts {
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
+    <script>
+        // Toast提示
+        // const urlParams = new URLSearchParams(window.location.search);
+        // const toastMessage = urlParams.get("toastMessage");
+        // const success = urlParams.get("success");
+
+        // if (toastMessage) {
+        //     showToast(toastMessage, 15000); // 顯示 Toast
+        // }
+
+        // function showToast(message, duration = 15000) {
+        //     const toast = document.getElementById("toast");
+        //     const toastMessage = document.getElementById("toast-message");
+        //     toastMessage.textContent = message;
+        //     toast.style.display = "block";
+
+        //     setTimeout(() => {
+        //         toast.style.display = "none";
+        //     }, duration);
+        // }
+
+
+        //alert提示
+        const urlParams = new URLSearchParams(window.location.search);
+        const toastMessage = urlParams.get("toastMessage");
+        const success = urlParams.get("success");
+
+        if (toastMessage) {
+            showAlert(toastMessage); // 顯示 Alert
+        }
+
+        function showAlert(message) {
+            alert(message); // 使用 alert 顯示訊息
+        }
+
+
+    </script>
+
+}
+
+
+

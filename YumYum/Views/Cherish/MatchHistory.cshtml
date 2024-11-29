@@ -1,0 +1,137 @@
+﻿@using YumYum.Models.DataTransferObject
+@model List<MatchHistory>
+
+@* --麵包屑導覽-- *@
+
+	@await Html.PartialAsync("_PartialBreadcrumb", (List<BreadcrumbItem>)ViewBag.Breadcrumbs)
+
+
+
+
+<!-- 搜尋框 -->
+<div class="row mt-4 ps-8">
+	<div class="col-6 d-flex mx-auto">
+	<input type="text" id="search-box" class="form-control" placeholder="輸入食材名稱..." />
+
+	<button type="submit" id="search-button" class="btn my-button d-flex align-items-center justify-content-center">
+		<svg viewBox="0 0 512 512" width="18.4" height="18.4" fill="currentColor">
+			<path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+		</svg>
+	</button>
+	</div>
+</div>
+
+
+
+
+<div class="container my-4 ">
+	<div class="row d-flex align-items-stretch">
+		<!-- 左邊篩選欄 -->
+		<div class="col-md-3 d-flex flex-column" id="left-pannel">
+			<div class="p-3 rounded bg-white h-100">
+				<!-- 放篩選條件 -->
+				<div class="d-flex flex-column align-items-center" id="Ifilter-top">
+					<div class="Ifilter flex-column align-items-center mt-2" id="Ifilter">
+
+
+						<div class="text-center">
+							<span class="fw-500 fs-5">配對紀錄</span>
+							<hr>
+						<!-- 我的食材按鈕 -->
+						<input type="radio" checked name="filter-IAttr" id="IAttr-1" hidden>
+						<label class="btn btn-outline-success rounded-4 align-content-center fw-600"
+							   for="IAttr-1"
+								   onclick="filterMatchHistory(1)">
+							<span>我的食材</span>
+						</label>
+
+						<!-- 別人的食材按鈕 -->
+						<input type="radio" name="filter-IAttr" id="IAttr-2" hidden>
+						<label class="btn btn-outline-success rounded-4 align-content-center fw-600"
+								   for="IAttr-2"
+								   onclick="filterMatchHistory(2)">
+							<span>別人的食材</span>
+						</label>
+					</div>
+					</div>
+
+
+				</div>
+
+				<hr style="width: 90%;margin-left: 1rem;">
+			</div>
+		</div>
+
+		<!-- 右邊卡片內容 -->
+
+		<div class="col-md-9" id="right-pannel">
+			<!-- 查詢結果 -->
+			@await Html.PartialAsync("_MatchHistorySearchResults", Model)<!-- 預設顯示所有數據 -->
+		</div>
+
+	</div>
+</div>
+
+
+@section Scripts {
+	<script>
+		// $('#Ifilter input[type="checkbox"]').change(function () {
+
+		// 	console.log(' 這寫可以寫ajax ' + $(this).prop('checked'));
+		// 	console.log(' 這寫可以寫ajax ' + $('#Ifilter input[type="checkbox"]:checked'));
+
+		// 	$(this).prev().toggleClass('selected')
+		// });
+
+		// $('#Ifilter-active,#Cfilter-active,#Dfilter-active').change(function () {
+		// 	$(this).parent().next().toggleClass('filter-hide')
+		// })
+
+		// 動態設定左右邊等高
+		window.addEventListener('load', adjustHeight);
+		window.addEventListener('resize', adjustHeight);
+
+		function adjustHeight() {
+			const leftPanel = document.getElementById('left-pannel');
+			const rightPanel = document.getElementById('right-pannel');
+			leftPanel.style.height = `${rightPanel.offsetHeight}px`;
+		}
+
+
+		function filterMatchHistory(filterType) {
+			$.ajax({
+				url: '/Cherish/FilterMatchHistory', // 控制器的篩選路由
+				type: 'GET',
+				data: { filterType: filterType }, // 傳遞篩選類型
+				success: function (data) {
+					$('#right-pannel').html(data); // 動態更新右側的卡片內容
+				},
+				error: function () {
+					$('#right-pannel').html('<p class="text-danger">載入失敗，請稍後再試。</p>');
+				}
+			});
+		}
+
+
+
+		$(document).ready(function () {
+			// 點擊搜尋按鈕時觸發 AJAX 查詢
+			$('#search-button').on('click', function () {
+				const query = $('#search-box').val().trim(); // 獲取搜尋框內容並去除空格
+
+				$.ajax({
+					url: '/Cherish/MatchHistorySearch', // 後端的搜尋路由
+					type: 'GET',
+					data: { query: query }, // 將 query 傳遞到後端
+					success: function (data) {
+						$('#right-pannel').html(data); // 更新右邊的卡片內容
+					},
+					error: function () {
+						$('#right-pannel').html('<p class="text-danger">查詢失敗，請稍後再試。</p>');
+					}
+				});
+			});
+		});
+
+	</script>
+}

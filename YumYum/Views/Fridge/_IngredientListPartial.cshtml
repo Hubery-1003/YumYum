@@ -1,0 +1,15 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<YumYum.Models.ViewModels.IngredientViewModel>
+
+<div class="d-flex flex-wrap" id="ingredient-list">
+    @foreach (var item in Model)
+    {
+        <button class="tag-button d-inline-flex align-items-center btn btn-tags" id="@item.IngredientID">
+            <img src="@Url.Content($"~{item.IngredientIcon}")" alt="" />
+            <span>@item.IngredientName</span>
+        </button>
+    }
+</div>

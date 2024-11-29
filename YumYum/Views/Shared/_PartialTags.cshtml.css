@@ -1,0 +1,14 @@
+﻿div > .btn-tags {
+    background-color: var( --yum-secondary-3) !important;
+    border-color: var(--yum-primary-3) !important;
+    border-radius: 30px !important;
+    color: var(--yum-primary-2) !important;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2) !important;
+    transition: 0.3s !important;
+}
+
+div > .btn-tags:hover {
+        background-color: var(--yum-primary-3) !important;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2) !important;
+        transition: 0.3s !important;
+    }

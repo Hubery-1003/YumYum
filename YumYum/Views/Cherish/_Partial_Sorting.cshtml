@@ -1,0 +1,131 @@
+﻿@using YumYum.Models.DataTransferObject
+@model List<CherishMatch>
+
+
+
+
+
+
+@{
+    foreach (CherishMatch order in Model)
+    {
+        <div class="card d-flex flex-row ms-3 mb-3 p-4 result-div">
+            <!-- 圖片 -->
+            <div class="d-flex align-items-center ms-2 result-imgbox">
+                <img src="@Url.Content($"~{order.CherishPhoto}")" style="width:100%;border-radius: 12px;">
+            </div>
+
+            <!-- 卡片內容 -->
+            <div class="card-body d-flex flex-column">
+
+                <!-- 標題 -->
+                <div class="result-title d-flex position-relative mb-1" style="padding: 0; margin: 0;">
+                    <div>
+                        <h5 class=" ms-2 ">@order.IngredientName</h5>
+                    </div>
+                    <div class="result-title-span">
+                        數量<span class="ms-3">@order.Quantity</span>
+                        <p>截止日期<span class="ms-3">@order.EndDate.ToString("yyyy.MM.dd")</span></p>
+                    </div>
+                </div>
+
+                <!-- 購買日期、採購日期 -->
+                <div class="d-inline-flex align-items-center mt-3 result-buydate"
+                     style="margin-bottom: 0.7rem;">
+                    <span class="fw-bold d-inline-block ">
+                        購買日期 或 採收日期
+                    </span>
+                    <span>@order.ObtainDate.ToString("yyyy.MM.dd")</span>
+
+                    <p class="position-absolute " style="padding: 0.2rem 0; margin: 0.5rem 0;right: 8%;  border-radius: 15px;
+                                                        width: 5.7rem; background-color:#0000002c;text-align:
+                                                        center;font-size: 1rem;">
+                        @order.IngredAttributeName
+                    </p>
+                </div>
+
+                <!-- 有效期限 -->
+                <div class="d-inline-flex align-items-center  result-valid"
+                     style="margin-bottom: 0.7rem;">
+                    <span class="fw-bold d-inline-block ">
+                        有效期限
+                    </span>
+                    <span>@(order.CherishValidDate == null ? "無備註" : ((DateOnly)order.CherishValidDate!).ToString("yyyy.MM.dd"))</span>
+
+
+                </div>
+
+                <!-- 贈與人 -->
+                <div class="d-inline-flex align-items-center result-from"
+                     style="margin-bottom: 0.7rem;">
+                    <span class="fw-bold d-inline-block ">
+                        From
+                    </span>&ensp;
+                    <svg style="padding:0;" width="13" height="14" viewBox="0 0 32 32" fill="none">
+                        <path d="M16 15.6427C13.8 15.6427 11.9722 14.9003 10.5165 13.4156C9.06117 11.9305 8.3335 10.0658 8.3335 7.82134C8.3335 5.57691 9.06117 3.71216 10.5165 2.22709C11.9722 0.742365 13.8 0 16 0C18.2 0 20.0278 0.742365 21.4835 2.22709C22.9388 3.71216 23.6665 5.57691 23.6665 7.82134C23.6665 10.0658 22.9388 11.9305 21.4835 13.4156C20.0278 14.9003 18.2 15.6427 16 15.6427ZM0 32V26.899C0 25.652 0.308333 24.5609 0.925 23.6257C1.54167 22.6905 2.3445 21.9793 3.3335 21.492C5.51117 20.4606 7.63883 19.6869 9.7165 19.171C11.7945 18.6551 13.889 18.3972 16 18.3972C18.111 18.3972 20.1998 18.6608 22.2665 19.1879C24.3332 19.715 26.4545 20.4852 28.6305 21.4986C29.6485 21.989 30.4645 22.6999 31.0785 23.6313C31.6928 24.5628 32 25.652 32 26.899V32H0ZM3.3335 28.5992H28.6665V26.899C28.6665 26.4117 28.5305 25.9526 28.2585 25.5218C27.9862 25.0909 27.6445 24.7678 27.2335 24.5526C25.2112 23.5436 23.3055 22.8323 21.5165 22.4188C19.7278 22.005 17.889 21.798 16 21.798C14.111 21.798 12.261 22.005 10.45 22.4188C8.639 22.8323 6.7335 23.5436 4.7335 24.5526C4.32217 24.7678 3.986 25.0909 3.725 25.5218C3.464 25.9526 3.3335 26.4117 3.3335 26.899V28.5992ZM16 12.2424C17.2333 12.2424 18.2638 11.82 19.0915 10.9753C19.9195 10.1309 20.3335 9.07958 20.3335 7.82134C20.3335 6.5631 19.9195 5.51178 19.0915 4.6674C18.2638 3.82268 17.2333 3.40032 16 3.40032C14.7667 3.40032 13.7362 3.82268 12.9085 4.6674C12.0805 5.51178 11.6665 6.5631 11.6665 7.82134C11.6665 9.07958 12.0805 10.1309 12.9085 10.9753C13.7362 11.82 14.7667 12.2424 16 12.2424Z"
+                              fill="#5F6368" />
+                        <path d="M16 12.2424C17.2333 12.2424 18.2638 11.82 19.0915 10.9753C19.9195 10.1309 20.3335 9.07958 20.3335 7.82134C20.3335 6.5631 19.9195 5.51178 19.0915 4.6674C18.2638 3.82268 17.2333 3.40032 16 3.40032C14.7667 3.40032 13.7362 3.82268 12.9085 4.6674C12.0805 5.51178 11.6665 6.5631 11.6665 7.82134C11.6665 9.07958 12.0805 10.1309 12.9085 10.9753C13.7362 11.82 14.7667 12.2424 16 12.2424Z"
+                              fill="#5F6368" />
+                        <path d="M3.3335 28.5992H28.6665V26.899C28.6665 26.4117 28.5305 25.9526 28.2585 25.5218C27.9862 25.0909 27.6445 24.7678 27.2335 24.5526C25.2112 23.5436 23.3055 22.8323 21.5165 22.4188C19.7278 22.005 17.889 21.798 16 21.798C14.111 21.798 12.261 22.005 10.45 22.4188C8.639 22.8323 6.7335 23.5436 4.7335 24.5526C4.32217 24.7678 3.986 25.0909 3.725 25.5218C3.464 25.9526 3.3335 26.4117 3.3335 26.899V28.5992Z"
+                              fill="#5F6368" />
+                    </svg>
+
+                    <span class=" me-3">&ensp;@order.UserNickname</span>
+
+                    <!-- 交易地區 -->
+                    <div class=" card-text " style="padding: 0; margin: 0;">
+
+
+                        <svg class="" width="13" height="14" viewBox="0 0 14 17" fill="none">
+                            <path d="M6.8 8.5C7.2675 8.5 7.66771 8.33354 8.00062 8.00063C8.33354 7.66771 8.5 7.2675 8.5 6.8C8.5 6.3325 8.33354 5.93229 8.00062 5.59938C7.66771 5.26646 7.2675 5.1 6.8 5.1C6.3325 5.1 5.93229 5.26646 5.59937 5.59938C5.26646 5.93229 5.1 6.3325 5.1 6.8C5.1 7.2675 5.26646 7.66771 5.59937 8.00063C5.93229 8.33354 6.3325 8.5 6.8 8.5ZM6.8 14.7475C8.52833 13.1608 9.81042 11.7194 10.6462 10.4231C11.4821 9.12688 11.9 7.97583 11.9 6.97C11.9 5.42583 11.4077 4.16146 10.4231 3.17688C9.43854 2.19229 8.23083 1.7 6.8 1.7C5.36917 1.7 4.16146 2.19229 3.17687 3.17688C2.19229 4.16146 1.7 5.42583 1.7 6.97C1.7 7.97583 2.11792 9.12688 2.95375 10.4231C3.78958 11.7194 5.07167 13.1608 6.8 14.7475ZM6.8 17C4.51917 15.0592 2.81562 13.2565 1.68937 11.5919C0.563125 9.92729 0 8.38667 0 6.97C0 4.845 0.683542 3.15208 2.05062 1.89125C3.41771 0.630417 5.00083 0 6.8 0C8.59917 0 10.1823 0.630417 11.5494 1.89125C12.9165 3.15208 13.6 4.845 13.6 6.97C13.6 8.38667 13.0369 9.92729 11.9106 11.5919C10.7844 13.2565 9.08083 15.0592 6.8 17Z"
+                                  fill="#5F6368" />
+                        </svg>
+                        <span class="">@order.CityName</span>
+                        <span class="ms-2">@order.RegionName</span>
+                    </div>
+
+
+                </div>
+
+                <!-- 聯絡方式 -->
+                <div class=" result-contact" style="margin-bottom: 0.7rem;">
+                    <span class="fw-bold d-inline-block">聯絡資訊</span>
+
+                    @if (order.ContactLine is not null)
+                    {
+                        <p class="my-0 d-inline">
+                            <img src="~/img/icon/line.svg" width="24" />
+                            <span class="d-inline" style="width:3rem;">LINE</span>
+                        </p>
+                    }
+                    @if (order.ContactPhone is not null)
+                    {
+                        <p class="ps-1 my-0 d-inline">
+
+                            <img src="~/img/icon/phone.svg" width="24" />
+                            <span class="d-inline" style="width:3rem;">手機</span>
+                        </p>
+                    }
+                    @if (order.ContactOther is not null)
+                    {
+                        <div class="ps-1 my-0 ">
+                            <p class="m-0 me-2 d-inline-block">
+                                <img src="~/img/icon/contacts.svg" width="24px" />
+                            </p>
+                            <span class="d-inline" style="width:3rem;">其他聯絡方式</span>
+
+                        </div>
+                    }
+                </div>
+
+                <!-- 配對按鈕 -->
+                <button href="#" class="position-absolute text-center match-btn
+                                                    justify-content-center lh-5 btn-hover btn-wanna-match-style" style="bottom: 10%;"
+                        CherishId="@order.CherishId">
+                    查看更多
+                </button>
+
+            </div>
+        </div>
+    }
+}

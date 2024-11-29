@@ -1,0 +1,116 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    @model YumYum.Models.ViewModels.FridgeViewModel
+}
+<link rel="stylesheet" href="~/css/bootstrap.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/Fridge/fridge.edit.css" asp-append-version="true" />
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Sidebar - Food Tag Section -->
+        <div class="col-md-5 col-lg-4 position-relative" id="food-tag-sec">
+            <h5 class="mb-4">請點選食材Tag</h5>
+            <div class="input-group mb-3">
+                <button class="btn btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+                    <img src="~/img/icon/filter.svg" alt="" />
+                </button>
+                <input type="text" id="ingredientInput" class="form-control" placeholder="輸入食材關鍵字">
+            </div>
+
+            @* Ingredient List Section *@
+            <div class="tag-section">
+                <div class="d-flex flex-wrap" id="ingredient-list">
+                    @foreach (var item in Model.IngredientData!)
+                    {
+                        <button class="tag-button d-inline-flex align-items-center btn btn-tags" id="@item.IngredientID">
+                            <img src="@(item.IngredientIcon is null? "":(item.IngredientIcon.StartsWith('/')?item.IngredientIcon:""))" alt=""/>
+                            <span>@item.IngredientName</span>
+                        </button>
+                    }
+                </div>
+            </div>
+
+            <button class="yum-btn mt-3" id="add-new-ingred">+新增食材</button>
+        </div>
+
+        <!-- Right-hand Section - Edit Selected Item -->
+        <div class="col-md-7 col-lg-8 edit-section">
+            <h5>冰箱</h5>
+            <p>此區記錄份量，有效日期</p>
+
+            <!-- Item List -->
+            <form id="updateForm" asp-action="UpdateRefrigeratorStore" method="post">
+                <div class="item-list mb-4 flex-grow-1">
+                    @foreach (var item in Model.RefrigeratorData!)
+                    {
+                        <div class="row align-items-center mb-1">
+                            <input type="hidden" name="RefrigeratorItems.Index" value="@item.StoreID" />
+                            <input type="hidden" name="RefrigeratorItems[@item.StoreID].StoreID" value="@item.StoreID" />
+                            <input type="hidden" name="RefrigeratorItems[@item.StoreID].UserID" value="@item.UserID" />
+                            <input type="hidden" name="RefrigeratorItems[@item.StoreID].IngredientID" value="@item.IngredientID" />
+
+                            <div class="col-md-3 col-4">
+                                <button class="tag-button d-inline-flex align-items-center btn btn-tags" >
+                                    <img src="@Url.Content($"~{item.IngredientIcon}")" alt="" />
+                                    <span>@item.IngredientName</span>
+                                </button>
+                            </div>
+                            <div class="col-md-2 col-4 text-center">
+                                <input type="number" name="RefrigeratorItems[@item.StoreID].Quantity" class="form-control" value="@item.Quantity" min="1">
+                            </div>
+                            <div class="col-md-2 col-4 text-center">
+                                @* <span class="badge rounded-pill bg-body text-dark border">@item.UnitName</span> *@
+                                <select class="badge rounded-pill bg-body text-dark border" name="RefrigeratorItems[@item.StoreID].UnitName" asp-items="@item.IngredAttributeUnit">
+                                </select>
+                            </div>
+                            <div class="col-md-3 col-8 text-center">
+                                <input type="date" name="RefrigeratorItems[@item.StoreID].ValidDate" class="form-control" value="@item.ValidDate.ToString("yyyy-MM-dd")">
+                            </div>
+                            <div class="col-md-1 col-4 d-flex justify-content-end">
+                                <button class="btn d-flex justify-content-center align-items-center ps-1 pe-1 btn-delete">
+                                    <img src="~/img/icon/delete.svg" alt="" />
+                                </button>
+                            </div>
+                        </div>
+                    }
+                    <!-- Repeat above block for each item -->
+                </div>
+                <div class="d-flex justify-content-end align-items-center mt-2">
+                    <div class="mt-auto d-flex justify-content-end" id="btn-return">
+                        <button class="mb-2 me-3 back-btn">返回</button>
+                    </div>
+                    <div class="mt-auto d-flex justify-content-end">
+                        <button type="submit" class="mb-2 me-5 yum-btn">儲存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @* offcanvas選單 *@
+    <div class="offcanvas offcanvas-start" style="background-color:var(--yum-primary-1);max-width:270px;" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="offcanvas-header mb-3">
+            <h4 class="offcanvas-title ms-0 pt-3" id="offcanvasWithBothOptionsLabel">分類</h4>
+            @* <button type="button" class="btn-close pt-4" data-bs-dismiss="offcanvas" aria-label="Close"></button> *@
+        </div>
+        <div class="d-flex flex-column align-items-center" id="Ifilter">
+            @foreach (var item in Model.IngredAttributeData!) 
+            {
+                <label class="btn-outline-success btn rounded-4 align-content-center mb-4 fw-600 d-flex justify-content-center align-items-center" for="IAttr-@item.IngredAttributeID">
+                    <img class="img-fluid mx-auto" style="object-fit: cover; width:30px; height: 30px;" src="@Url.Content($"~{item.IngredAttributePhoto}")">
+                    <span>@item.IngredAttributeName</span>
+                </label>
+                <input type="checkbox" name="filter-IAttr" id="IAttr-@item.IngredAttributeID" value="@item.IngredAttributeID" class="ingredient-attribute-checkbox" hidden>
+            }
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    <script src="~/js/fridge/fridge_edit.js" asp-append-version="true"></script>
+}

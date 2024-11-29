@@ -1,0 +1,267 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@* --麵包屑導覽-- *@
+@await Html.PartialAsync("_PartialBreadcrumb", (List<BreadcrumbItem>)ViewBag.Breadcrumbs)
+@using System.Text.Json;
+@using YumYum.Models;
+@{
+    string userPhoto = Model.recipeWatchBrief![0].userPhoto == null ? "/img/icon/EmptyAvatar.svg" : Model.recipeWatchBrief[0].userPhoto!;
+    string collectColor = Model.collectStatus == 0 ? "transparent" : "#30533f";
+    for (int i = 0; i < Model.recipeRecordFields!.Count; i++)
+    {
+        Model.recipeRecordFields[i].FieldShot = Model.recipeRecordFields[i].FieldShot == "/img/icon/addPhoto.png" ? "/img/icon/EmptyPhoto.png" : Model.recipeRecordFields[i].FieldShot;
+    }
+
+}
+
+@model RecipeWatch
+@section Scripts {
+    <script src="~/Views/Recipe/WatchRecipe.cshtml.js"></script>
+}
+<script src="~/js/shared/jquery.min.js"></script>
+
+<div class="container ">
+    <div class="row justify-content-around align-items-center">
+        <!-- 左邊 -->
+        <!-- 食譜圖片 -->
+        <div class="col-6 p-5 flex-column pt-3" style="height: 500px;justify-content: center;">
+            <div class="d-flex justify-content-center mb-5">
+                <img src="@Model.recipeRecordFields[0].FieldShot" alt="..." class="m-0 br-black" style="height: 400px;width: 600px;" onerror="this.src='/img/icon/EmptyPhoto.png'">
+            </div>
+        </div>
+
+        <!-- 右邊 -->
+        <div class="col-6 p-4 pt-3" style="height: 500px;">
+            <div class="input-group mb-2 w-100">
+                <!-- 料理名稱 -->
+                <h1 class="m-2 d-inline-block d-flex ms-0">@Model.recipeWatchBrief[0].recipeName</h1>
+                <!-- 料理類型 -->
+                <div class="d-flex ms-auto pt-3">
+                    <b style="font-size: 1.25rem;">@Model.recipeWatchBrief[0].className</b>
+                </div>
+            </div>
+            <!--創建者資訊及照片和收藏-->
+            <div class="d-flex justify-content-start" style="border-color: aliceblue;margin-top: 1rem;">
+                <div id="watch-user" class="m-0" style="width: 50%;border-color: aliceblue;">
+                    <p class="user-infor" style="font-size:22px"><img class="me-2 user-infor" style="width:50px;height:50px;border-radius:100px" src=@($"{userPhoto}") /><span class="user-infor">@Model.recipeWatchBrief[0].userNickName</span></p>
+                </div>
+                <div class="ms-auto">
+                    <button id="svg-collect" class="tag-button d-inline-flex btn align-items-center" style="margin-right:0px">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="30px" height="30px">
+                            <!-- 外框 -->
+                            <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"></path>
+                            <!-- 內部 -->
+                            <path id="svg-path" d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z" fill=@collectColor transform="scale(0.8, 0.8) translate(100,-140)"></path>
+                        </svg>
+                        <span class="ms-2" style="color:var(--yum-primary-2);font-size:20px">收藏</span>
+                    </button>
+                </div>
+            </div>
+            <!-- 烹煮時間與份量 -->
+            <div class="d-flex justify-content-start" style="border-color: aliceblue;margin-top: 1rem;">
+                <div class="ms-0" style="width: 50%;border-color: aliceblue;">
+                    <p class="mb-2 text-big">份量<small>(人份)</small></p>
+                    <input type="text" class="br-gray input-type" value="@Model.recipeWatchBrief[0].recipePeople" readonly>
+                </div>
+                <div class="ms-5" style="width: 50%;">
+                    <p class="mb-2 text-big"><img src="~/img/icon/timer.svg" class="ingredient-icon">烹調時間<small>(分鐘)</small></p>
+                    <input type="text" class="br-gray input-type" value="@Model.recipeWatchBrief[0].recipeFinishTime" readonly>
+                </div>
+            </div>
+            <!-- 簡介 -->
+            <div class="d-inline-block mb-0 w-100" style="margin-top: 10px;">
+                <p class="m-2 text-big">簡介：</p>
+                <textarea class="mb-2 br-gray p-3" style="width: 100%;overflow-y:auto;border-radius: 4px;font-size: 1rem;"
+                          rows="4" readonly>@Model.recipeRecordFields[0].FieldDescript</textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 p-5 pt-2">
+            <!-- 所需食材 -->
+            <div class="d-flex mt-4" style="flex-direction: column;text-align: start;">
+                <p class="text-big mb-3">所需食材</p>
+
+                <div class="d-flex justify-content-around flex-wrap pt-5 bg-gray"
+                     style="height: 320px ;width:100%; overflow-y: auto;border-radius: 6px;">
+                    @foreach (var item in Model.recipeIngredient)
+                    {
+                    //左邊
+                        <div class="col-4 d-flex justify-content-center" style="height:64.45px">
+
+                            <!-- 標籤 -->
+                            <div class="d-inline-flex justify-content-center align-center">
+                                <button class="tag-button d-inline-flex btn align-items-center">
+                                    <img class="d-flex" src="@item.ingredientImg" style="width:30px;height:30px">
+                                    <span class="ms-2 " style="color:black">@item.ingredientName</span>
+                                </button>
+                            </div>
+                            <!-- 數量和單位 -->
+                            <div class="col-3 d-flex justify-content-center align-items-center">
+                                <b type="text" style="width: 80px;border:0px;text-decoration:underline solid var(--yum-secondary-4) 2px;text-underline-offset:8px" class="ms-2 me-4 br-black d-flex text-center">@item.ingredientCount@item.ingredientunit</b>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 步驟 -->
+    <div class="row mt-5" style="position:relative">
+        <div class="col-6 p-0" id="left-steps" style="border-top:2px solid var(--yum-secondary-4);border-right:2px solid var(--yum-secondary-4)">
+            @foreach (var item in Model.recipeRecordFields)
+            {
+                if (item.RecipeField == 1)
+                {
+                    //步驟1
+                    //空的樣式
+
+                    <p style="position: absolute;margin-top: 15.2rem;margin-left: 23.76rem;color:var(--yum-secondary-4)">
+                        ──────────────●
+                    </p>
+                    <div class="card mt-5" style="width: 18rem; margin-left: 7rem;" id="step01">
+                        <img src="@item.FieldShot" class="card-img-top" alt="哈哈" style="height: 13rem;">
+                        <div class="text-center m-0 step-bk">
+                            <p class="m-0 mt-1" style="font-size: 1.5rem;">@($"STEP0{item.RecipeField}")</p>
+                        </div>
+                        <div class="card-body" style="width:286px;height:152px">
+                            <textarea class="card-text" style="width:100%;height:100%;border-color:transparent" readonly>@item.FieldDescript</textarea>
+                        </div>
+                    </div>
+                    if (item.RecipeField == Model.recipeRecordFields.Count - 1)
+                    {
+                        <script>
+                            $(`#@($"step0{item.RecipeField}")`).addClass("mb-200");
+                        </script>
+                    }
+
+                }
+                else if (item.RecipeField % 2 != 0)
+                {
+                    //奇數步驟
+                    <p style="position: absolute;margin-top: 50.2rem;margin-left: 23.76rem;color:var(--yum-secondary-4)">
+                        ──────────────●
+                    </p>
+                    <div class="card step-left" id="@($"step0{item.RecipeField}")">
+                        <img src="@item.FieldShot" class="card-img-top" alt="哈哈" style="height: 13rem;">
+                        <div class="text-center m-0 step-bk">
+                            <p class="m-0 mt-1" style="font-size: 1.5rem;">@($"STEP0{item.RecipeField}")</p>
+                        </div>
+                        <div class="card-body" style="width:286px;height:152px">
+                            <textarea class="card-text" style="width:100%;height:100%;border-color:transparent" readonly>@item.FieldDescript</textarea>
+                        </div>
+                    </div>
+                    if (item.RecipeField == Model.recipeRecordFields.Count - 1)
+                    {
+                        <script>
+                            $(`#@($"step0{item.RecipeField}")`).addClass("mb-200");
+                        </script>
+                    }
+                }
+            }
+        </div>
+
+        <div class="col-6 p-0" id="right-steps" style="border-top:2px solid var(--yum-secondary-4)">
+            @foreach (var item in Model.recipeRecordFields)
+            {
+
+                if (item.RecipeField == 2)
+                {
+                    <p style="position: absolute;margin-top: 42.2rem;margin-left:-10px;color:var(--yum-secondary-4)">
+                        ●─────────────
+                    </p>
+                    <div class="card" style="width: 18rem; margin-top:30rem;margin-left: 14.25rem;" id="step02">
+                        <img src="@item.FieldShot" class="card-img-top" alt="哈哈" style="height: 13rem;">
+                        <div class="text-center m-0 step-bk">
+                            <p class="m-0 mt-1" style="font-size: 1.5rem;">@($"STEP0{item.RecipeField}")</p>
+                        </div>
+                        <div class="card-body" style="width:286px;height:152px">
+                            <textarea class="card-text" style="width:100%;height:100%;border-color:transparent" readonly>@item.FieldDescript</textarea>
+                        </div>
+                    </div>
+                    if (item.RecipeField == Model.recipeRecordFields.Count - 1)
+                    {
+                        <script>
+                            $(`#@($"step0{item.RecipeField}")`).addClass("mb-200");
+                        </script>
+                    }
+                }
+
+                else if (item.RecipeField % 2 == 0 && (item.RecipeField != 2 && item.RecipeField != 0))
+                {
+                //偶數步驟
+
+                    <p style="position: absolute;margin-top: 50.2rem;margin-left:-10px;color:var(--yum-secondary-4)">●────────────</p>
+                    <div class="card step-right" id="@($"step0{item.RecipeField}")">
+                        <img src="@item.FieldShot" class="card-img-top" alt="哈哈" style="height: 13rem;">
+                        <div class="text-center m-0 step-bk">
+                            <p class="m-0 mt-1" style="font-size: 1.5rem;">@($"STEP0{item.RecipeField}")</p>
+                        </div>
+                        <div class="card-body" style="width:286px;height:152px">
+                            <textarea class="card-text" style="width:100%;height:100%;border-color:transparent" readonly>@item.FieldDescript</textarea>
+                        </div>
+                    </div>
+                    if (item.RecipeField == Model.recipeRecordFields.Count - 1)
+                    {
+                        <script>
+                            $(`#@($"step0{item.RecipeField}")`).addClass("mb-200");
+                        </script>
+                    }
+                }
+            }
+        </div>
+        <div class="finish-block"> <div class="d-inline-block align-content-center finish-ineer">FINISH</div> </div>
+    </div>
+</div>
+<script>
+    let id = @(Model.userId is null ? 0 : Model.userId);
+    $(function () {
+        $('#svg-collect').on('click', function () {
+            if (id == 0) {
+                alert('會員未登入，登入後才能使用收藏食譜功能')
+                return
+            };
+            //變更標籤顏色
+            let svgColor = $('#svg-path').attr('fill');
+            if (svgColor == "transparent") {
+                $('#svg-path').attr('fill', "#30533f")
+            }
+            else {
+                $('#svg-path').attr('fill', "transparent")
+            };
+            let data = {
+                UserID: @(Model.userId is null ? 0 : Model.userId),
+                RecipeID: @Model.recipeId,
+                verifyColor: $('#svg-path').attr('fill'),
+            };
+            console.log(data);
+            $.ajax({
+                url: '/Recipe/WatchRecipe',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (result) { alert(result["success"]);},
+                error: function (xhr, status, error) { console.error('錯誤', xhr) }
+            })
+        });
+        $('#watch-user').on('click', function () {
+            let data = {
+                creatorId: @Model.recipeWatchBrief[0].creatorId,
+            }
+            $.ajax({
+                url: "/Recipe/UserNavigate",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (result) {
+                    window.location.href = result["userUrl"];
+                },
+                error: function (xhr, status, error) { console.error('錯誤', error) }
+            })
+        })
+    });
+</script>

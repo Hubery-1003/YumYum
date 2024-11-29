@@ -1,0 +1,50 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+
+@section Scripts {
+    <script src="~/Views/User/LogInPage.cshtml.js"></script>
+}
+
+<script src="~/js/shared/jquery.js"></script>
+
+
+<div class="container" style="width: 700px;margin-top:125px;margin-bottom:100px">
+    <div class="row align-items-center justify-content-center" style="min-height: 60vh;">
+        <div class="col-6 br-black">
+            <div class="text-center mb-4 pt-4">
+                <!--引用svg檔-->
+                <img b-eoqnbbo8ks src="~/img/icon/LogoYumyum.svg" class="logo-icon my-2" />
+                <h3 class="mt-3">YumYum.</h3>
+            </div>
+            <div class="input-group mb-2">
+                <!-- 輸入帳號 -->
+                <input name="Email" class="form-control mx-1" type="text" id="login-account" placeholder="帳號">
+            </div>
+            <div class="input-pwd input-group my-3" style="position:relative">
+                <!-- 輸入密碼 -->
+                <input name="Password" type="password" class="form-control mx-1" id="login-password" placeholder="密碼">
+                <img class="d-none" src="~/img/icon/Visibility.svg" alt="Alternate Text" style="position:absolute;right:10px;top:4px;width:30px">
+            </div>
+            <div class="input-group mb-3">
+                <div class="form-check ms-1">
+                    <input type="checkbox" class="form-check-input" id="login_rememberme">
+                    <label for="login_rememberme" class="form-check-label"><small>記住我</small></label>
+                </div>
+                <div class="ms-auto me-1">
+                    <a href="#" style="text-align: end;"><small>忘記密碼</small></a>
+                </div>
+            </div>
+            <div class="input-group mb-2 ">
+                <button id="button-login" class="btn btn-outline-success w-100 mx-1">登入</button>
+            </div>
+            <div class="input-group justify-content-center mb-4 mt-4">
+                <small>還沒有帳戶嗎?&nbsp</small>
+                <small><a href="/User/RegisterPage">點我註冊</a></small>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,111 @@
+﻿@model YumYum.Models.ViewModels.MyRecipeViewModel
+
+
+@* --麵包屑導覽-- *@
+
+
+@await Html.PartialAsync("_PartialBreadcrumb", (List<BreadcrumbItem>)ViewBag.Breadcrumbs)
+
+
+
+
+@* --tabs 卡片-- *@
+
+
+
+<section class="section-content">
+    <div class="container mt-5 mb-4 d-flex justify-content-center align-items-center">
+
+        <div class="card text-center mb-2 ">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs nav-fill">
+                    <li class="nav-item RecipeTitle">
+                        <a class="nav-link" asp-controller="User" asp-action="MyRecipeEdit">我的食譜</a>
+                    </li>
+                    <li class="nav-item RecipeTitle">
+                        <a class="nav-link active" asp-controller="User" asp-action="MyRecipeCollect">收藏食譜</a>
+                    </li>
+
+                </ul>
+            </div>
+
+
+            @if (Model.RecipeDetails != null && Model.RecipeDetails.Any())
+            {
+                @foreach (var recipeGroup in Model.RecipeDetails.GroupBy(r => r.RecipeID))
+                {
+                    var recipe = recipeGroup.FirstOrDefault();
+                    
+                    recipe!.FieldShot = recipe.FieldShot == "/img/icon/addPhoto.png" ? "/img/icon/EmptyPhoto.png" : recipe.FieldShot;
+                    <div class="card mb-3 mx-auto" style="max-width: 95%;width: 100%;">
+                        <div class="row">
+                            <!-- 左側圖片區域 -->
+                            <div class="col-md-3 d-flex justify-content-center align-items-center">
+                                <div class="card-img position-relative">
+                                    <img src="@recipe.FieldShot" ?? "/img/icon/EmptyPhoto.png"
+                                         class="rounded"
+                                         style="max-width: 100%;@(recipe.RecipeStatusCode == 0 || recipe.RecipeStatusCode == 2 ? "opacity:20%;" : "") z-index: 1; position: relative;"
+                                         alt="recipe_intro"
+                                         onerror="this.src='/img/icon/EmptyPhoto.png';">
+                                </div>
+                            </div>
+
+                            <!-- 中間文字區域 -->
+                            <div class="col-md-7">
+                                <div class="card-body2">
+                                    <h4 class="card-title text-start">@recipe.RecipeName</h4>
+                                    <p class="card-title text-start">@recipe.UserNickname</p>
+                                    <p class="card-text text-start">@recipe.FieldDescript</p>
+                                    <p class="card-title text-start">
+                                        食材:
+                                        @{
+                                            var ingredients = recipe.Ingredients ?? new List<string>();
+                                            var ingredientsText = string.Join(", ", ingredients);
+                                        }
+                                        @ingredientsText
+                                    </p>
+                                    
+                                    <div class="d-flex align-items-center">
+                                        <img src="/img/icon/timer.svg" alt="timer">
+                                        <div class="card-text text-start mb-0">
+                                            <small class="text-muted">@recipe.FinishMinute min</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 右側按鈕區域 -->
+                            <div class="col-md-2 d-flex justify-content-center align-items-center flex-column">
+
+                                <button type="button" class="yum-btn btn align-content-center fw-600" onclick="window.location.href='@Url.Action("WatchRecipe", "Recipe", new { recipeId = @recipe.RecipeID })';">
+                                    <svg viewBox="0 -960 960 960" width="20px" height="20px" fill="#30533f">
+                                        <!-- 外框 -->
+                                        <path d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Zm80-122 200-86 200 86v-518H280v518Zm0-518h400-400Z"></path>
+                                        <!-- 內部 -->
+                                        <path id="svg-path" d="M200-120v-640q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v640L480-240 200-120Z"  transform="scale(0.8, 0.8) translate(100,-140)"></path>
+                                    </svg>
+                                    
+
+                                    <span>收藏食譜</span>
+                                </button>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            }
+            else
+            {
+                <p>No recipes available.</p>
+            }
+
+
+
+        </div>
+    </div>
+</section>
+
+
+

@@ -1,0 +1,152 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>YumYum</title>
+	<link rel="stylesheet" href="~/css/bootstrap.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/YumYum.styles.css" asp-append-version="true" />
+</head>
+@{
+	int? userId = HttpContextAccessor.HttpContext.Session.GetInt32("userId");
+}
+<body>
+	<header>
+		@* --- navbar在此 ---*@
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-99">
+			<div class="container">
+				<a class="navbar-brand logo" asp-controller="Recipe" asp-action="Index">
+					<img src="~/img/icon/LogoYumyum.svg" style="width: auto; height: 60px;" alt="Logo">
+				</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+						aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex justify-content-center align-items-center">
+						<!-- 食譜 -->
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="recipeDropdown" role="button"
+							   data-bs-toggle="dropdown" aria-expanded="false">
+								食譜
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="recipeDropdown">
+								<li><a class="dropdown-item" asp-controller="Recipe" asp-action="Index">查詢食譜</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" asp-controller="Recipe" asp-action="CreateRecipe">建立食譜</a></li>
+							</ul>
+						</li>
+						<!-- 冰箱 -->
+						<li class="nav-item">
+							<a id="fridge" class="nav-link fridge-link" style="font-size: 1.15rem; font-weight: 500; letter-spacing: 0.14rem;"
+							   asp-controller="Fridge" asp-action="Index">冰箱</a>
+						</li>
+						<!-- 惜食專區 -->
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="foodWasteDropdown" role="button"
+							   data-bs-toggle="dropdown" aria-expanded="false">
+								惜食專區
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="foodWasteDropdown">
+								<li><a class="dropdown-item" asp-controller="Cherish" asp-action="Introduce">介紹惜食</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" asp-controller="Cherish" asp-action="Match">惜食配對</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" asp-controller="Cherish" asp-action="Manage">管理良食</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" asp-controller="Cherish" asp-action="ContactInformation">聯絡資料</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" asp-controller="Cherish" asp-action="MatchHistory">配對記錄</a></li>
+							</ul>
+						</li>
+						<!-- 會員專區 -->
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="memberDropdown" role="button"
+							   data-bs-toggle="dropdown" aria-expanded="false">
+								會員專區
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="memberDropdown">
+								<li><a class="dropdown-item" asp-controller="User" asp-action="Index">個人簡介</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" asp-controller="User" asp-action="MyRecipeEdit">我的食譜</a></li>
+								@if (userId != null && userId != 0)
+								{
+									<li><hr class="dropdown-divider"></li>
+									<li><a class="dropdown-item" asp-controller="User" asp-action="ChangePasswordPage">變更密碼</a></li>
+								}
+							</ul>
+						</li>
+						<!-- 登入 -->
+						<li class="nav-item">
+							@if (userId == null || userId == 0)
+							{
+								<a class="nav-link" asp-controller="User" asp-action="LogInPage">
+									<img src="~/img/icon/Login.svg" style="height: 30px; width: 30px;" alt="login"> 登入
+								</a>
+							}
+							else if (userId != null)
+							{
+								<a class="nav-link" asp-controller="User" asp-action="Index">
+									@if (TempData.Peek("userHeadShot") != null)
+									{
+										<img src='@(TempData.Peek("userHeadShot"))' style="height: 30px; width: 30px;" alt="login" class="rounded-circle" onerror="this.src='/img/icon/Login.svg';">
+									}
+									else
+									{
+										<svg height="30" width="30">
+											<circle r="14" cx="15" cy="15" fill="var(--yum-primary-3)" />
+											<image x="0" y="0" width="30" height="30" href="/img/icon/EmptyAvatar.svg" />
+										</svg>
+									}
+									<text>@(TempData.Peek("userNickName"))</text>
+								</a>
+							}
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<div class="container">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+	</div>
+
+	<footer>
+		@* <footer class="border-top footer text-muted"> *@
+
+		<div class="container fs-6 text-center">
+			Copyright &copy; 2024 YumYum. All rights reserved.
+		</div>
+	</footer>
+	<script>
+        //by 毅祥
+        $(function () {
+            $('.dropdown-item').on('click', function (e) {
+				if (@(userId == null ? "true" : "false")) {
+                    e.preventDefault();
+                    alert("此功能需要登入");
+                    window.location.href = "@Url.Action("LoginPage","User")";
+                }
+            });
+
+            $('#fridge').on('click', function (e) {
+                if (@(userId == null ? "true":"false")) {
+                    e.preventDefault();
+                    alert("此功能需要登入");
+                    window.location.href = "@Url.Action("LoginPage", "User")";
+                }
+            });
+        });
+    </script>
+	<script src="~/js/shared/bootstrap.bundle.js"></script>
+	<script src="~/js/shared/jquery.js"></script>
+	<script src="~/js/shared/site.js"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

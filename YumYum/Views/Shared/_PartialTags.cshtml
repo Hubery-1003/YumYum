@@ -1,0 +1,19 @@
+﻿@model IEnumerable<dynamic>
+<div class="ms-5 mb-5">
+	@{
+		int count = 0;
+	}
+	@foreach (var tag in Model)
+	{
+		count++;
+		<label class="btn-tags btn mb-4 me-5" style="border-radius:20px;" for="tag-id@(tag.IngredientId)">
+			<img src="@tag.IngredientIcon" width="25" height="25" class="pe-1 pb-0"><text>@tag.IngredientName</text>
+		</label>
+		<input type="checkbox" name="tags" id="tag-id@(tag.IngredientId)" value="@(tag.IngredientId)" hidden>
+		if (count % 8 == 0)
+		{
+			<br />
+		}
+	}
+</div>
+

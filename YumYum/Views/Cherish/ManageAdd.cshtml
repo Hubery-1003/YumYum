@@ -1,0 +1,357 @@
+﻿@* 標示目前所在頁面路徑位置 *@
+@*<div class="mt-2 mb-3">*@
+@await Html.PartialAsync("_PartialBreadcrumb", (List<BreadcrumbItem>)ViewBag.Breadcrumbs)
+@*</div>*@
+
+<!-- 表單標題：即期良食資料 -->
+<div class="row article-title mt-4 rounded-top">
+	<h3 class="px-4 py-3">填寫即期良食資料</h3>
+</div>
+
+<!-- 表單內容 -->
+<form method="" action="">
+	<div class="row background-white justify-content-center">
+		<div class="row py-4">
+			<div class="row">
+				<!-- 食材類型 -->
+				<div class="col-3">
+					<label for="ingredAttribute" class="form-label">食材分類</label>
+					<select class="form-select" id="ingredAttribute" required>
+						<option>-- 食材分類 --</option>
+						<option value="">全穀雜糧類</option>
+						<option value="">蔬菜類</option>
+						<option value="">水果類</option>
+						<option value="">油與堅果類</option>
+					</select>
+					<div class="invalid-feedback">
+						此為必填欄位
+					</div>
+				</div>
+				<!-- 食材名稱 -->
+				<div class="col-3">
+					<label for="ingredient" class="form-label">食材名稱</label>
+					<select class="form-select" id="ingredient">
+						<option>-- 食材名稱 --</option>
+						<option value="">麵包</option>
+						<option value="">青蔥</option>
+						<option value="">橘子</option>
+						<option value="">堅果</option>
+					</select>
+					<div class="invalid-feedback">
+						此為必填欄位
+					</div>
+				</div>
+				<!-- 數量 -->
+				<div class="col-3">
+					<label for="quantity" class="form-label">數量</label>
+					<div class="input-group">
+						@*<button class="yum-btn" type="button" id="decrease-btn">-</button>*@
+						<input type="number" class="form-control text-center" value="1" id="quantity" min="1">
+						@*<button class="yum-btn" type="button" id="increase-btn">+</button>*@
+					</div>
+					<div class="invalid-feedback">
+						此為必填欄位
+					</div>
+				</div>
+				<!-- 截止日 -->
+				<div class="col-3">
+					<label for="endDate" class="form-label">截止日</label>
+					<br>
+					<input type="date" id="endDate" class="form-control w-100">
+					<div class="invalid-feedback">
+						此為必填欄位
+					</div>
+				</div>
+			</div>
+			<div class="row pt-3">
+				<!-- 食材來源 -->
+				<div class="col-3">
+					<label for="obtain-source" class="form-label">食材來源</label>
+					<input type="text" class="form-control my-input" id="obtain-source" placeholder="超市、傳統市場、自行採收">
+					<div class="invalid-feedback">
+						此為必填欄位
+					</div>
+				</div>
+				<!-- 購買日期 或 採收日期 -->
+				<div class="col-3">
+					<label for="obtain-date" class="form-label">購買日期 或 採收日期</label>
+					<br>
+					<input type="date" id="obtain-date" class="form-control w-100">
+				</div>
+				@* 有效期限 *@
+				@*<div class="col-3">
+					<label for="valid-date" class="form-label">有效期限</label>
+					<br>
+					<input type="date" id="valid-date" class="form-control w-100">
+				</div>*@
+				@* 預定上架日期 *@
+				@*<div class="col-3">
+				<label for="reserve-date" class="form-label">選擇預定上架日期</label>
+				<br>
+				<input type="date" id="reserve-date" class="form-control w-100">
+				</div>*@
+			</div>
+		</div>
+	</div>
+
+	<!-- 表單標題：即期良食照片 -->
+	<div class="row article-title">
+		<h3 class="px-4 py-3">上傳即期良食照片</h3>
+	</div>
+
+	<!-- 表單內容 -->
+	<div class="row background-white justify-content-center">
+		<div class="row pt-4">
+			<div class="col-4">
+				<label for="" class="ps-2">
+					食材概況<span class="fs-6"
+							  style="color: var(--yum-secondary-1);">（必須兩張）</span>
+				</label>
+			</div>
+			<div class="col-4"></div>
+			<div class="col-4">
+				<label for="" class="ps-2">
+					食材有效期限<span class="fs-6"
+								style="color: var(--yum-secondary-1);">（選填）</span>
+				</label>
+			</div>
+		</div>
+		<div class="row pt-2 pb-4">
+			<div class="col-4">
+				<img src="/img/icon/condition-photo.png" alt="" class="my-photo rounded">
+				<div class="d-flex justify-content-around pt-3">
+					<button type="button"
+							class="yum-btn set-fs">
+						選擇照片
+					</button>
+					<button type="submit" class="yum-btn set-fs">設定成封面</button>
+				</div>
+			</div>
+			<div class="col-4">
+				<img src="/img/icon/condition-photo.png" alt="" class="my-photo rounded">
+				<div class="d-flex justify-content-around pt-3">
+					<button type="button" class="yum-btn set-fs">選擇照片</button>
+					<button type="submit" class="yum-btn set-fs">設定成封面</button>
+				</div>
+			</div>
+			<div class="col-4">
+				<img src="/img/icon/expiration-date-photo.png" alt="" class="my-photo rounded">
+				<div class="d-flex justify-content-around pt-3">
+					<button type="button" class="yum-btn set-fs">選擇照片</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 表單標題：聯絡方式 -->
+	<div class="row article-title">
+		<div class="ps-4">
+			<h3 class="py-3">留下您的聯絡方式</h3>
+		</div>
+	</div>
+
+	<!-- 表單內容 -->
+	<div class="row background-white mb-4 rounded-bottom">
+		<div class="d-flex justify-content-center py-4">
+			<button class="yum-btn">帶入填寫聯絡資料</button>
+		</div>
+		<div class="row">
+			<div class="col-6">
+				<!-- 暱稱欄位 -->
+				<div class="col">
+					<label for="nick-name" class="form-label">暱稱</label>
+					<input type="text" class="form-control my-input" id="nick-name" placeholder="如何稱呼您">
+					<div class="invalid-feedback">
+						<!-- 查怎麼實作 -->
+						此為必填欄位
+					</div>
+				</div>
+
+				<!-- 面交地區 -->
+				<label for="city" class="form-label mt-3">面交地區</label>
+				<div class="row">
+					<div class="col-6">
+						<select class="form-select" id="city">
+							<option>-- 縣市 --</option>
+							<option value="">臺中市</option>
+						</select>
+						<div class="invalid-feedback">
+							此為必填欄位
+						</div>
+					</div>
+					<div class="col-6">
+						<select class="form-select" id="region">
+							<option>-- 鄉鎮市區 --</option>
+							<option value="">南屯區</option>
+						</select>
+						<!-- <div class="invalid-feedback">
+								此為必填欄位
+							</div> -->
+					</div>
+				</div>
+
+				<!-- 聯絡方式 -->
+				<label for="ContactLine" class="form-label mt-3">聯絡方式</label>
+				<span class="fs-6" style="color: var(--yum-secondary-1);">（請至少提供一種）</span>
+				<!-- LINE -->
+				<div div class="col">
+					<label for="ContactLine" class="form-label ms-1">
+						<svg viewBox="0 0 512 512">
+							<path d="M311 196.8v81.3c0 2.1-1.6 3.7-3.7 3.7h-13c-1.3 0-2.4-.7-3-1.5l-37.3-50.3v48.2c0 2.1-1.6 3.7-3.7 3.7h-13c-2.1 0-3.7-1.6-3.7-3.7V196.9c0-2.1 1.6-3.7 3.7-3.7h12.9c1.1 0 2.4 .6 3 1.6l37.3 50.3V196.9c0-2.1 1.6-3.7 3.7-3.7h13c2.1-.1 3.8 1.6 3.8 3.5zm-93.7-3.7h-13c-2.1 0-3.7 1.6-3.7 3.7v81.3c0 2.1 1.6 3.7 3.7 3.7h13c2.1 0 3.7-1.6 3.7-3.7V196.8c0-1.9-1.6-3.7-3.7-3.7zm-31.4 68.1H150.3V196.8c0-2.1-1.6-3.7-3.7-3.7h-13c-2.1 0-3.7 1.6-3.7 3.7v81.3c0 1 .3 1.8 1 2.5c.7 .6 1.5 1 2.5 1h52.2c2.1 0 3.7-1.6 3.7-3.7v-13c0-1.9-1.6-3.7-3.5-3.7zm193.7-68.1H327.3c-1.9 0-3.7 1.6-3.7 3.7v81.3c0 1.9 1.6 3.7 3.7 3.7h52.2c2.1 0 3.7-1.6 3.7-3.7V265c0-2.1-1.6-3.7-3.7-3.7H344V247.7h35.5c2.1 0 3.7-1.6 3.7-3.7V230.9c0-2.1-1.6-3.7-3.7-3.7H344V213.5h35.5c2.1 0 3.7-1.6 3.7-3.7v-13c-.1-1.9-1.7-3.7-3.7-3.7zM512 93.4V419.4c-.1 51.2-42.1 92.7-93.4 92.6H92.6C41.4 511.9-.1 469.8 0 418.6V92.6C.1 41.4 42.2-.1 93.4 0H419.4c51.2 .1 92.7 42.1 92.6 93.4zM441.6 233.5c0-83.4-83.7-151.3-186.4-151.3s-186.4 67.9-186.4 151.3c0 74.7 66.3 137.4 155.9 149.3c21.8 4.7 19.3 12.7 14.4 42.1c-.8 4.7-3.8 18.4 16.1 10.1s107.3-63.2 146.5-108.2c27-29.7 39.9-59.8 39.9-93.1z" />
+						</svg>
+						LINE
+					</label>
+					<input type="text" class="form-control my-input" id="ContactLine" placeholder="輸入 LINE ID">
+				</div>
+				<!-- 電話號碼 -->
+				<div div class="col mt-3">
+					<!-- preserveAspectRatio="xMidYMid meet" -->
+					<label for="ContactPhone" class="form-label ms-1">
+						<svg viewBox="0 0 512 512">
+							<path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z" />
+						</svg>
+						電話號碼
+					</label>
+					<input type="text" class="form-control my-input" id="ContactPhone"
+						   placeholder="輸入 手機號碼 或 室內電話">
+				</div>
+			</div>
+
+			<!-- 面交時段 -->
+			<div class="col-6">
+				<label for="trade-time" class="form-label">面交時段</label>
+				<div class="d-flex justify-content-around pb-3">
+					<button type="button" class="yum-btn set-fs">平日</button>
+					<button type="button" class="yum-btn set-fs">假日</button>
+					<button type="button" class="yum-btn set-fs">所有早上</button>
+					<button type="button" class="yum-btn set-fs">所有下午</button>
+					<button type="button" class="yum-btn set-fs">所有晚上</button>
+				</div>
+				<div class="d-flex justify-content-around pb-3">
+					<label for="">星期一</label>
+					<div>
+						<input type="checkbox"> 早上
+					</div>
+					<div>
+						<input type="checkbox"> 下午
+					</div>
+					<div>
+						<input type="checkbox"> 晚上
+					</div>
+				</div>
+				<div class="d-flex justify-content-around pb-3">
+					<label for="">星期二</label>
+					<div>
+						<input type="checkbox"> 早上
+					</div>
+					<div>
+						<input type="checkbox"> 下午
+					</div>
+					<div>
+						<input type="checkbox"> 晚上
+					</div>
+				</div>
+				<div class="d-flex justify-content-around pb-3">
+					<label for="">星期三</label>
+					<div>
+						<input type="checkbox"> 早上
+					</div>
+					<div>
+						<input type="checkbox"> 下午
+					</div>
+					<div>
+						<input type="checkbox"> 晚上
+					</div>
+				</div>
+				<div class="d-flex justify-content-around pb-3">
+					<label for="">星期四</label>
+					<div>
+						<input type="checkbox"> 早上
+					</div>
+					<div>
+						<input type="checkbox"> 下午
+					</div>
+					<div>
+						<input type="checkbox"> 晚上
+					</div>
+				</div>
+				<div class="d-flex justify-content-around pb-3">
+					<label for="">星期五</label>
+					<div>
+						<input type="checkbox"> 早上
+					</div>
+					<div>
+						<input type="checkbox"> 下午
+					</div>
+					<div>
+						<input type="checkbox"> 晚上
+					</div>
+				</div>
+				<div class="d-flex justify-content-around pb-3">
+					<label for="">星期六</label>
+					<div>
+						<input type="checkbox"> 早上
+					</div>
+					<div>
+						<input type="checkbox"> 下午
+					</div>
+					<div>
+						<input type="checkbox"> 晚上
+					</div>
+				</div>
+				<div class="d-flex justify-content-around">
+					<label for="">星期日</label>
+					<div>
+						<input type="checkbox"> 早上
+					</div>
+					<div>
+						<input type="checkbox"> 下午
+					</div>
+					<div>
+						<input type="checkbox"> 晚上
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 其他聯絡方式 -->
+		<div class="row mt-3">
+			<div class="col">
+				<label for="ContactOther" class="form-label ms-1">
+					<svg viewBox="0 -960 960 960">
+						<path d="M160-40v-80h640v80H160Zm0-800v-80h640v80H160Zm320 400q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm70-80q45-56 109-88t141-32q77 0 141 32t109 88h70v-480H160v480h70Zm118 0h264q-29-20-62.5-30T480-280q-36 0-69.5 10T348-240Zm132-280q-17 0-28.5-11.5T440-560q0-17 11.5-28.5T480-600q17 0 28.5 11.5T520-560q0 17-11.5 28.5T480-520Zm0 40Z" />
+					</svg>
+					其他聯絡方式
+				</label>
+				<input type="text" class="form-control my-input" id="ContactOther" placeholder="輸入 其他聯絡方式">
+			</div>
+		</div>
+		<!-- 提交、返回按鈕 -->
+		<div class="row justify-content-center py-4">
+			<div class="col-2 text-center">
+				<a href="@Url.Action("Manage", "Cherish")" class="back-btn set-fs">返回</a>
+			</div>
+			<div class="col-2 text-center">
+				<button type="submit" class="yum-btn set-fs">提交</button>
+			</div>
+		</div>
+		<!-- form 的結束 -->
+	</div>
+</form>
+@section scripts {
+	<script>
+		// 增加按鈕的功能
+		$("#increase-btn").on("click", function () {
+			let input = parseInt($("#quantity").prop("value"));
+			input = input + 1;
+			$("#quantity").val(input);
+		});
+
+		// 減少按鈕的功能
+		$("#decrease-btn").on("click", function () {
+			let input = parseInt($("#quantity").prop("value"));
+			input = Math.max(1, input - 1); // 確保不會低於 1
+			$("#quantity").val(input);
+		});
+	</script>
+}

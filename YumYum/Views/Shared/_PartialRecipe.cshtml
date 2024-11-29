@@ -1,0 +1,35 @@
+﻿@model YumYum.Models.ViewModels.RecipeAllUser
+
+@foreach (var card in Model.recipeQueryViewModel)
+{
+	@* 1126 *@
+	@if (card.RecipeStatusCode == 1 || card.RecipeStatusCode == 4)
+	{
+		<div class="card contentcard mb-4" style="width: 30%;" onclick="window.location.href='@Url.Action("WatchRecipe", "Recipe", new { recipeId =@card.RecipeId })';">
+			@if (card.FieldShot == "/img/icon/addPhoto.png" || card.FieldShot == null)
+			{
+				<img src="~/img/icon/EmptyPhoto.png" class="card-img-top" alt="...">
+			}
+			else
+			{
+				<img src="@card.FieldShot" class="card-img-top" alt="..." onerror="this.src='/img/icon/EmptyPhoto.png';">
+			}
+			<div class="card-body">
+				<h5 class="card-title mb-3 fs-3 fw-600">@card.RecipeName</h5>
+				<p class="card-text fs-6">
+					@foreach (var item in Model.recipeDetailQuery)
+					{
+						if (card.RecipeId == item.RecipeId)
+						{
+							<text> @(item.IngredientName)</text>
+						}
+					}
+				</p>
+				<p class="card-text fs-6">@(card.FinishMinute)分鐘</p>
+			</div>
+		</div>
+	}
+
+
+}
+

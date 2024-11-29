@@ -1,0 +1,147 @@
+﻿@* @using YumYum.Models; *@
+@model YumYum.Models.ViewModels.RecipeAllUser
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@await Html.PartialAsync("_PartialBreadcrumb", (List<BreadcrumbItem>)ViewBag.Breadcrumbs)
+
+@section Scripts {
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#btn-edit").click(function () { window.location.href = '@Url.Action("EditInfo", "User")'; });
+			$("#btn-more-info").click(function () { window.location.href = '@Url.Action("MyRecipeEdit", "User", new { userId = Model?.userQueryViewModel[0].UserId })'; })
+		}
+		);</script>
+}
+<div class="card w-100" style="width:auto">
+	<div class="row g-0">
+		<div class="col-md-4" style="text-align:center ;">
+			@* photo *@
+			@if (Model?.userQueryViewModel[0].HeadShot != null)
+			{
+				<img class="rounded-circle mt-3 mb-3" src="@(Model?.userQueryViewModel[0].HeadShot.ToString())" alt="user-img" width="180" height="180" onerror="this.src='/img/icon/EmptyAvatar.svg';" />
+			}
+			else
+			{
+				@* camera *@
+				<svg height="180" width="180" class="mt-3 mb-3">
+					@* <circle r="70" cx="75" cy="75" fill="var(--yum-primary-3)" /> *@
+					<image x="0" y="0" width="180" height="180" href="/img/icon/EmptyAvatar.svg" />
+				</svg>
+			}
+		</div>
+		<div class="col-md-8">
+			<div class="card-body">
+				<br />
+				<h2 class="fw-600">@Model?.userQueryViewModel[0].UserNickname</h2>
+				<br />
+				<p class="fw-400 mb-4">@Model?.userQueryViewModel[0].UserIntro</p>
+				<div class="row mb-1">
+					@if (Model?.userQueryViewModel[0].WebLink != null && Model?.userQueryViewModel[0].WebNickName != null)
+					{
+						<div class="col-2" style="text-align:left">
+							<a href="@Model?.userQueryViewModel[0].WebLink" class="btn btn-outline-secondary tags">
+								<svg height="20" width="19">
+									<image x="0" y="0" width="16" height="16" href="/img/icon/web.svg" />
+								</svg>@Model?.userQueryViewModel[0].WebNickName
+							</a>
+						</div>
+					}
+					@if (Model?.userQueryViewModel[0].Igaccount != null)
+					{
+						<div class="col-2" style="text-align:center">
+							<a href="https://www.instagram.com/@(Model?.userQueryViewModel[0].Igaccount)" class="btn btn-outline-secondary tags">
+								<svg height="18" width="18">
+									<image x="0" y="0" width="16" height="16" href="/img/icon/instagram.svg" />
+								</svg>@Model?.userQueryViewModel[0].Igaccount
+							</a>
+						</div>
+					}
+					@if (Model?.userQueryViewModel[0].Fblink != null && Model?.userQueryViewModel[0].Fbnickname != null)
+					{
+						<div class="col-2" style="text-align:center">
+							<a href=@Model?.userQueryViewModel[0].Fblink class="btn btn-outline-secondary tags">
+								<svg height="18" width="17">
+									<image x="0" y="0" width="14" height="14" href="/img/icon/facebook.svg" />
+								</svg>@Model?.userQueryViewModel[0].Fbnickname
+							</a>
+						</div>
+					}
+					@if (Model?.userQueryViewModel[0].YoutuLink != null && Model?.userQueryViewModel[0].YoutuNickname != null)
+					{
+						<div class="col-2" style="text-align:center">
+							<a href=@Model?.userQueryViewModel[0].YoutuLink class="btn btn-outline-secondary tags">
+								<svg height="18" width="18">
+									<image x="0" y="0" width="16" height="16" href="/img/icon/youtube.svg" />
+								</svg>@Model?.userQueryViewModel[0].YoutuNickname
+							</a>
+						</div>
+					}
+					@if (Model?.userQueryViewModel[0].UserId == ViewBag.userId)
+					{
+						<div class="col">
+							<button id="btn-edit" class="yum-btn">
+								<svg height="18" width="18">
+									<image x="0" y="0" width="16" height="16" href="/img/icon/edit.svg" />
+								</svg>
+								編輯簡介
+							</button>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<br />
+<div class="card">
+	@* nav *@
+	<nav class="navbar " style="background-color:#e2e3cf">
+		<div class="container-fluid">
+			<span class="navbar-brand mb-0 h1 navtext">@(@Model?.userQueryViewModel[0].UserNickname)的最新食譜</span>
+			<span class="navbar-brand mb-0 h1 navtext" id="btn-more-info">更多</span>
+		</div>
+	</nav>
+
+	@* 1125更新 *@
+	<div class="card-body" style="display:flex">
+		@{
+			int count = 0;
+		}
+		@foreach (var card in Model.recipeQueryViewModel)
+		{
+			if (count >= 5)
+			{
+				break;
+			}
+			@if (card.RecipeStatusCode == 1 || card.RecipeStatusCode == 4)
+			{
+				count++;
+				<div class="card contentcard" style="width: 20%;" id="@card.RecipeId" onclick="window.location.href='@Url.Action("WatchRecipe", "Recipe", new { recipeId =@card.RecipeId })';">
+					@if (card.FieldShot == "/img/icon/addPhoto.png" || card.FieldShot == null)
+					{
+						<img src="~/img/icon/EmptyPhoto.png" class="card-img-top" alt="...">
+					}
+					else
+					{
+						<img src="@card.FieldShot" class="card-img-top" alt="..." onerror="this.src='/img/icon/EmptyPhoto.png';">
+					}
+					<div class="card-body">
+						<h5 class="card-title">@card.RecipeName</h5>
+						<p class="card-text">
+							@foreach (var item in Model.recipeDetailQuery)
+							{
+								if (card.RecipeId == item.RecipeId)
+								{
+									<text>@item.IngredientName </text>
+								}
+							}
+						</p>
+					</div>
+				</div>
+			}
+
+		}
+	</div>
+
+</div>

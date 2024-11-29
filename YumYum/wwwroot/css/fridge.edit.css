@@ -1,0 +1,98 @@
+﻿.btn-tags {
+    background-color: var( --yum-secondary-3);
+    border-color: var(--yum-primary-3);
+    border-radius: 30px;
+    color: var(--yum-primary-2);
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+    .btn-tags:hover {
+        background-color: var(--yum-primary-3);
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+    }
+
+.tag-button {
+    border: 1px solid #dee2e6;
+    border-radius: 1.5rem;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem;
+}
+
+    .tag-button img {
+        height: 20px;
+        margin-right: 0.5rem;
+    }
+
+.tag-section {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.edit-section {
+    background-color: #f8f9fa;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.overlay {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+    pointer-events: all; /* Prevent interaction with underlying content */
+    z-index: 10;
+}
+
+.hint-block {
+    /*    Allow interaction with the hint block */
+    pointer-events: auto;
+    font-weight: bold;
+}
+
+.offcanvas-body {
+    background-color: var(--yum-primary-3);
+}
+
+.btn-menu, .btn-menu:hover, .btn-menu:active {
+    background-color: var(--yum-primary-3);
+    color: var(--yum-primary-2);
+}
+
+/* 左側區域的類別篩選  */
+#Ifilter label span {
+    display: inline-block;
+    width: 75%;
+    text-wrap: nowrap;
+    letter-spacing: 0.3rem;
+}
+
+#Ifilter label img {
+    width: 30px;
+}
+
+/* 左側區域的 ck hover 事件  */
+#Ifilter label {
+    width: 12rem;
+    height: 3rem;
+    background-color: var(--yum-primary-3);
+    opacity: 65%;
+    font-size: 1.25rem;
+    box-shadow: 2px 2px var(--yum-primary-2);
+}
+
+    #Ifilter label:hover {
+        background-color: var(--yum-primary-2);
+        box-shadow: 2px 2px var(--yum-secondary-4);
+    }
+
+/* 左側區域的 ck selected 事件  */
+#Ifilter .selected {
+    background-color: var(--yum-primary-2);
+    color: var(--yum-primary-3);
+    box-shadow: 2px 2px var(--yum-secondary-4);
+    opacity: 50%;
+}

@@ -1,0 +1,320 @@
+﻿@using YumYum.Models.DataTransferObject
+@model List<MatchHistory>
+
+@* --麵包屑導覽-- *@
+<div class="container custom-left mt-4 mb-4">
+
+    @await Html.PartialAsync("_PartialBreadcrumb", (List<BreadcrumbItem>)ViewBag.Breadcrumbs)
+
+</div>
+
+<div class="container d-flex justify-content-center align-items-center mt-3" style="max-width: 960px; margin: 0 auto;">
+
+
+    <main>
+        @if (Model != null && Model.Any())
+        {
+
+         // 有資料時顯示的內容
+        
+        <!-- 表單標題 即期良食資料 -->
+        <div class="row article-title rounded-top ">
+            <div class="col-4 ms-3">
+                <h2 class="my-3">即期良食資料</h2>
+            </div>
+        </div>
+
+        <!-- 表單內容  -->
+
+
+        <div class="row background-white area-padding p-4">
+            <div class="food-card d-flex flex-wrap mt-2 md-2">
+                <div class="col-4">
+                        <img src="@Model[0].CherishPhoto" class="p-3 img-fluid" alt="Food">
+                </div>
+                <div class="col-8 p-3">
+                    <div class="d-flex justify-content-between mt-3 mb-3">
+                        <h5 class="fw-bold d-inline-block">@Model[0].IngredientName @Model[0].CherishId</h5>
+                        <div>數量: @Model[0].Quantity</div>
+                        <div>截止日期: @Model[0].EndDate.ToString("yyyy.MM.dd")</div>
+                    </div>
+                    <div class="d-flex justify-content-between mt-3 mb-3 align-items-center">
+                        <span class="fw-bold d-inline-block">購買日期 或 採收日期: </span><span>@Model[0].ObtainDate.ToString("yyyy.MM.dd")</span>
+
+
+                        <p style="padding: 0.2rem 0; margin: 0.5rem 0;right: 8%;  border-radius: 15px;
+										width: 5.7rem; background-color:#0000002c;text-align:
+										center;font-size: 1rem;">
+                            @Model[0].IngredAttributeName
+                        </p>
+                    </div>
+
+                    <p class="d-flex justify-content: flex-start align-items-center pt-4 pd-4">
+
+                            <span class="fw-bold d-inline-block">食材來源: &nbsp;&nbsp;&nbsp;</span>
+                            <span>@Model[0].ObtainSource</span>
+                    </p>
+
+                    <div class="cherishMatch d-flex pt-4 ">
+                        <span class="fw-bold d-inline-block ">
+                                有效期限: &nbsp;&nbsp;&nbsp;
+                        </span>
+                        <span>@(Model[0].CherishValidDate == null ? "無備註" : ((DateOnly)Model[0].CherishValidDate!).ToString("yyyy.MM.dd"))</span>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- 表單標題 聯絡方式 -->
+        <div class="row article-title rounded-top">
+            <div class="col-4 ms-3">
+                <h2 class="my-3">聯絡方式</h2>
+            </div>
+        </div>
+
+        <!-- 表單內容 -->
+
+        <div class="row background-white mb-4 area-padding">
+            <div class="team-boxed">
+                <div class="container">
+                    <div class="row g-4">
+
+                        <!-- 聯絡資料卡片  -->
+
+
+                        <form>
+                            <div class="row justify-content-center mt-4">
+                                <div class="col-6">
+                                    <!-- 暱稱欄位 -->
+                                    <div class="col">
+                                        <label for="nick-name" class="form-label fw-bold d-inline-block">暱稱</label>
+                                        <br />
+                                        <label for="nick-name" class="form-label">@Model[0].UserNickname</label>
+
+                                    </div>
+
+                                    <!-- 面交地區 -->
+                                    <img src="/img//icon/location.svg" style="width: 18px; height: 18px;" alt="location-icon">
+                                    <label for="city" class="form-label mt-3 fw-bold d-inline-block">面交地區</label>
+                                    <div class="row">
+                                        <div class="col-6">
+
+                                            <label for="nick-name" class="form-label">@Model[0].CityName</label>
+
+                                        </div>
+                                        <div class="col-6">
+
+                                            <label for="nick-name" class="form-label">@Model[0].RegionName</label>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 面交時段 -->
+                                <div class="col-6">
+
+                                    <label for="trade-time" class="form-label fw-bold d-inline-block">面交時段</label>
+                                    <br />
+                                        <div class="d-flex mt-2 ">
+                                            
+
+                                            <div class="ps-2">
+                                                @{
+                                                    if (((IEnumerable<CherishTradeTime>)ViewBag.Mon).Any())
+                                                    {
+                                                        <div>
+                                                            <span class="fw-600 me-2">
+                                                                星期一
+                                                            </span>
+                                                            @foreach (var d in ViewBag.Mon)
+                                                            {
+                                                                <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    if (((IEnumerable<CherishTradeTime>)ViewBag.Tue).Any())
+                                                    {
+                                                        <div>
+                                                            <span class="fw-600 me-2">
+                                                                星期二
+                                                            </span>
+                                                            @foreach (var d in ViewBag.Tue)
+                                                            {
+                                                                <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    if (((IEnumerable<CherishTradeTime>)ViewBag.Wes).Any())
+                                                    {
+                                                        <div>
+                                                            <span class="fw-600 me-2">
+                                                                星期三
+                                                            </span>
+                                                            @foreach (var d in ViewBag.Wes)
+                                                            {
+                                                                <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    if (((IEnumerable<CherishTradeTime>)ViewBag.Thr).Any())
+                                                    {
+                                                        <div>
+                                                            <span class="fw-600 me-2">
+                                                                星期四
+                                                            </span>
+                                                            @foreach (var d in ViewBag.Thr)
+                                                            {
+                                                                <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    if (((IEnumerable<CherishTradeTime>)ViewBag.Fri).Any())
+                                                    {
+                                                        <div>
+                                                            <span class="fw-600 me-2">
+                                                                星期五
+                                                            </span>
+                                                            @foreach (var d in ViewBag.Fri)
+                                                            {
+                                                                <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    if (((IEnumerable<CherishTradeTime>)ViewBag.Sat).Any())
+                                                    {
+                                                        <div>
+                                                            <span class="fw-600 me-2">
+                                                                星期六
+                                                            </span>
+                                                            @foreach (var d in ViewBag.Sat)
+                                                            {
+                                                                <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                                                            }
+                                                        </div>
+                                                    }
+                                                    if (((IEnumerable<CherishTradeTime>)ViewBag.Sun).Any())
+                                                    {
+                                                        <div>
+                                                            <span class="fw-600 me-2">
+                                                                星期日
+                                                            </span>
+                                                            @foreach (var d in ViewBag.Sun)
+                                                            {
+                                                                <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                                                            }
+                                                        </div>
+                                                    }
+
+
+
+                                                    string TransText(string text)
+                                                    {
+                                                        switch (Convert.ToInt32(text.Split('-')[1]))
+                                                        {
+                                                            case 1:
+                                                                return "上午";
+
+                                                            case 2:
+                                                                return "下午";
+
+                                                            case 3:
+                                                                return "晚上";
+                                                            default:
+                                                                return "";
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+
+                                </div>
+                            </div>
+
+                            <!-- 聯絡方式 -->
+                            <label for="ContactLine" class="form-label mt-3 ">聯絡方式</label>
+                            <div class="row justify-content-center">
+                                <!-- LINE -->
+                                <div div class="col-6">
+                                    <img src="/img/icon/line.svg" style="width: 20px; height: 20px;" alt="line-icon">
+                                    <label for="ContactLine" class="form-label ms-1">LINE</label>
+                                    <input class="form-control" 
+                                    type="text"
+                                    value="@(Model[0].ContactLine == null ? "無" : Model[0].ContactLine)"
+                                    @* value="@Model[0].ContactLine" *@
+                                    aria-label="readonly input example" 
+                                    readonly>
+
+                                </div>
+                                <!-- 電話號碼 -->
+                                <div div class="col-6">
+                                    <div class="d-flex align-items-center">
+                                        <!-- Icon -->
+                                        <img src="/img/icon/phone.svg" style="width: 20px; height: 20px;" alt="phone">
+
+                                        <!-- Label -->
+                                        <label for="ContactPhone" class="form-label ms-1">電話</label>
+                                    </div>
+
+                                    <input class="form-control" 
+                                    type="text"
+                                    value="@(Model[0].ContactPhone == null ? "無" : Model[0].ContactPhone)"
+                                    aria-label="readonly input example" 
+                                    readonly>
+
+                                </div>
+                            </div>
+
+                            <!-- 其他聯絡方式 -->
+                            <div class="row">
+                                <div class="col">
+                                    <img src="/img/icon/contacts.svg" style="width: 20px; height: 20px;" alt="contacts">
+
+                                    <label for="ContactOther" class="form-label mt-3 ms-1">其他聯絡方式</label>
+                                    <input class="form-control" 
+                                    type="text"
+                                    value="@(Model[0].ContactOther == null ? "無" : Model[0].ContactOther)"
+                                    @* value="@Model[0].ContactOther" *@
+                                    aria-label="readonly input example" 
+                                    readonly>
+
+                                </div>
+                            </div>
+                                <!-- 返回按鈕 -->
+                                <div>
+                                    
+                                    <!-- 返回按鈕 -->
+                                    <div class="max-width:50% d-flex align-content-center">
+                                        <a class="btn back-btn mt-3 mb-3" href="@Url.Action("MatchHistory", "Cherish")">
+                                            返回
+                                        </a>
+                                    </div>
+                                </div>
+
+
+
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+        else
+        {
+            <!-- 無資料時顯示 -->
+            <h5 class="fw-bold d-inline-block">還沒有人認領~請耐心等候~</h5>
+            <!-- 返回按鈕 -->
+            <div class="d-flex justify-content-center align-items-center">
+                <a class="btn yum-btn mb-3 " href="@Url.Action("MatchHistory", "Cherish")">
+                    返回
+                </a>
+            </div>
+        }
+    </main>
+</div>

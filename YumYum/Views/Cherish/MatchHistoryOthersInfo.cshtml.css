@@ -1,0 +1,255 @@
+﻿/*移除a標籤樣式*/
+a {
+    text-decoration: none !important;
+}
+
+
+.my-button {
+    color: var(--yum-primary-2);
+    background-color: var(--yum-primary-3);
+}
+
+.my-button:hover {
+    color: var(--yum-primary-3);
+    background-color: var(--yum-primary-2);
+}
+
+.article-title {
+    color: var(--yum-primary-3);
+    background-color: var(--yum-primary-2);
+}
+
+.background-white {
+    background-color: var(--yum-secondary-3);
+}
+
+.reminder-text {
+    color: var(--yum-secondary-1);
+}
+
+
+.icon-img {
+    width: 1.75rem;
+}
+
+.area-padding {
+    padding-left: 6rem;
+    padding-right: 6rem;
+}
+
+
+
+/* 配對資料卡-樣式 */
+
+.team-boxed p {
+    color: var(--yum-primary-2);
+}
+
+.team-boxed h2 {
+    font-weight: bold;
+    margin-bottom: 40px;
+    padding-top: 40px;
+    color: inherit;
+}
+
+@media (max-width:767px) {
+    .team-boxed h2 {
+        margin-bottom: 25px;
+        padding-top: 25px;
+        font-size: 24px;
+    }
+}
+
+.team-boxed .intro {
+    font-size: 16px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+    .team-boxed .intro p {
+        margin-bottom: 0;
+    }
+
+.team-boxed .people {
+    padding: 50px 0;
+}
+
+.team-boxed .item {
+    text-align: start;
+    /* text-align:center; */
+}
+
+    .team-boxed .item .box {
+        text-align: center;
+        padding: 30px;
+        background-color: #fff;
+        margin-bottom: 30px;
+    }
+
+    .team-boxed .item .name {
+        color: var(--yum-primary-2);
+        font-weight: bold;
+        margin-top: 28px;
+        margin-bottom: 8px;
+        color: inherit;
+    }
+
+    .team-boxed .item .title {
+        text-transform: uppercase;
+        font-weight: bold;
+        color: var(--yum-primary-2);
+        letter-spacing: 2px;
+        font-size: 16px;
+    }
+
+    .team-boxed .item .description {
+        font-size: 15px;
+        margin-top: 15px;
+        margin-bottom: 20px;
+    }
+
+    .team-boxed .item img {
+        max-width: 160px;
+    }
+
+.team-boxed .social {
+    font-size: 18px;
+    color: #a2a8ae;
+}
+
+    .team-boxed .social a {
+        color: inherit;
+        margin: 0 10px;
+        display: inline-block;
+        opacity: 0.7;
+    }
+
+        .team-boxed .social a:hover {
+            opacity: 1;
+        }
+
+
+.cherishMatch label {
+    margin-bottom: 0.7rem;
+    width: 12rem;
+    height: 3rem;
+    background-color: var(--yum-primary-3);
+    opacity: 65%;
+    font-size: 1.25rem;
+    box-shadow: 2px 2px var(--yum-primary-2);
+}
+
+
+    .cherishMatch label:hover {
+        background-color: var(--yum-primary-2);
+        box-shadow: 2px 2px var(--yum-secondary-4);
+    }
+
+        .cherishMatch label:hover svg path {
+            fill: var(--yum-primary-3);
+            transition-duration: 0.6s;
+        }
+
+
+
+.Cfilter {
+    height: 6.5rem;
+    transition: 0.1s ease;
+}
+
+.Dfilter {
+    height: 8rem;
+    transition: 0.1s ease;
+}
+
+.filter-hide {
+    height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    transition: 0.4s ease;
+}
+
+#left-pannel p {
+    margin: 0;
+    padding: 0;
+}
+
+.Cfilter label {
+    display: block;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+
+.category-label {
+    background-color: #e6f7e6;
+    color: #28a745;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+}
+
+.action-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 0.9rem;
+}
+
+/*.table th, td {
+padding:1;
+}*/
+
+/* 退回按鈕的樣式 */
+.back-btn {
+    font-size: 1rem;
+    color: var(--yum-primary-2);
+    background-color: var(--yum-secondary-3);
+    box-shadow: 2px 2px 2px #30533fa6;
+    /*display: inline-block;*/
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    border: 1px solid var(--yum-primary-2);
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    display: block;
+    margin: 0 auto; /* Centers the button horizontally */
+}
+
+/* 一般的按鈕樣式 */
+.yum-btn {
+    font-size: 1rem;
+    color: var(--yum-primary-2);
+    background-color: var(--yum-primary-3);
+    box-shadow: 2px 2px 2px #30533fa6;
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    border: 1px solid var(--yum-primary-2);
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+/* hover 按鈕時的樣式變化 */
+.back-btn:hover {
+    color: var(--yum-primary-3);
+    background-color: var(--yum-primary-2);
+    transition-duration: 0.5s;
+}
+

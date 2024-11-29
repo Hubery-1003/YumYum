@@ -1,0 +1,187 @@
+﻿@using YumYum.Models.DataTransferObject
+@model CherishMatch
+@{
+    var c = Model;
+}
+
+<!-- 標題 -->
+<h4 class="d-block text-center pt-4 pb-3">以下是對方的連絡資訊</h4>
+
+<!-- 置中的資訊 暱稱+地點 -->
+<div class="d-flex flex-column align-items-center">
+    <div class="d-flex left-contact">
+        <label for="" class="me-3">暱稱</label>
+        <label for="" class="">面交地區</label>
+    </div>
+
+    <div class="d-flex left-contact">
+        <input class="rounded-2 ps-2 me-3" type="text" name="" id="" value="@c.UserNickname" disabled>
+        <input class="rounded-2 ps-2" type="text" name="" id="" value="@c.CityName @c.RegionName" disabled>
+    </div>
+</div>
+
+
+<h5 style="padding-left: 5rem;padding-top: 1.5rem;margin-bottom: 0.3rem;">聯絡方式</h5>
+
+<!-- 置中的資訊 LINE + 電話 -->
+<div class="d-flex flex-column align-items-center">
+    <div class="d-flex left-contact">
+        <label for="" class="me-3"><img src="~/img/icon/line.svg" width="20px" height="20px" />Line</label>
+        <label for="" class=""><img src="~/img/icon/phone.svg" width="20px" height="20px" />電話</label>
+    </div>
+
+    <div class="d-flex left-contact">
+
+        <input class="rounded-2 ps-2 me-3" type="text" name="" id="" value="@c.ContactLine" disabled>
+        <input class="rounded-2 ps-2" type="text" name="" id="" value="@c.ContactPhone" disabled>
+    </div>
+</div>
+
+<!-- 其他聯絡 -->
+<div class="d-flex flex-column align-items-center" style="width: 100%;">
+    <div style="width: 33rem;">
+        <label for="" class="me-3 mt-2"><img src="~/img/icon/contacts.svg" width="20px" height="20px" />其他聯絡方式</label>
+        <input class="rounded-2 ps-2 w-100" type="text" name="" id="" value="@c.ContactOther" disabled>
+    </div>
+</div>
+
+<!-- 面交日期 -->
+<div class="d-flex flex-column align-items-center" style="width: 100%;">
+    <div style="width: 33rem;">
+        <!-- 標題 -->
+        <h5 class=" d-inline-block mt-2">交易日期</h5>
+
+        <!-- 資料內容 -->
+        <div class="day-data ms-4">
+            @{
+                if (((IEnumerable<CherishTradeTime>)ViewBag.Mon).Any())
+                {
+                    <div>
+                        <h5 class="mb-1">
+                            星期一
+                        </h5>
+                        @foreach (var d in ViewBag.Mon)
+                        {
+                            <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                        }
+                    </div>
+                }
+                if (((IEnumerable<CherishTradeTime>)ViewBag.Tue).Any())
+                {
+                    <div>
+                        <h5 class="mb-1">
+                            星期二
+                        </h5>
+                        @foreach (var d in ViewBag.Tue)
+                        {
+                            <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                        }
+                    </div>
+                }
+                if (((IEnumerable<CherishTradeTime>)ViewBag.Wes).Any())
+                {
+                    <div>
+                        <h5 class="mb-1">
+                            星期三
+                        </h5>
+                        @foreach (var d in ViewBag.Wes)
+                        {
+                            <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                        }
+                    </div>
+                }
+                if (((IEnumerable<CherishTradeTime>)ViewBag.Thr).Any())
+                {
+                    <div>
+                        <h5 class="mb-1">
+                            星期四
+                        </h5>
+                        @foreach (var d in ViewBag.Thr)
+                        {
+                            <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                        }
+                    </div>
+                }
+                if (((IEnumerable<CherishTradeTime>)ViewBag.Fri).Any())
+                {
+                    <div>
+                        <h5 class="mb-1">
+                            星期五
+                        </h5>
+                        @foreach (var d in ViewBag.Fri)
+                        {
+                            <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                        }
+                    </div>
+                }
+                if (((IEnumerable<CherishTradeTime>)ViewBag.Sat).Any())
+                {
+                    <div>
+                        <h5 class="mb-1">
+                            星期六
+                        </h5>
+                        @foreach (var d in ViewBag.Sat)
+                        {
+                            <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                        }
+                    </div>
+                }
+                if (((IEnumerable<CherishTradeTime>)ViewBag.Sun).Any())
+                {
+                    <div>
+                        <h5 class="mb-1">
+                            星期日
+                        </h5>
+                        @foreach (var d in ViewBag.Sun)
+                        {
+                            <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                        }
+                    </div>
+                }
+
+
+
+                string TransText(string text)
+                {
+                    switch (Convert.ToInt32(text.Split('-')[1]))
+                    {
+                        case 1:
+                            return "上午";
+
+                        case 2:
+                            return "下午";
+
+                        case 3:
+                            return "晚上";
+                        default:
+                            return "";
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+<br>
+
+<!-- 警語 -->
+<div class="d-flex flex-column align-items-center" style="width: 100%;">
+    <div style="width: 33rem;">
+        <p class="text-center">盡快聯繫，避免錯過</p>
+        <p class="text-center m-0">提醒！面交地點請盡量選擇人潮較多的公開場所，</p>
+        <p class="text-center p-0">例如：便利商店、捷運站…等等，能有效提高人身安全。</p>
+        <p class="text-center m-0">如需再次查看聯絡方式，請前往</p>
+        <p class="text-center p-0">［惜食專區>配對紀錄>查看配對］</p>
+    </div>
+</div>
+
+<div style="width: 100%;">
+    <button class="btn btn-outline-success d-block btn-back-style" id="contact-check" style="margin: 0 auto;">確認</button>
+</div>
+
+<script>
+    $('#contact-check').click(function () {
+        $(this).parent().parent().addClass('visible-hide');
+        $('#mask').hide()
+        enableScroll()
+    })
+</script>

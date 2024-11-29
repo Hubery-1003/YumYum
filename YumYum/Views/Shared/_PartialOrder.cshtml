@@ -1,0 +1,134 @@
+﻿@using YumYum.Models.ViewModels
+@model List<CherishOrderViewModel>
+
+@* 判斷 @Model 資料筆數是否 > 0 *@
+@if (Model.Count == 0)
+{
+	<p>目前沒有任何良食資料</p>
+}
+else
+{
+	@* 顯示良食資料 *@
+	@foreach (CherishOrderViewModel order in Model)
+	{
+		<div class="row background-white rounded data-shadow" style="padding: 1.5rem 0.75rem; margin-top: 0.75rem;">
+			@* 良食照片 *@
+			<div class="col-4">
+				<img src="@order.CherishPhoto" alt="即期良食照片" class="ingredient-img rounded">
+			</div>
+			<div class="col-8">
+				<span class="order-id" hidden>@order.CherishId</span>
+				<div class="d-flex pt-2">
+					@* 食材名稱、數量、截止日期 *@
+					<div class="col-4 fs-5 order-item">@order.IngredientName</div>
+					<div class="col-2 text-center">數量 <span>@order.Quantity</span></div>
+					<div class="col-6 text-end">截止日期 <span>@order.EndDate.ToString("yyyy.MM.dd")</span></div>
+				</div>
+				<div class="d-flex justify-content-between pt-4">
+					@* 購買日期、食材分類標籤 *@
+					<label class="col-7">
+						購買日期 或 採收日期
+						<span class="ps-4">@order.ObtainDate.ToString("yyyy.MM.dd")</span>
+					</label>
+					<label class="btn yum-btn align-items-end">@order.IngredAttributeName</label>
+				</div>
+				<div class="pt-3">
+					@* 有效期限 *@
+					<label class="col-7 d-flex justify-content-between">
+						有效期限
+						<span></span>
+						<span class="pe-1">@(order.CherishValidDate != null ? ((DateOnly)order.CherishValidDate!).ToString("yyyy.MM.dd") : "無備註")</span>
+					</label>
+				</div>
+				<div class="d-flex pt-4" style="position: relative;">
+					@* 面交地區 *@
+					<label>
+						面交地區
+					</label>
+					<svg viewBox="0 0 384 512" class="ms-3">
+						<path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z" />
+					</svg>
+					<div class="ps-3">@order.CityName</div>
+					<div class="ps-3">@order.RegionName</div>
+
+					<span class="order-state" hidden>@order.TradeStateCode</span>
+					@* 贈出按鈕 *@
+					<button type="button" class="btn yum-btn set-fs sendout" style="position: absolute; right: 0; top: 1rem;" id="sendout-btn"
+							data-bs-toggle="modal" data-bs-target="#sendout-modal">
+						<svg viewBox="0 0 640 512">
+							<path d="M272.2 64.6l-51.1 51.1c-15.3 4.2-29.5 11.9-41.5 22.5L153 161.9C142.8 171 129.5 176 115.8 176L96 176l0 128c20.4 .6 39.8 8.9 54.3 23.4l35.6 35.6 7 7c0 0 0 0 0 0L219.9 397c6.2 6.2 16.4 6.2 22.6 0c1.7-1.7 3-3.7 3.7-5.8c2.8-7.7 9.3-13.5 17.3-15.3s16.4 .6 22.2 6.5L296.5 393c11.6 11.6 30.4 11.6 41.9 0c5.4-5.4 8.3-12.3 8.6-19.4c.4-8.8 5.6-16.6 13.6-20.4s17.3-3 24.4 2.1c9.4 6.7 22.5 5.8 30.9-2.6c9.4-9.4 9.4-24.6 0-33.9L340.1 243l-35.8 33c-27.3 25.2-69.2 25.6-97 .9c-31.7-28.2-32.4-77.4-1.6-106.5l70.1-66.2C303.2 78.4 339.4 64 377.1 64c36.1 0 71 13.3 97.9 37.2L505.1 128l38.9 0 40 0 40 0c8.8 0 16 7.2 16 16l0 208c0 17.7-14.3 32-32 32l-32 0c-11.8 0-22.2-6.4-27.7-16l-84.9 0c-3.4 6.7-7.9 13.1-13.5 18.7c-17.1 17.1-40.8 23.8-63 20.1c-3.6 7.3-8.5 14.1-14.6 20.2c-27.3 27.3-70 30-100.4 8.1c-25.1 20.8-62.5 19.5-86-4.1L159 404l-7-7-35.6-35.6c-5.5-5.5-12.7-8.7-20.4-9.3C96 369.7 81.6 384 64 384l-32 0c-17.7 0-32-14.3-32-32L0 144c0-8.8 7.2-16 16-16l40 0 40 0 19.8 0c2 0 3.9-.7 5.3-2l26.5-23.6C175.5 77.7 211.4 64 248.7 64L259 64c4.4 0 8.9 .2 13.2 .6zM544 320l0-144-48 0c-5.9 0-11.6-2.2-15.9-6.1l-36.9-32.8c-18.2-16.2-41.7-25.1-66.1-25.1c-25.4 0-49.8 9.7-68.3 27.1l-70.1 66.2c-10.3 9.8-10.1 26.3 .5 35.7c9.3 8.3 23.4 8.1 32.5-.3l71.9-66.4c9.7-9 24.9-8.4 33.9 1.4s8.4 24.9-1.4 33.9l-.8 .8 74.4 74.4c10 10 16.5 22.3 19.4 35.1l74.8 0zM64 336a16 16 0 1 0 -32 0 16 16 0 1 0 32 0zm528 16a16 16 0 1 0 0-32 16 16 0 1 0 0 32z" />
+						</svg>
+						<span class="ps-1">贈出</span>
+					</button>
+				</div>
+				<div class="d-flex pt-4 pb-2" style="position: relative;">
+					@* 聯絡方式 *@
+					<label>聯絡方式</label>
+					<div class="px-3" @(order.ContactLine != null ? "" : "hidden")>
+						<svg viewBox="0 0 512 512">
+							<path d="M311 196.8v81.3c0 2.1-1.6 3.7-3.7 3.7h-13c-1.3 0-2.4-.7-3-1.5l-37.3-50.3v48.2c0 2.1-1.6 3.7-3.7 3.7h-13c-2.1 0-3.7-1.6-3.7-3.7V196.9c0-2.1 1.6-3.7 3.7-3.7h12.9c1.1 0 2.4 .6 3 1.6l37.3 50.3V196.9c0-2.1 1.6-3.7 3.7-3.7h13c2.1-.1 3.8 1.6 3.8 3.5zm-93.7-3.7h-13c-2.1 0-3.7 1.6-3.7 3.7v81.3c0 2.1 1.6 3.7 3.7 3.7h13c2.1 0 3.7-1.6 3.7-3.7V196.8c0-1.9-1.6-3.7-3.7-3.7zm-31.4 68.1H150.3V196.8c0-2.1-1.6-3.7-3.7-3.7h-13c-2.1 0-3.7 1.6-3.7 3.7v81.3c0 1 .3 1.8 1 2.5c.7 .6 1.5 1 2.5 1h52.2c2.1 0 3.7-1.6 3.7-3.7v-13c0-1.9-1.6-3.7-3.5-3.7zm193.7-68.1H327.3c-1.9 0-3.7 1.6-3.7 3.7v81.3c0 1.9 1.6 3.7 3.7 3.7h52.2c2.1 0 3.7-1.6 3.7-3.7V265c0-2.1-1.6-3.7-3.7-3.7H344V247.7h35.5c2.1 0 3.7-1.6 3.7-3.7V230.9c0-2.1-1.6-3.7-3.7-3.7H344V213.5h35.5c2.1 0 3.7-1.6 3.7-3.7v-13c-.1-1.9-1.7-3.7-3.7-3.7zM512 93.4V419.4c-.1 51.2-42.1 92.7-93.4 92.6H92.6C41.4 511.9-.1 469.8 0 418.6V92.6C.1 41.4 42.2-.1 93.4 0H419.4c51.2 .1 92.7 42.1 92.6 93.4zM441.6 233.5c0-83.4-83.7-151.3-186.4-151.3s-186.4 67.9-186.4 151.3c0 74.7 66.3 137.4 155.9 149.3c21.8 4.7 19.3 12.7 14.4 42.1c-.8 4.7-3.8 18.4 16.1 10.1s107.3-63.2 146.5-108.2c27-29.7 39.9-59.8 39.9-93.1z" />
+						</svg>
+						<span>LINE</span>
+					</div>
+					<div class="px-3" @(order.ContactPhone != null ? "" : "hidden")>
+						<svg viewBox="0 0 512 512">
+							<path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z" />
+						</svg>
+						<span>電話號碼</span>
+					</div>
+					<div class="ps-3" @(order.ContactOther != null ? "" : "hidden")>
+						<svg viewBox="0 -960 960 960">
+							<path d="M160-40v-80h640v80H160Zm0-800v-80h640v80H160Zm320 400q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm70-80q45-56 109-88t141-32q77 0 141 32t109 88h70v-480H160v480h70Zm118 0h264q-29-20-62.5-30T480-280q-36 0-69.5 10T348-240Zm132-280q-17 0-28.5-11.5T440-560q0-17 11.5-28.5T480-600q17 0 28.5 11.5T520-560q0 17-11.5 28.5T480-520Zm0 40Z" />
+						</svg>
+						<span>其他</span>
+					</div>
+
+					<span hidden>@order.CherishId</span>
+					@* 編輯按鈕 *@
+					<a href="@Url.Action("ManageEdit", "Cherish", new { cherishId = order.CherishId })" class="btn yum-btn set-fs" style="position: absolute; right: 0; top: 1rem;">
+						<svg viewBox="0 0 512 512">
+							<path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1 0 32c0 8.8 7.2 16 16 16l32 0zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z" />
+						</svg>
+						<span class="ps-1">編輯</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	}
+}
+
+@* 贈出彈跳視窗 *@
+@*<div class="modal modal-alert position-static d-block bg-secondary py-5" tabindex="-1" role="dialog" id="sendout-modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content rounded-3 shadow">
+			<div class="modal-body p-4 text-center">
+				<h5 class="mb-0">Enable this setting?</h5>
+				<p class="mb-0">You can always change your mind in your account settings.</p>
+			</div>
+			<div class="modal-footer flex-nowrap p-0">
+				<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-end"><strong>Yes, enable</strong></button>
+				<button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">No thanks</button>
+			</div>
+		</div>
+	</div>
+</div>*@
+
+<!-- Modal -->
+<div class="modal fade" id="sendout-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+	<div class="modal-dialog  modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="id" hidden>惜食訂單序號</div>
+				<h5 class="modal-title">食材名稱</h5>
+				<div class="state" hidden>訂單狀態</div>
+			</div>
+			<div class="modal-body">
+				這一份即期良食已經贈出了嗎？
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn back-btn" data-bs-dismiss="modal">返回</button>
+				<button type="button" class="btn yum-btn submit">確認</button>
+			</div>
+		</div>
+	</div>
+</div>

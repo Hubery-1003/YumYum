@@ -1,0 +1,114 @@
+﻿@using YumYum.Models.DataTransferObject
+@model List<MatchHistory>
+
+
+
+    @if (Model != null && Model.Any())
+    {
+        foreach (var order in Model)
+        {
+            <!-- 配對食材資訊卡 -->
+            <div class="food-card d-flex flex-wrap mt-2 mb-2">
+                <div class="col-4">
+                    <img src="@Url.Content($"~{order.CherishPhoto}")" class="p-3 img-fluid" alt="Food">
+                </div>
+                <div class="col-8 p-3">
+                    <div class="d-flex justify-content-between mt-3 mb-3">
+                        <h5 class="fw-bold d-inline-block">@order.IngredientName @order.CherishId</h5>
+                        <div>數量: @order.Quantity</div>
+                        <div>截止日期: @order.EndDate.ToString("yyyy.MM.dd")</div>
+                    </div>
+                    <div class="d-flex justify-content-between mt-3 mb-3 align-items-center">
+                        <div>
+                            <span class="fw-bold d-inline-block">購買日期 或 採收日期:</span>
+                            <span>@order.ObtainDate.ToString("yyyy.MM.dd")</span>
+                        </div>
+                        <p style="padding: 0.2rem 0; margin: 0.5rem 0; right: 8%; border-radius: 15px; width: 5.7rem; background-color: #0000002c; text-align: center; font-size: 1rem;">
+                            @order.IngredAttributeName
+                        </p>
+                    </div>
+
+                    <div class="d-flex justify-content-start align-items-center mt-3 mb-3">
+                        <span class="fw-bold d-inline-block">From </span>
+                        <span>@order.UserNickname</span> 
+                        <img src="/img/icon/location.svg" alt="Location" style="width: 16px;"> 
+                        <span>@order.CityName @order.RegionName</span>
+                    </div>
+                <div class="d-flex justify-content-between align-items-center pt-3">
+                    <span class="fw-bold d-inline-block">聯絡方式:</span>
+                </div>
+
+                <div class="d-flex flex-column align-items-start pt-3">
+
+
+                    @if (!string.IsNullOrWhiteSpace(order.ContactLine))
+                    {
+                        <div class="col mb-2">
+                            <svg height="22" viewBox="0 0 176 176" width="22"><g id="Layer_2" data-name="Layer 2"><g id="line"><rect id="background" fill="#39cd00" height="176" rx="24" width="176" /><g id="icon"><path id="shade" d="m143 82a28.7 28.7 0 0 1 -.43 3.33 36.77 36.77 0 0 1 -4.21 12c-1 1.78-5.81 8.54-7.28 10.32-8.13 9.79-21.75 21.09-44.51 32.08a3 3 0 0 1 -4.29-3l1.15-10.33a3 3 0 0 0 -2.65-3.31 63.94 63.94 0 0 1 -21.78-6.21c-15.6-7.71-26-21.48-26-37.17 0-24.16 24.62-43.71 55-43.71 15.26 0 29.06 5 39 12.93 9.31 7.45 15.27 17.56 15.91 28.78a40 40 0 0 1 .09 4.29z" fill="#fff" /><g fill="#00c200"><path d="m72.84 89.39a2.76 2.76 0 0 1 .83 2 2.81 2.81 0 0 1 -2.81 2.82h-11.25a2.83 2.83 0 0 1 -2.82-2.82v-21.25a2.78 2.78 0 0 1 .83-2 2.81 2.81 0 0 1 4.8 2v18.43h8.44a2.75 2.75 0 0 1 1.98.82z" /><path d="m82 69.53v22.47a2.21 2.21 0 0 1 -2.2 2.2h-1.26a2.2 2.2 0 0 1 -2.2-2.2v-22.47a2.2 2.2 0 0 1 2.2-2.2h1.23a2.21 2.21 0 0 1 2.23 2.2z" /><path d="m108.12 70.14v21.13a2.93 2.93 0 0 1 -2.83 2.93 2.84 2.84 0 0 1 -1.91-.78c-.1-.08-3.88-5-7.09-9.14-2.4-3.09-4.48-5.79-4.48-5.79v12.89a2.81 2.81 0 0 1 -4.71 2.08 2.8 2.8 0 0 1 -.92-2.08v-21.12a2.9 2.9 0 0 1 2.71-2.93 2.84 2.84 0 0 1 2.21 1c.12.14 5.93 7.7 9.2 12 1.3 1.68 2.2 2.86 2.2 2.86v-13a2.83 2.83 0 0 1 2.81-2.81 2.81 2.81 0 0 1 2.81 2.76z" /><path d="m118 83.57v5h8.43a2.82 2.82 0 1 1 0 5.63h-11.28a2.82 2.82 0 0 1 -2.81-2.82v-21.24a2.82 2.82 0 0 1 2.81-2.81h11.25a2.82 2.82 0 1 1 0 5.63h-8.4v5h8.43a2.81 2.81 0 1 1 0 5.62z" /></g></g></g></g></svg>
+                            LINE: @order.ContactLine
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(order.ContactPhone))
+                    {
+                        <div class="col mb-2">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M17.5102 13.2102L14.9983 10.6982C14.1012 9.80111 12.576 10.16 12.2172 11.3262C11.948 12.1337 11.0509 12.5822 10.2435 12.4028C8.44926 11.9542 6.02701 9.62168 5.57845 7.73772C5.30931 6.93027 5.84759 6.03314 6.655 5.76404C7.82127 5.40519 8.18012 3.88007 7.28299 2.98295L4.77104 0.470991C4.05334 -0.156997 2.97679 -0.156997 2.3488 0.470991L0.644257 2.17553C-1.06028 3.96978 0.823682 8.72455 5.04018 12.941C9.25667 17.1575 14.0114 19.1313 15.8057 17.337L17.5102 15.6324C18.1383 14.9147 18.1383 13.8382 17.5102 13.2102Z"
+                                      fill="#5F6368" />
+                            </svg>
+                            電話: @order.ContactPhone
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(order.ContactOther))
+                    {
+                        <div class="col mb-2">
+                            <img src="~/img/icon/contacts.svg" alt="Location" style="width: 16px;">
+                            其他: @order.ContactOther
+                        </div>
+                    }
+                    </div>
+                    <!-- 動態按鈕 -->
+                    <div class="cherishMatch d-flex justify-content-end  align-items-center ">
+                        @if (order.IsMine)
+                        {
+                            <!-- "我的食材" 按鈕 -->
+                            <label class="btn-outline-success btn align-content-center fw-600" style="position: relative; z-index: 10;" id="cherishMatch" onclick="window.location.href='/Cherish/MatchHistoryMineInfo/@order.CherishId';">
+                                <svg height="20px" viewBox="0 -960 960 960" width="20px">
+                                    <path d="M480-312q70 0 119-49t49-119q0-70-49-119t-119-49q-70 0-119 49t-49 119q0 70 49 119t119 49Zm0-72q-40 0-68-28t-28-68q0-40 28-68t68-28q40 0 68 28t28 68q0 40-28 68t-68 28Zm0 192q-142.6 0-259.8-78.5Q103-349 48-480q55-131 172.2-209.5Q337.4-768 480-768q142.6 0 259.8 78.5Q857-611 912-480q-55 131-172.2 209.5Q622.6-192 480-192Zm0-288Zm0 216q112 0 207-58t146-158q-51-100-146-158t-207-58q-112 0-207 58T127-480q51 100 146 158t207 58Z" fill="#30533f"></path>
+                                </svg>
+                                <span>查看配對</span>
+                            </label>
+                        }
+                        else
+                        {
+                            <!-- "別人的食材" 按鈕 -->
+                            <label class="btn-outline-success btn align-content-center fw-600" style="position: relative; z-index: 10;" id="cherishMatch" onclick="window.location.href='/Cherish/MatchHistoryOthersInfo/@order.CherishId';">
+                                <svg height="20px" viewBox="0 -960 960 960" width="20px">
+                                    <path d="M480-312q70 0 119-49t49-119q0-70-49-119t-119-49q-70 0-119 49t-49 119q0 70 49 119t119 49Zm0-72q-40 0-68-28t-28-68q0-40 28-68t68-28q40 0 68 28t28 68q0 40-28 68t-68 28Zm0 192q-142.6 0-259.8-78.5Q103-349 48-480q55-131 172.2-209.5Q337.4-768 480-768q142.6 0 259.8 78.5Q857-611 912-480q-55 131-172.2 209.5Q622.6-192 480-192Zm0-288Zm0 216q112 0 207-58t146-158q-51-100-146-158t-207-58q-112 0-207 58T127-480q51 100 146 158t207 58Z" fill="#30533f"></path>
+                                </svg>
+                                <span>查看配對</span>
+                            </label>
+                        }
+
+                </div>
+            </div>
+                </div>
+
+
+
+
+
+
+                
+
+        }
+    }
+    else
+    {
+        <!-- 無結果提示 -->
+        <div class="alert alert-warning mt-4">
+            查無相關資料，請嘗試其他關鍵字。
+        </div>
+    }
+

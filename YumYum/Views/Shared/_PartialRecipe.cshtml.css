@@ -1,0 +1,16 @@
+﻿h1, p, h5 {
+    color: var(--yum-primary-2);
+}
+.contentcard {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+    .contentcard:hover {
+        box-shadow: 0 16px 32px 0 rgba(0,0,0,0.2);
+    }
+.card-img-top {
+    object-fit: cover; /* 保持圖片的寬高比進行裁切 */
+    height: 257px; /* 自行調整裁切後的高度 */
+    width: 100%; /* 確保圖片寬度與卡片匹配 */
+}

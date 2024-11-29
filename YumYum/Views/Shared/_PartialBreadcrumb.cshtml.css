@@ -1,0 +1,16 @@
+﻿:root {
+    /* ======1110新增修改===== */
+    /*改變boostrap內建連結藍色字*/
+    --bs-link-color: #30533f !important;
+    --bs-link-hover-color: #284535 !important;
+}
+
+.breadcrumb {
+    /*改變boostrap內建字體顏色*/
+    --bs-breadcrumb-item-active-color: #30533f !important;
+}
+
+
+a {
+    text-decoration: none !important;
+}

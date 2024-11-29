@@ -1,0 +1,225 @@
+﻿.food-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden; /* 隱藏溢出內容 */
+    max-width: 100%; /* 防止子元素超出父容器 */
+    padding: 16px; /* 增加內邊距 */
+    box-sizing: border-box; /* 確保寬度包含內邊距和邊框 */
+    background-color: var(--yum-secondary-3);
+}
+
+
+.food-image {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.category-label {
+    background-color: #e6f7e6;
+    color: #28a745;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+}
+
+.action-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-size: 0.9rem;
+}
+
+/* 篩選bar */
+/* 左側面板 */
+#left-pannel {
+    height: max-content;
+    width: 26%;
+    background-color: var(--yum-secondary-3);
+}
+
+
+.filter-head {
+    display: flex;
+    align-items: center;
+}
+
+#filter-head span:first-child {
+    font-size: 1.5rem;
+    line-height: 4rem;
+    padding-left: 3rem;
+}
+
+#filter-head button {
+    padding: 0.2rem 0.8rem;
+    line-height: 1rem;
+    font-size: 0.9rem;
+    margin-left: 1.5rem;
+    color: var(--yum-primary-2);
+    background-color: var(--yum-secondary-4);
+    border-radius: 2rem;
+    opacity: 80%;
+}
+
+    #filter-head button:hover {
+        opacity: 100%;
+    }
+
+    #filter-head button:focus {
+        box-shadow: none;
+    }
+
+#Ifilter-active:checked + label,
+#Cfilter-active:checked + label,
+#Dfilter-active:checked + label {
+    transform: scaleY(-1);
+}
+
+
+
+/* 左側收和鈕 */
+.extend-tag {
+    position: absolute;
+    right: 1rem;
+    width: 15rem;
+    text-align: end;
+}
+
+
+/* 左側區域的類別篩選  */
+
+.Ifilter label span {
+    display: inline-block;
+    width: 75%;
+    letter-spacing: 0.3rem;
+}
+
+.Ifilter label img {
+    width: 30px;
+}
+
+.Ifilter label {
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    text-align: center;
+}
+
+
+
+
+/* 左側區域的 ck hover 事件  */
+.Ifilter label {
+    margin-bottom: 0.7rem;
+    width: 12rem;
+    height: 3rem;
+    background-color: var(--yum-primary-3);
+    opacity: 65%;
+    font-size: 1.25rem;
+    box-shadow: 2px 2px var(--yum-primary-2);
+}
+
+#Ifilter label:hover {
+    background-color: var(--yum-primary-2);
+    box-shadow: 2px 2px var(--yum-secondary-4);
+}
+
+
+/*查看配對按鈕樣式*/
+
+.cherishMatch label {
+    margin-bottom: 0.7rem;
+    width: 12rem;
+    height: 3rem;
+    background-color: var(--yum-primary-3);
+    color: var(--yum-primary-2);
+    border-radius: 0.5rem;
+    font-size: 1.25rem;
+    border: 0;
+}
+
+    #Ifilter label:hover,
+    .cherishMatch label:hover {
+        background-color: var(--yum-primary-2);
+        color: var(--yum-primary-1);
+    }
+
+        .cherishMatch label:hover svg path {
+            fill: var(--yum-primary-3);
+            transition-duration: 0.6s;
+        }
+/* 已選radio狀態樣式 */
+.Ifilter input[type="radio"]:checked + label {
+    background-color: var(--yum-primary-2);
+    color: var(--yum-secondary-3);
+    box-shadow: 2px 2px var(--yum-secondary-4);
+}
+
+/* 左側區域的 ck selected 事件  */
+#Ifilter .selected {
+    background-color: var(--yum-primary-2);
+    color: var(--yum-primary-3);
+    box-shadow: 2px 2px var(--yum-secondary-4);
+    opacity: 60%;
+}
+
+.Cfilter {
+    height: 6.5rem;
+    transition: 0.1s ease;
+}
+
+.Dfilter {
+    height: 8rem;
+    transition: 0.1s ease;
+}
+
+.filter-hide {
+    /* display: none; */
+    height: 0;
+    margin: 0;
+    padding: 0;
+    /* 防止內容外露 */
+    overflow: hidden;
+    transition: 0.4s ease;
+}
+
+
+#left-pannel p {
+    margin: 0;
+    padding: 0;
+}
+
+.Cfilter label {
+    display: block;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+/* 此頁面中間區域的 btn hover 事件  */
+.my-button {
+    background-color: var(--yum-primary-3);
+    border: none;
+    color: var(--yum-primary-2);
+    padding: 10px 10px;
+    border-radius: 5px;
+    /*    font-size: 16px;*/
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    .my-button:hover {
+        background-color: var(--yum-primary-2);
+        color: var(--yum-secondary-3);
+    }
+
+    .my-button svg {
+        vertical-align: middle; /* 圖標垂直置中 */
+    }
+
+    .my-button:hover svg path {
+        fill: var(--yum-primary-3);
+        transition-duration: 0.5s;
+    }

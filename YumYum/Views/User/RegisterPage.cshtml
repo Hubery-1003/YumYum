@@ -1,0 +1,49 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+@section Scripts {
+    <script src="~/Views/User/RegisterPage.cshtml.js"></script>
+}
+<script src="~/js/shared/jquery.js"></script>
+
+<div class="container mb-5" style="width: 700px;margin-top:125px;margin-bottom:100px">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-6 text-center br-black">
+            <div class="text-center mb-4 pt-4">
+                <img b-u91x837eck src="~/img/icon/LogoYumyum.svg" class="logo-icon my-2">
+                <h3 class="mt-3">註冊帳號</h3>
+            </div>
+            <!-- 暱稱 -->
+            <div class="input-group">
+                <input id="register-nickname" class="my-2 form-control" type="text" placeholder="暱稱">
+            </div>
+            <!-- 註冊帳號-->
+            <div class="input-group">
+                <input id="register-email" class="my-2 form-control" type="text" placeholder="註冊信箱">
+                <label for="register-email"></label>
+            </div>
+            <!-- 註冊密碼-->
+            <div class="input-group input-pwd" style="position:relative">
+                <input id="register-pwd" class="my-2 form-control" type="password" placeholder="註冊密碼 (至少6碼，須包含字母與數字)">
+                <img class="d-none" src="~/img/icon/Visibility.svg" alt="Alternate Text" style="position:absolute;right:8px;top:12px;width:30px">
+            </div>
+            <!-- 確認密碼-->
+            <div class="input-group mb-3 input-pwd" style="position:relative">
+                <input id="register-pwddb" class="my-2 form-control" type="password" placeholder="確認密碼">
+                <img class="d-none" src="~/img/icon/Visibility.svg" alt="Alternate Text" style="position:absolute;right:8px;top:12px;width:30px">
+            </div>
+            <!--註冊按鈕-->
+            <div class="input-group mt-2 mb-4 justify-content-center">
+                <button id="register-submit" class="btn btn-outline-success">註冊</button>
+            </div>
+            <!--已有帳號-->
+            <div class="text-center mb-3">
+                <h6 class="mb-2">已經有帳戶了嗎?</h6>
+                <a href="~/User/LogInPage" class="btn btn-outline-success">登入</a>
+            </div>
+        </div>
+    </div>
+</div>

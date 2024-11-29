@@ -1,0 +1,9 @@
+﻿@model List<Region>
+
+@{
+	foreach (Region region in Model)
+	{
+		<option value="@region.RegionId">@region.RegionName</option>
+	}
+}
+
