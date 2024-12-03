@@ -64,12 +64,15 @@
                         </div>
                         <div class="col-md-3 col-3 text-center">
                             @{
-                                var valid = item.ValidDate.DayNumber - DateOnly.FromDateTime(DateTime.Now).DayNumber;
+                                // var valid = item.ValidDate.DayNumber - DateOnly.FromDateTime(DateTime.Now).DayNumber;
+                                var valid = item.ValidDate.DayNumber - DateOnly.FromDateTime(new DateTime(2024, 12, 11)).DayNumber;
                             }
-                            <span class="bottom-line">有效天數: @(valid)日</span>
+                            <span class="bottom-line">有效天數: @(valid) 日</span>
                         </div>
                         <div class="col-md-3 col-2 text-center">
-                            <span class="badge btn @(valid>3?"btn-success":valid>0?"btn-warning":"btn-danger")">@(valid > 3 ? "保存" : valid > 0 ? "快過期了" : "過期了")</span>
+                            <span class="badge btn @(valid > 3 ? "btn-success" : valid > 0 ? "btn-warning" : "btn-danger")">
+                                @(valid > 3 ? "保存" : valid > 0 ? "快過期了" : "過期了")
+                            </span>
                         </div>
                     </div>
                 }

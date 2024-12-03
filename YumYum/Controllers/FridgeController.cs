@@ -102,7 +102,7 @@ namespace YumYum.Controllers
             }
             
 
-            // Add new items  3. a.原有食材 b.克制化石才
+            // Add new items  3. a.原有食材 b.客製化食材
             foreach (var newItem in NewRefrigeratorItems)
             {
                 if (newItem.NewIngredientCreate is null)

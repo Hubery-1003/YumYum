@@ -818,7 +818,7 @@ namespace YumYum.Controllers
         }
 
         //刪除食譜
-        [HttpPost]
+        [HttpDelete]
         public async Task<IActionResult> DeleteRecipe([FromBody] RecipeEdit_Delete RecipeId)
         {
             if (RecipeId == null)

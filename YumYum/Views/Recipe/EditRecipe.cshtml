@@ -746,7 +746,7 @@
         var data = { RecipeId: @Model.recipeWatchBrief[0].RecipeId,};
         $.ajax({
             url: "/Recipe/DeleteRecipe",
-            method: "POST",
+            method: "DELETE",
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (result) {

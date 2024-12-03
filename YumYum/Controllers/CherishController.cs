@@ -133,6 +133,56 @@ namespace YumYum.Controllers
 			return View();
 		}
 
+		[HttpPost]
+		public async Task<IActionResult> UploadImage(IFormFile image1, IFormFile image2, IFormFile image3)
+		{
+			// 依照傳入的檔案，選擇處理對應的圖片
+			IFormFile photo = null;
+
+			if (image1 != null)
+			{
+				photo = image1;
+			}
+			else if (image2 != null)
+			{
+				photo = image2;
+			}
+			else if (image3 != null)
+			{
+				photo = image3;
+			}
+
+			// 檢查是否有檔案被選擇
+			if (photo != null)
+			{
+				// 設定儲存檔案的路徑
+				string filepath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img/cherish", photo.FileName);
+
+				// 確保目錄存在
+				string? directory = Path.GetDirectoryName(filepath);
+				if (!Directory.Exists(directory)) // 如果目錄不存在，會得到 false，前方有! 則變成 true。
+				{
+					Directory.CreateDirectory(filepath);
+				}
+
+				// 儲存檔案
+				using (var stream = new FileStream(filepath, FileMode.Create)) // 使用了 using 關鍵字，表示這個物件會在 using 區塊結束後自動釋放資源。
+				{
+					await photo.CopyToAsync(stream); // 將上傳的影像檔案（photo）的內容複製到剛才創建的 FileStream（即 stream）中。
+				}
+
+				// 返回成功的訊息
+				ViewBag.Message = "照片上傳成功！";
+			}
+			else
+			{
+				ViewBag.Message = "未選擇照片！";
+			}
+
+			// 返回視圖（可以顯示訊息或重新顯示表單）
+			return View("ManageAdd");
+		}
+
 		public IActionResult ManageEdit(int cherishId)
 		{
 			// 設定 Breadcrumb

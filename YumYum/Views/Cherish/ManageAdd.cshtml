@@ -3,12 +3,12 @@
 @await Html.PartialAsync("_PartialBreadcrumb", (List<BreadcrumbItem>)ViewBag.Breadcrumbs)
 @*</div>*@
 
-<!-- 表單標題：即期良食資料 -->
+@* 表單標題：即期良食資料 *@
 <div class="row article-title mt-4 rounded-top">
 	<h3 class="px-4 py-3">填寫即期良食資料</h3>
 </div>
 
-<!-- 表單內容 -->
+@* 表單內容 *@
 <form method="" action="">
 	<div class="row background-white justify-content-center">
 		<div class="row py-4">
@@ -94,12 +94,12 @@
 		</div>
 	</div>
 
-	<!-- 表單標題：即期良食照片 -->
+	@* 表單標題：即期良食照片 *@
 	<div class="row article-title">
 		<h3 class="px-4 py-3">上傳即期良食照片</h3>
 	</div>
 
-	<!-- 表單內容 -->
+	@* 表單內容 *@
 	<div class="row background-white justify-content-center">
 		<div class="row pt-4">
 			<div class="col-4">
@@ -120,10 +120,13 @@
 			<div class="col-4">
 				<img src="/img/icon/condition-photo.png" alt="" class="my-photo rounded">
 				<div class="d-flex justify-content-around pt-3">
-					<button type="button"
-							class="yum-btn set-fs">
-						選擇照片
-					</button>
+					<form method="post" asp-action="UploadImage" enctype="multipart/form-data">
+						<input type="file" id="CherishPhoto" name="image1" accept="image/*" onchange="javascript:this.form.submit();" hidden />
+						<button type="button" id="photo-1"
+								class="yum-btn set-fs">
+							選擇照片AAA
+						</button>
+					</form>
 					<button type="submit" class="yum-btn set-fs">設定成封面</button>
 				</div>
 			</div>
@@ -352,6 +355,12 @@
 			let input = parseInt($("#quantity").prop("value"));
 			input = Math.max(1, input - 1); // 確保不會低於 1
 			$("#quantity").val(input);
+		});
+	</script>
+
+	<script>
+		$("#photo-1").on("click", function(){
+			document.getElementById("CherishPhoto").click();
 		});
 	</script>
 }
