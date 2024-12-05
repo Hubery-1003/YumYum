@@ -1,0 +1,252 @@
+﻿@model YumYum.Models.ViewModels.UserViewModel
+
+@await Html.PartialAsync("_PartialBreadcrumb", (List<BreadcrumbItem>)ViewBag.Breadcrumbs)
+
+<form action="Upload" method="post" enctype="multipart/form-data" hidden>
+	<input type="file" name="file" onchange="javascript:this.form.submit();" id="avatar-upload">
+</form>
+
+<div style="text-align:center" id="user-avatar" class="mb-3">
+	@if (@Model?.HeadShot != null)
+	{
+		<img class="rounded-circle" alt="photo" src="@(@Model?.HeadShot)" height="200" width="200" onerror="this.src='/img/icon/EmptyAvatar.svg';" />
+	}
+	else
+	{
+		@* camera *@
+		<svg height="200" width="200" class="mb-3">
+			@* <circle r="70" cx="75" cy="75" fill="var(--yum-primary-3)" /> *@
+			<image x="0" y="0" width="200" height="200" href="/img/icon/EmptyAvatar.svg" />
+		</svg>
+	}
+	<p class="fw-400 mt-5">此處會顯示在個人頁面的簡介中，可與其他廚友分享你的相關資訊</p>
+</div>
+<div>
+	<div class="card" style="align-items:center;">
+		<br />
+		<form id="urlForm" style="width:90%" asp-action="EditInfo" method="post">
+			<div class="form-group mb-3">
+				<label asp-for="UserNickname" class="form-label fw-600">暱稱</label>
+				<input asp-for="UserNickname" class="form-control" type="text" id="input-nickname" maxlength="16" />
+				<span asp-validation-for="UserNickname" class="text-danger"></span>
+				<p class="textcount fs-6" id="text-nickname">
+					@if (Model?.UserNickname != null)
+					{
+						@(Model?.UserNickname.ToString().Length)
+					}
+					else
+					{
+						<text>0</text>
+					}/16
+				</p>
+			</div>
+
+			<div class="form-group mb-auto">
+				<label asp-for="UserIntro" class="form-label fw-600">個人簡介</label>
+				<textarea asp-for="UserIntro" class="form-control" id="input-intro" style="height: 200px" maxlength="200">									</textarea>
+				<span asp-validation-for="UserIntro" class="text-danger"></span>
+				<p class="textcount fs-6" id="text-intro">
+					@if (Model?.UserIntro != null)
+					{
+						@(Model.UserIntro.ToString().Length)
+					}
+					else
+					{
+						<text>0</text>
+					}/200
+				</p>
+			</div>
+
+			<br />
+			<div class="mb-3">
+				<label class="form-label fw-600">社群帳號</label>
+				<br />
+				<a class="btn btn-outline-secondary tags mb-3" data-bs-toggle="collapse" href="#instagram-info" role="button" aria-expanded="false" aria-controls="instagram-info" id="instagram-edit">
+					<span class="linktext fs-5">
+						<svg height="24" width="22">
+							<image x="0" y="0" width="20" height="20" href="/img/icon/instagram.svg" />
+						</svg>新增/變更Instagram
+					</span>
+				</a>
+				<div class="row">
+					<div class="col">
+						<div class="collapse multi-collapse" id="instagram-info">
+							<div class="row">
+								<div class="col-10">
+									<span class="linktext fs-5">
+										<svg height="22" width="22">
+											<image x="0" y="0" width="20" height="20" href="/img/icon/instagram.svg" />
+										</svg>Instagram
+									</span>
+								</div>
+								<div class="col-2" style="text-align:right">
+									<a class="btn btn-outline-secondary tags" id="close-instagram">
+										<svg height="20" width="20">
+											<image x="0" y="0" width="20" height="20" href="/img/icon/close.svg" />
+										</svg>
+									</a>
+								</div>
+							</div>
+							<div class="row">
+								@* textbox	 *@
+								<div class="col-4  form-group">
+									@* <input type="text" class="form-control" id="input-instagram" placeholder="帳號" value="@Model?.Igaccount"> *@
+									@* <label asp-for="Igaccount" class="form-label fw-600"></label> *@
+									<input asp-for="Igaccount" type="text" class="form-control" id="input-instagram" placeholder="帳號" />
+									<span asp-validation-for="Igaccount" class="text-danger"></span>
+								</div>
+								<div class="col-8"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br />
+				<a class="btn btn-outline-secondary tags mb-3" data-bs-toggle="collapse" href="#facebook-info" role="button" aria-expanded="false" aria-controls="facebook-info" id="facebook-edit">
+					<span class="linktext fs-5">
+						<svg height="24" width="22">
+							<image x="0" y="0" width="20" height="20" href="/img/icon/facebook.svg" />
+						</svg>新增/變更Facebook
+					</span>
+				</a>
+				<div class="row">
+					<div class="col">
+						<div class="collapse multi-collapse" id="facebook-info">
+							<div class="row">
+								<div class="col-10">
+									<span class="linktext fs-5">
+										<svg height="24" width="22">
+											<image x="0" y="0" width="20" height="20" href="/img/icon/facebook.svg" />
+										</svg>Facebook
+									</span>
+								</div>
+								<div class="col-2" style="text-align:right">
+									<a class="btn btn-outline-secondary tags" id="close-facebook">
+										<svg height="20" width="20">
+											<image x="0" y="0" width="20" height="20" href="/img/icon/close.svg" />
+										</svg>
+									</a>
+								</div>
+							</div>
+							<div class="row">
+								@* textbox	 *@
+								<div class="col-4 form-group">
+									@* <input type="text" class="form-control" id="input-facebook-name" placeholder="名稱" value="@Model?.Fbnickname"> *@
+									<input asp-for="Fbnickname" type="text" class="form-control" id="input-facebook-name" placeholder="名稱" />
+									<span asp-validation-for="Fbnickname" class="text-danger"></span>
+								</div>
+								<div class="col-8 form-group">
+									@* <input type="text" class="form-control" id="input-facebook-link" placeholder="輸入連結" value="@Model?.Fblink"> *@
+									<input asp-for="Fblink" type="text" class="form-control" id="input-facebook-link" placeholder="輸入連結" />
+									<span asp-validation-for="Fblink" class="text-danger"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br />
+				<a class="btn btn-outline-secondary tags mb-3" data-bs-toggle="collapse" href="#youtube-info" role="button" aria-expanded="false" aria-controls="youtube-info" id="youtube-edit">
+					<span class="linktext fs-5">
+						<svg height="24" width="22">
+							<image x="0" y="0" width="20" height="20" href="/img/icon/youtube.svg" />
+						</svg>新增/變更Youtube
+					</span>
+				</a>
+				<div class="row">
+					<div class="col">
+						<div class="collapse multi-collapse" id="youtube-info">
+							<div class="row">
+								<div class="col-10">
+									<span class="linktext fs-5">
+										<svg height="22" width="22">
+											<image x="0" y="0" width="20" height="20" href="/img/icon/youtube.svg" />
+										</svg>Youtube
+									</span>
+								</div>
+								<div class="col-2" style="text-align:right" id="close-youtube">
+									<a class="btn btn-outline-secondary tags">
+										<svg height="20" width="20">
+											<image x="0" y="0" width="20" height="20" href="/img/icon/close.svg" />
+										</svg>
+									</a>
+								</div>
+							</div>
+							<div class="row">
+								@* textbox	 *@
+								<div class="col-4 form-group">
+									@* <input type="text" class="form-control" id="input-youtube-name" placeholder="名稱" value="@Model?.YoutuNickname" asp-for="YoutuNickname"> *@
+									<input asp-for="YoutuNickname" type="text" class="form-control" id="input-youtube-name" placeholder="名稱" />
+									<span asp-validation-for="YoutuNickname" class="text-danger"></span>
+								</div>
+								<div class="col-8 form-group">
+									@* <input type="text" class="form-control" id="input-youtube-link" placeholder="輸入連結" value="@Model?.YoutuLink" asp-for="YoutuLink"> *@
+									<input asp-for="YoutuLink" type="text" class="form-control" id="input-youtube-link" placeholder="輸入連結" />
+									<span asp-validation-for="YoutuLink" class="text-danger"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br />
+				<a class="btn btn-outline-secondary tags mb-3" data-bs-toggle="collapse" href="#create-info" role="button" aria-expanded="false" aria-controls="create-info" id="create-edit">
+					<span class="linktext fs-5">
+						<svg height="24" width="22">
+							<image x="0" y="0" width="20" height="20" href="/img/icon/web.svg" />
+						</svg>自訂連結
+					</span>
+				</a>
+				<div class="row">
+					<div class="col">
+						<div id="create-info" class="collapse multi-collapse">
+							@* 標題列+xx *@
+							<div class="row">
+								<div class="col-10">
+									<span class="linktext fs-5">
+										<svg height="22" width="22">
+											<image x="0" y="0" width="20" height="20" href="/img/icon/web.svg" />
+										</svg>自訂連結
+									</span>
+								</div>
+								<div class="col-2" style="text-align:right" id="close-create">
+									<a class="btn btn-outline-secondary tags">
+										<svg height="22" width="22">
+											<image x="0" y="0" width="20" height="20" href="/img/icon/close.svg" />
+										</svg>
+									</a>
+								</div>
+							</div>
+							<div class="row">
+								@* textbox	 *@
+								<div class="col-4 form-group">
+									@* <input type="text" class="form-control" id="input-create-name" placeholder="名稱" value="@Model?.WebNickName"> *@
+									<input asp-for="WebNickName" type="text" class="form-control" id="input-create-name" placeholder="名稱" />
+									<span asp-validation-for="WebNickName" class="text-danger"></span>
+								</div>
+								<div class="col-8 form-group">
+									<input asp-for="WebLink" type="text" class="form-control" id="input-create-link" placeholder="輸入連結" />
+									<span asp-validation-for="WebLink" class="text-danger"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br />
+			</div>
+			<input type="hidden" asp-for="UserId" />
+			<button id="btn-save" class="yum-btn mb-3" type="submit" for="urlForm">
+				儲存更新
+			</button>
+		</form>
+	</div>
+</div>
+
+
+
+<script src="~/js/shared/jquery.js"></script>
+<script src="~/js/user/EditInfo.js"></script>
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}
+
+
