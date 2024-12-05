@@ -1,4 +1,12 @@
-﻿@* 標示目前所在頁面路徑位置 *@
+﻿@{
+	IQueryable<IngredAttribute> foodtypelist = ViewBag.IngredientTypeList;
+	IQueryable<City> citylist = ViewBag.CityList;
+	Dictionary<string, string> days = ViewBag.Days;
+	Dictionary<int, string> times = ViewBag.Times;
+	// List<string> tradetimes = ViewBag.TradeTimes;
+}
+
+@* 標示目前所在頁面路徑位置 *@
 @*<div class="mt-2 mb-3">*@
 @await Html.PartialAsync("_PartialBreadcrumb", (List<BreadcrumbItem>)ViewBag.Breadcrumbs)
 @*</div>*@
@@ -9,86 +17,85 @@
 </div>
 
 @* 表單內容 *@
-<form method="" action="">
+<form method="post" action="ManageAdd">
 	<div class="row background-white justify-content-center">
+		<input type="number" name="GiverUserId" value="@ViewBag.UserId" hidden>
 		<div class="row py-4">
 			<div class="row">
-				<!-- 食材類型 -->
+				@* 食材類型 *@
 				<div class="col-3">
-					<label for="ingredAttribute" class="form-label">食材分類</label>
-					<select class="form-select" id="ingredAttribute" required>
-						<option>-- 食材分類 --</option>
-						<option value="">全穀雜糧類</option>
-						<option value="">蔬菜類</option>
-						<option value="">水果類</option>
-						<option value="">油與堅果類</option>
+					<label for="IngredAttributeId" class="form-label">食材分類</label>
+					<select class="form-select" id="IngredAttributeId" name="IngredAttributeId" required>
+						<option value="">-- 選擇食材分類 --</option>
+						@{
+							foreach (IngredAttribute foodtype in foodtypelist)
+							{
+								<option value="@foodtype.IngredAttributeId">@foodtype.IngredAttributeName</option>
+							}
+						}
 					</select>
 					<div class="invalid-feedback">
 						此為必填欄位
 					</div>
 				</div>
-				<!-- 食材名稱 -->
+				@* 食材名稱 *@
 				<div class="col-3">
-					<label for="ingredient" class="form-label">食材名稱</label>
-					<select class="form-select" id="ingredient">
-						<option>-- 食材名稱 --</option>
-						<option value="">麵包</option>
-						<option value="">青蔥</option>
-						<option value="">橘子</option>
-						<option value="">堅果</option>
+					<label for="IngredientId" class="form-label">食材名稱</label>
+					<select class="form-select" id="IngredientId" name="IngredientId" required>
+						<option value="">-- 選擇食材名稱 --</option>
 					</select>
 					<div class="invalid-feedback">
 						此為必填欄位
 					</div>
 				</div>
-				<!-- 數量 -->
+				@* 數量 *@
 				<div class="col-3">
-					<label for="quantity" class="form-label">數量</label>
+					<label for="Quantity" class="form-label">數量</label>
 					<div class="input-group">
 						@*<button class="yum-btn" type="button" id="decrease-btn">-</button>*@
-						<input type="number" class="form-control text-center" value="1" id="quantity" min="1">
+						<input type="number" class="form-control text-center" value="1" id="Quantity" name="Quantity" min="1" required>
 						@*<button class="yum-btn" type="button" id="increase-btn">+</button>*@
 					</div>
 					<div class="invalid-feedback">
 						此為必填欄位
 					</div>
 				</div>
-				<!-- 截止日 -->
+				@* 截止日期 *@
 				<div class="col-3">
-					<label for="endDate" class="form-label">截止日</label>
+					<label for="EndDate" class="form-label">截止日期</label>
 					<br>
-					<input type="date" id="endDate" class="form-control w-100">
+					<input type="date" id="EndDate" name="EndDate" class="form-control w-100" required>
 					<div class="invalid-feedback">
 						此為必填欄位
 					</div>
 				</div>
 			</div>
 			<div class="row pt-3">
-				<!-- 食材來源 -->
+				@* 食材來源 *@
 				<div class="col-3">
-					<label for="obtain-source" class="form-label">食材來源</label>
-					<input type="text" class="form-control my-input" id="obtain-source" placeholder="超市、傳統市場、自行採收">
+					<label for="ObtainSource" class="form-label">食材來源</label>
+					<input type="text" class="form-control my-input" id="ObtainSource" name="ObtainSource" placeholder="超市、傳統市場、自行採收" required>
 					<div class="invalid-feedback">
 						此為必填欄位
 					</div>
 				</div>
-				<!-- 購買日期 或 採收日期 -->
+				@* 購買日期 或 採收日期 *@
 				<div class="col-3">
-					<label for="obtain-date" class="form-label">購買日期 或 採收日期</label>
+					<label for="ObtainDate" class="form-label">購買日期 或 採收日期</label>
 					<br>
-					<input type="date" id="obtain-date" class="form-control w-100">
+					<input type="date" id="ObtainDate" name="ObtainDate" class="form-control w-100">
 				</div>
 				@* 有效期限 *@
-				@*<div class="col-3">
-					<label for="valid-date" class="form-label">有效期限</label>
+				<div class="col-3">
+					<label for="CherishValidDate" class="form-label">有效期限</label>
 					<br>
-					<input type="date" id="valid-date" class="form-control w-100">
-				</div>*@
+					<input type="date" id="CherishValidDate" name="CherishValidDate" class="form-control w-100">
+				</div>
 				@* 預定上架日期 *@
 				@*<div class="col-3">
-				<label for="reserve-date" class="form-label">選擇預定上架日期</label>
+				<label for="ReserveDate" class="form-label">選擇預定上架日期</label>
 				<br>
-				<input type="date" id="reserve-date" class="form-control w-100">
+				<input type="date" id="ReserveDate" name="ReserveDate" class="form-control w-100">
 				</div>*@
 			</div>
 		</div>
@@ -120,13 +127,13 @@
 			<div class="col-4">
 				<img src="/img/icon/condition-photo.png" alt="" class="my-photo rounded">
 				<div class="d-flex justify-content-around pt-3">
-					<form method="post" asp-action="UploadImage" enctype="multipart/form-data">
-						<input type="file" id="CherishPhoto" name="image1" accept="image/*" onchange="javascript:this.form.submit();" hidden />
-						<button type="button" id="photo-1"
-								class="yum-btn set-fs">
-							選擇照片AAA
-						</button>
-					</form>
+					@* <form method="post" asp-action="UploadImage" enctype="multipart/form-data"> *@
+					<input type="file" id="CherishPhoto" name="image1" accept="image/*" onchange="javascript:this.form.submit();" hidden />
+					<button type="button" id="photo-1"
+							class="yum-btn set-fs">
+						選擇照片
+					</button>
+					@* </form> *@
 					<button type="submit" class="yum-btn set-fs">設定成封面</button>
 				</div>
 			</div>
@@ -146,57 +153,60 @@
 		</div>
 	</div>
 
-	<!-- 表單標題：聯絡方式 -->
+	@* 表單標題：聯絡方式 *@
 	<div class="row article-title">
 		<div class="ps-4">
 			<h3 class="py-3">留下您的聯絡方式</h3>
 		</div>
 	</div>
 
-	<!-- 表單內容 -->
+	@* 表單內容 *@
 	<div class="row background-white mb-4 rounded-bottom">
 		<div class="d-flex justify-content-center py-4">
 			<button class="yum-btn">帶入填寫聯絡資料</button>
 		</div>
 		<div class="row">
 			<div class="col-6">
-				<!-- 暱稱欄位 -->
+				@* 暱稱欄位 *@
 				<div class="col">
-					<label for="nick-name" class="form-label">暱稱</label>
-					<input type="text" class="form-control my-input" id="nick-name" placeholder="如何稱呼您">
+					<label for="UserNickname" class="form-label">暱稱</label>
+					<input type="text" class="form-control my-input" id="UserNickname" name="UserNickname" placeholder="如何稱呼您" required>
 					<div class="invalid-feedback">
-						<!-- 查怎麼實作 -->
 						此為必填欄位
 					</div>
 				</div>
 
-				<!-- 面交地區 -->
-				<label for="city" class="form-label mt-3">面交地區</label>
+				@* 面交地區 *@
+				<label for="TradeCityKey" class="form-label mt-3">面交地區</label>
 				<div class="row">
 					<div class="col-6">
-						<select class="form-select" id="city">
-							<option>-- 縣市 --</option>
-							<option value="">臺中市</option>
+						<select class="form-select" id="TradeCityKey" name="TradeCityKey" required>
+							<option value="">-- 選擇縣市 --</option>
+							@{
+								foreach (City city in citylist)
+								{
+									<option value="@city.CityKey">@city.CityName</option>
+								}
+							}
 						</select>
 						<div class="invalid-feedback">
 							此為必填欄位
 						</div>
 					</div>
 					<div class="col-6">
-						<select class="form-select" id="region">
-							<option>-- 鄉鎮市區 --</option>
-							<option value="">南屯區</option>
+						<select class="form-select" id="TradeRegionId" name="TradeRegionId" required>
+							<option value="">-- 選擇鄉鎮市區 --</option>
 						</select>
-						<!-- <div class="invalid-feedback">
+						@* <div class="invalid-feedback">
 								此為必填欄位
-							</div> -->
+							</div> *@
 					</div>
 				</div>
 
-				<!-- 聯絡方式 -->
+				@* 聯絡方式 *@
 				<label for="ContactLine" class="form-label mt-3">聯絡方式</label>
 				<span class="fs-6" style="color: var(--yum-secondary-1);">（請至少提供一種）</span>
-				<!-- LINE -->
+				@* LINE *@
 				<div div class="col">
 					<label for="ContactLine" class="form-label ms-1">
 						<svg viewBox="0 0 512 512">
@@ -204,120 +214,52 @@
 						</svg>
 						LINE
 					</label>
-					<input type="text" class="form-control my-input" id="ContactLine" placeholder="輸入 LINE ID">
+					<input type="text" class="form-control my-input" id="ContactLine" name="ContactLine" placeholder="輸入 LINE ID">
 				</div>
-				<!-- 電話號碼 -->
+				@* 電話號碼 *@
 				<div div class="col mt-3">
-					<!-- preserveAspectRatio="xMidYMid meet" -->
 					<label for="ContactPhone" class="form-label ms-1">
 						<svg viewBox="0 0 512 512">
 							<path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z" />
 						</svg>
 						電話號碼
 					</label>
-					<input type="text" class="form-control my-input" id="ContactPhone"
+					<input type="text" class="form-control my-input" id="ContactPhone" name="ContactPhone"
 						   placeholder="輸入 手機號碼 或 室內電話">
 				</div>
 			</div>
 
-			<!-- 面交時段 -->
+			@* 面交時段 *@
 			<div class="col-6">
-				<label for="trade-time" class="form-label">面交時段</label>
+				<label for="" class="form-label">面交時段</label>
 				<div class="d-flex justify-content-around pb-3">
-					<button type="button" class="yum-btn set-fs">平日</button>
-					<button type="button" class="yum-btn set-fs">假日</button>
-					<button type="button" class="yum-btn set-fs">所有早上</button>
-					<button type="button" class="yum-btn set-fs">所有下午</button>
-					<button type="button" class="yum-btn set-fs">所有晚上</button>
+					<button type="button" class="yum-btn set-fs" id="weekday">平日</button>
+					<button type="button" class="yum-btn set-fs" id="holiday">假日</button>
+					<button type="button" class="yum-btn set-fs" id="all-morning">所有早上</button>
+					<button type="button" class="yum-btn set-fs" id="all-afternoon">所有下午</button>
+					<button type="button" class="yum-btn set-fs" id="all-evening">所有晚上</button>
 				</div>
-				<div class="d-flex justify-content-around pb-3">
-					<label for="">星期一</label>
-					<div>
-						<input type="checkbox"> 早上
-					</div>
-					<div>
-						<input type="checkbox"> 下午
-					</div>
-					<div>
-						<input type="checkbox"> 晚上
-					</div>
-				</div>
-				<div class="d-flex justify-content-around pb-3">
-					<label for="">星期二</label>
-					<div>
-						<input type="checkbox"> 早上
-					</div>
-					<div>
-						<input type="checkbox"> 下午
-					</div>
-					<div>
-						<input type="checkbox"> 晚上
-					</div>
-				</div>
-				<div class="d-flex justify-content-around pb-3">
-					<label for="">星期三</label>
-					<div>
-						<input type="checkbox"> 早上
-					</div>
-					<div>
-						<input type="checkbox"> 下午
-					</div>
-					<div>
-						<input type="checkbox"> 晚上
-					</div>
-				</div>
-				<div class="d-flex justify-content-around pb-3">
-					<label for="">星期四</label>
-					<div>
-						<input type="checkbox"> 早上
-					</div>
-					<div>
-						<input type="checkbox"> 下午
-					</div>
-					<div>
-						<input type="checkbox"> 晚上
-					</div>
-				</div>
-				<div class="d-flex justify-content-around pb-3">
-					<label for="">星期五</label>
-					<div>
-						<input type="checkbox"> 早上
-					</div>
-					<div>
-						<input type="checkbox"> 下午
-					</div>
-					<div>
-						<input type="checkbox"> 晚上
-					</div>
-				</div>
-				<div class="d-flex justify-content-around pb-3">
-					<label for="">星期六</label>
-					<div>
-						<input type="checkbox"> 早上
-					</div>
-					<div>
-						<input type="checkbox"> 下午
-					</div>
-					<div>
-						<input type="checkbox"> 晚上
-					</div>
-				</div>
-				<div class="d-flex justify-content-around">
-					<label for="">星期日</label>
-					<div>
-						<input type="checkbox"> 早上
-					</div>
-					<div>
-						<input type="checkbox"> 下午
-					</div>
-					<div>
-						<input type="checkbox"> 晚上
-					</div>
-				</div>
+				@{
+					foreach (var day in days)
+					{
+						<div class="d-flex justify-content-around pb-3">
+							<label>@day.Value</label>
+							@{
+								foreach (var time in times)
+								{
+									<div>
+										<input type="checkbox" id="@($"{day.Key}-{time.Key}")" value="@($"{day.Key}-{time.Key}")" name="AvailableTime">
+										<label for="@($"{day.Key}-{time.Key}")">@time.Value</label>
+									</div>
+								}
+							}
+						</div>
+					}
+				}
 			</div>
 		</div>
 
-		<!-- 其他聯絡方式 -->
+		@* 其他聯絡方式 *@
 		<div class="row mt-3">
 			<div class="col">
 				<label for="ContactOther" class="form-label ms-1">
@@ -326,10 +268,10 @@
 					</svg>
 					其他聯絡方式
 				</label>
-				<input type="text" class="form-control my-input" id="ContactOther" placeholder="輸入 其他聯絡方式">
+				<input type="text" class="form-control my-input" id="ContactOther" name="ContactOther" placeholder="輸入 其他聯絡方式">
 			</div>
 		</div>
-		<!-- 提交、返回按鈕 -->
+		@* 提交、返回按鈕 *@
 		<div class="row justify-content-center py-4">
 			<div class="col-2 text-center">
 				<a href="@Url.Action("Manage", "Cherish")" class="back-btn set-fs">返回</a>
@@ -338,7 +280,7 @@
 				<button type="submit" class="yum-btn set-fs">提交</button>
 			</div>
 		</div>
-		<!-- form 的結束 -->
+		@* form 的結束 *@
 	</div>
 </form>
 @section scripts {
@@ -358,9 +300,93 @@
 		});
 	</script>
 
+	@* <script>
+			$("#photo-1").on("click", function () {
+				document.getElementById("CherishPhoto").click();
+			});
+		</script> *@
+
 	<script>
-		$("#photo-1").on("click", function(){
-			document.getElementById("CherishPhoto").click();
+		var selectedAttribute = $("#IngredAttributeId").val();
+		// console.log(selectedAttribute);
+		// setIngredient(selectedAttribute);
+
+		$("#IngredAttributeId").on("change", function () {
+			selectedAttribute = $(this).val();
+			// console.log(selectedAttribute);
+			setIngredient(selectedAttribute);
+		});
+
+		function setIngredient(attributeId) {
+			$("#IngredientId").empty();
+			$.ajax({
+				url: '/Cherish/GetIngredients',
+				method: 'GET',
+				data: { IngredAttributeId: attributeId },
+				success: function (data) {
+					// console.log(data);
+					$("#IngredientId").append("<option value=\"\">-- 選擇食材名稱 --</option>")
+					$("#IngredientId").append(data)
+				}
+			});
+		}
+	</script>
+
+	<script>
+		var selectedCity = $("#TradeCityKey").val();
+		// console.log(selectedCity);
+		// setRegion(selectedCity);
+
+		$("#TradeCityKey").on("change", function () {
+			selectedCity = $(this).val();
+			// console.log(selectedCity);
+			setRegion(selectedCity);
+		});
+
+		function setRegion(cityId) {
+			$("#TradeRegionId").empty();
+			$.ajax({
+				url: '/Cherish/GetRegions',
+				method: 'GET',
+				data: { CityKey: cityId },
+				success: function (data) {
+					// console.log(data);
+					$("#TradeRegionId").append("<option value=\"\">-- 選擇鄉鎮市區 --</option>")
+					$("#TradeRegionId").append(data)
+				}
+			});
+		}
+	</script>
+
+	<script>
+		// 平日按鈕
+		$("#weekday").on("click", function () {
+			$('#Mon-1, #Mon-2, #Mon-3').prop('checked', true);
+			$('#Tue-1, #Tue-2, #Tue-3').prop('checked', true);
+			$('#Wes-1, #Wes-2, #Wes-3').prop('checked', true);
+			$('#Thr-1, #Thr-2, #Thr-3').prop('checked', true);
+			$('#Fri-1, #Fri-2, #Fri-3').prop('checked', true);
+		});
+
+		// 假日按鈕
+		$("#holiday").on("click", function () {
+			$('#Sat-1, #Sat-2, #Sat-3').prop('checked', true);
+			$('#Sun-1, #Sun-2, #Sun-3').prop('checked', true);
+		});
+
+		// 所有早上
+		$("#all-morning").on("click", function () {
+			$('#Mon-1, #Tue-1, #Wes-1, #Thr-1, #Fri-1, #Sat-1, #Sun-1').prop('checked', true);
+		});
+
+		// 所有下午
+		$("#all-afternoon").on("click", function () {
+			$('#Mon-2, #Tue-2, #Wes-2, #Thr-2, #Fri-2, #Sat-2, #Sun-2').prop('checked', true);
+		});
+
+		// 所有晚上
+		$("#all-evening").on("click", function () {
+			$('#Mon-3, #Tue-3, #Wes-3, #Thr-3, #Fri-3, #Sat-3, #Sun-3').prop('checked', true);
 		});
 	</script>
 }

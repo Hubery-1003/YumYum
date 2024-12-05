@@ -22,13 +22,13 @@ else
 					@* 食材名稱、數量、截止日期 *@
 					<div class="col-4 fs-5 order-item">@order.IngredientName</div>
 					<div class="col-2 text-center">數量 <span>@order.Quantity</span></div>
-					<div class="col-6 text-end">截止日期 <span>@order.EndDate.ToString("yyyy.MM.dd")</span></div>
+					<div class="col-6 text-end">截止日期 <span>@order.EndDate.ToString("yyyy-MM-dd")</span></div>
 				</div>
 				<div class="d-flex justify-content-between pt-4">
 					@* 購買日期、食材分類標籤 *@
 					<label class="col-7">
 						購買日期 或 採收日期
-						<span class="ps-4">@order.ObtainDate.ToString("yyyy.MM.dd")</span>
+						<span class="ps-4">@order.ObtainDate.ToString("yyyy-MM-dd")</span>
 					</label>
 					<label class="btn yum-btn align-items-end">@order.IngredAttributeName</label>
 				</div>
@@ -37,7 +37,7 @@ else
 					<label class="col-7 d-flex justify-content-between">
 						有效期限
 						<span></span>
-						<span class="pe-1">@(order.CherishValidDate != null ? ((DateOnly)order.CherishValidDate!).ToString("yyyy.MM.dd") : "無備註")</span>
+						<span class="pe-1">@(order.CherishValidDate != null ? ((DateOnly)order.CherishValidDate!).ToString("yyyy-MM-dd") : "無備註")</span>
 					</label>
 				</div>
 				<div class="d-flex pt-4" style="position: relative;">

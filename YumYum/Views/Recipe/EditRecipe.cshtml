@@ -131,11 +131,11 @@
                                         {
                                             if (reingred.unitId == unit.UnitId)
                                             {
-                                                <option id="@unit.UnitId" selected>@unit.UnitName</option>
+                                                    <option id="@unit.UnitId" selected>@unit.UnitName</option>
                                             }
                                             else
                                             {
-                                                <option id="@unit.UnitId">@unit.UnitName</option>
+                                                    <option id="@unit.UnitId">@unit.UnitName</option>
                                             }
 
                                         }
@@ -169,11 +169,11 @@
                         <p class="m-0 mt-1" style="font-size: 1.5rem;">@($"STEP0{item.RecipeField}")</p>
                     </div>
                     <div class="card-body" style="width:286px;height:152px">
-                        <textarea class="card-text" style="width:100%;height:100%;border-color:transparent">@item.FieldDescript</textarea>
+                        <textarea id="step-text01" class="card-text" style="width:100%;height:100%;border-color:transparent">@item.FieldDescript</textarea>
                     </div>
                 </div>
                 <div id="step-countdiv01" class="d-flex" style="margin-right:260px">
-                    <label id="step-count01" class="d-flex ms-auto">0/100</label>
+                    <label id="step-count01" class="d-flex ms-auto">@item.FieldDescript!.Length/100</label>
                 </div>
                 if (item.RecipeField == Model.recipeRecordFields.Count - 1)
                 {
@@ -192,11 +192,11 @@
                         <p class="m-0 mt-1" style="font-size: 1.5rem;">@($"STEP0{item.RecipeField}")</p>
                     </div>
                     <div class="card-body" style="width:286px;height:152px">
-                        <textarea class="card-text" style="width:100%;height:100%;border-color:transparent">@item.FieldDescript</textarea>
+                        <textarea id=@($"step-text0{item.RecipeField}") class="card-text" style="width:100%;height:100%;border-color:transparent">@item.FieldDescript</textarea>
                     </div>
                 </div>
                 <div id=@($"step-countdiv0{item.RecipeField}") class="d-flex" style="margin-right: 260px">
-                    <label id="step-count0${steps}" class="d-flex ms-auto">0/100</label>
+                    <label id=@($"step-count0{item.RecipeField}") class="d-flex ms-auto">@item.FieldDescript!.Length/100</label>
                 </div>
 
                 if (item.RecipeField == Model.recipeRecordFields.Count - 1)
@@ -222,11 +222,11 @@
                         <p class="m-0 mt-1" style="font-size: 1.5rem;">@($"STEP0{item.RecipeField}")</p>
                     </div>
                     <div class="card-body" style="width:286px;height:152px">
-                        <textarea class="card-text" style="width:100%;height:100%;border-color:transparent">@item.FieldDescript</textarea>
+                        <textarea id=@($"step-text0{item.RecipeField}") class="card-text" style="width:100%;height:100%;border-color:transparent">@item.FieldDescript</textarea>
                     </div>
                 </div>
                 <div b-wbveynjuki class="d-flex" id=@($"step-countdiv0{item.RecipeField}") style="margin-right:146px">
-                    <label b-wbveynjuki id="step-count0${steps}" class="d-flex ms-auto">0/100</label>
+                    <label b-wbveynjuki id=@($"step-count0{item.RecipeField}") class="d-flex ms-auto">@item.FieldDescript!.Length/100</label>
                 </div>
                 if (item.RecipeField == Model.recipeRecordFields.Count - 1)
                 {
@@ -247,11 +247,11 @@
                         <p class="m-0 mt-1" style="font-size: 1.5rem;">@($"STEP0{item.RecipeField}")</p>
                     </div>
                     <div class="card-body" style="width:286px;height:152px">
-                        <textarea class="card-text" style="width:100%;height:100%;border-color:transparent">@item.FieldDescript</textarea>
+                        <textarea id=@($"step-text0{item.RecipeField}") class="card-text" style="width:100%;height:100%;border-color:transparent">@item.FieldDescript</textarea>
                     </div>
                 </div>
                 <div b-wbveynjuki class="d-flex" id=@($"step-countdiv0{item.RecipeField}") style="margin-right:146px">
-                    <label b-wbveynjuki id="step-count0${steps}" class="d-flex ms-auto">0/100</label>
+                    <label b-wbveynjuki id=@($"step-count0{item.RecipeField}") class="d-flex ms-auto">@item.FieldDescript!.Length/100</label>
                 </div>
                 if (item.RecipeField == Model.recipeRecordFields.Count - 1)
                 {
@@ -761,4 +761,18 @@
 
         })
     })
+
+    
+    
 </script>
+
+@foreach (var item in Model.recipeRecordFields)
+{
+    <!--字數技數-->
+    <script>
+        $('@($"#step-text0{item.RecipeField}")').on('input', function () {
+            $('@($"#step-count0{item.RecipeField}")').text(`${$(this).val().length}/100`)
+        })
+    </script>
+
+}

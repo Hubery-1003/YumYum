@@ -1,11 +1,4 @@
-﻿//字數計數
-$('#step-text01').on('input', function () {
-    $('#step-count01').text(`${$('#step-text01').val().length}/100`);
-})
-
-$('#step-text02').on('input', function () {
-    $('#step-count02').text(`${$('#step-text02').val().length}/100`);
-})
+﻿
 
 $('#recipe-introduction').on('input', function () {
     $('#recipe-introcount').text(`${$('#recipe-introduction').val().length}/100`);

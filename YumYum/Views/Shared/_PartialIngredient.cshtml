@@ -1,0 +1,8 @@
+﻿@model List<Ingredient>
+
+@{
+	foreach (Ingredient ingredient in Model)
+	{
+		<option value="@ingredient.IngredientId">@ingredient.IngredientName</option>
+	}
+}
