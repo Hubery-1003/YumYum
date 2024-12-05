@@ -80,7 +80,7 @@
                 <p class="m-2 mt-0 text-big">食譜名稱：</p>
                 <input class="px-3 py-1" id="recipe-name" type="text" style="width: 100%; border-radius: 4px;font-size: 1.25rem;height: 42px;border:1px solid var(--yum-secondary-4)" placeholder="字數限制-15字" value="@Model.recipeWatchBrief[0].recipeName">
                 <div class="d-flex">
-                    <label id="recipe-namecount" class="d-flex ms-auto">0/15</label>
+                    <label id="recipe-namecount" class="d-flex ms-auto">@Model.recipeWatchBrief[0].recipeName!.Length/15</label>
                 </div>
             </div>
             <!-- 簡介 -->
@@ -89,7 +89,7 @@
                 <textarea id="recipe-introduction" class="p-3" style="width: 100%; border-radius: 4px;font-size: 1.25rem;border:1px solid var(--yum-secondary-4)" rows="7"
                           maxlength="100" placeholder="字數限制-100字">@Model.recipeRecordFields[0].FieldDescript</textarea>
                 <div class="d-flex">
-                    <label id="recipe-introcount" class="d-flex ms-auto">0/100</label>
+                    <label id="recipe-introcount" class="d-flex ms-auto">@Model.recipeRecordFields[0].FieldDescript!.Length/100</label>
                 </div>
 
             </div>

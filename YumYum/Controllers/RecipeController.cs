@@ -678,13 +678,14 @@ namespace YumYum.Controllers
             var myIngredientDatas = await _context.RecipeIngredients.Where(p => p.RecipeId == recipeIDshort).ToDictionaryAsync(p => p.IngredientId);
             foreach (var data in saveData.recipeIngredients)
             {
-
+                //如果是修改食材的單位及數量(嘗試從剛剛LINQ查詢完的RecipeIngredient資料抓抓看資料，抓到代表已經在食譜食材裡了，就改內容就好)
                 if (myIngredientDatas.TryGetValue(data.IngredientId, out var myIngredientData))
                 {
                     myIngredientData.Quantity = data.Quantity;
                     myIngredientData.UnitId = data.UnitId;
 
                 }
+                //沒有的話代表沒找到資料，就新增進去
                 else
                 {
                     _context.RecipeIngredients.Add(data);
