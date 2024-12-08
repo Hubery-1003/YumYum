@@ -6,6 +6,7 @@ using System.Text.Json;
 using YumYum.Models;
 using YumYum.Models.Recipe;
 using YumYum.Models.ViewModels;
+using Microsoft.Extensions.Configuration;
 
 namespace YumYum.Controllers
 {
@@ -15,11 +16,15 @@ namespace YumYum.Controllers
         private readonly YumYumDbContext _context;
         //用來取得根目錄
         private readonly IWebHostEnvironment _webHostEnvironment;
+        //用來取得appsetting設置
+        private readonly IConfiguration _configuration;
 
-        public RecipeController(YumYumDbContext context, IWebHostEnvironment webHostEnvironment)
+
+        public RecipeController(YumYumDbContext context, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
+            _configuration = configuration;
         }
 
         //Index

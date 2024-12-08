@@ -17,7 +17,11 @@ builder.Services.AddCors(options =>
         .AllowAnyMethod();
     });
 });
+// 加載基礎配置
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
+// 加載環境專用配置
+builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true);
 // Add services to the container.
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>

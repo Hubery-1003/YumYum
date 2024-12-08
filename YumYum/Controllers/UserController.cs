@@ -5,17 +5,21 @@ using System.Net.Mail;
 using System.Net;
 using YumYum.Models;
 using YumYum.Models.ViewModels;
-
+using Microsoft.Extensions.Configuration;
 namespace YumYum.Controllers
 {
     public class UserController : Controller
     {
         //引用資料庫
         private readonly YumYumDbContext _context;
+        //用來取得appsetting設置
+        private readonly IConfiguration _configuration;
 
-        public UserController(YumYumDbContext context)
+
+        public UserController(YumYumDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
 
@@ -479,7 +483,7 @@ namespace YumYum.Controllers
                     var smtpClient = new SmtpClient("smtp.gmail.com")
                     {
                         Port = 587,
-                        Credentials = new NetworkCredential("yumyumService@gmail.com", "keiqmcldmxuiqmon"),
+                        Credentials = new NetworkCredential("yumyumService@gmail.com", _configuration["Smtp:Password"]),
                         EnableSsl = true,
                     };
                     // 設定郵件內容
@@ -563,7 +567,7 @@ namespace YumYum.Controllers
                 var smtpClient = new SmtpClient("smtp.gmail.com")
                 {
                     Port = 587,
-                    Credentials = new NetworkCredential("yumyumService@gmail.com", "keiqmcldmxuiqmon"),
+                    Credentials = new NetworkCredential("yumyumService@gmail.com", _configuration["Smtp:Password"]),
                     EnableSsl = true,
                 };
                 // 設定郵件內容
