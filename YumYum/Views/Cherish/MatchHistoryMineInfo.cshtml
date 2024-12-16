@@ -33,8 +33,9 @@
 							@* <img src="/img/cherish/1.jpg" class="p-3 img-fluid" alt="Food"> *@
 						</div>
 						<div class="col-8 p-3">
-							<div class="d-flex justify-content-between mt-3 mb-3">
-							<h5 class="fw-bold d-inline-block">@Model[0].IngredientName @Model[0].CherishId</h5>
+						<div class="d-flex justify-content-between mt-3 mb-3">
+							@*@Model[0].CherishId*@
+							<h5 class="fw-bold d-inline-block">@Model[0].IngredientName </h5>
 						<div>數量: @Model[0].Quantity</div>
 								<div>
 							<div>截止日期: @Model[0].EndDate.ToString("yyyy.MM.dd")</div>
