@@ -1,0 +1,22 @@
+{
+
+}
+
+
+	{
+		saveChange:[{ID:,UNitID:,Quantity:},{},{}],
+		newID:[{NAME:,UNitID:,Quantity:}]
+	}
+ 
+
+{  
+	cherishid:   ,
+	TradeStatusCode:   ,
+   	ReasonID:   ,
+   	RejectText:  
+}
+
+
+ 有退回      	有 reasonID + rejectText
+ 有請修改 	有 reasonID 
+ 

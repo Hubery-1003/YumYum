@@ -1,0 +1,25 @@
+﻿@model IEnumerable<yum_admin.Models.ViewModels.IngredientInfo>
+
+
+@foreach (var item in Model)
+{
+	<tr class="right-tr">
+		<td>
+			<input type="checkbox" name="name" value="@(item.id)" />
+		</td>
+		<td style="width:5rem;">
+			@if (!string.IsNullOrEmpty(item.icon) && item.icon.StartsWith('/'))
+			{
+				<img src="@Url.Content($"~{item.icon}")" alt="Ingredient Icon" width="30" />
+			}
+		</td>
+		<td style="width:7rem;">
+			@Html.DisplayFor(modelItem => item.name)
+		</td>
+		<td style="width:10rem;">
+			@Html.DisplayFor(modelItem => item.attrName)
+		</td>
+		<td>
+		</td>
+	</tr>
+}

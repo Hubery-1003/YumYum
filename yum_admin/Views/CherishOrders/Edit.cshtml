@@ -1,0 +1,344 @@
+﻿@using yum_admin.Models.DataTransferObject
+@model Cherish_CheckDto
+
+@{
+    var c = Model;
+    string date = DateTime.Now.ToString("hh-mm-ss");
+}
+<link href="~/css/Cherish/edit.css?@date" rel="stylesheet" />
+<div class="mx-auto mt-4" style="width:1120px">
+    <input id="orderID" value="@c.CherishId" hidden />
+
+    @* 	<h5 class="ps-5">詳細資訊</h5> *@
+
+    @* 第一個表頭區塊  *@
+    <div class="rounded-1 shadow d-flex p-3 mb-3" style="height:4.1rem; border:1px solid #aaaaaaa0">
+
+        <h4 class="text-center" style="flex-basis:10%;">@c.TradeStateDescript</h4>
+        <div class="text-center" style="flex-basis:10%">|</div>
+
+        <h4 class="text-start" style="flex-basis:10%;">@c.IngredientName</h4>
+        <div class="text-center" style="flex-basis:40%"></div>
+
+        <div class="text-end" style="flex-basis:40%">
+            異動日期 @(c.ModifyDate.ToString("yyyy-MM-dd"))
+        </div>
+    </div>
+
+    @* 第二個文字區塊  *@
+    <div class="my-2 px-5 position-relative">
+        <h4 class="d-inline-block">
+            @{
+                string text = (c.TradeStateCode == 0 || c.TradeStateCode == 2) ? "已通過" : "審查中";
+                if (c.TradeStateCode == 3) { text = "退回"; };
+                if (c.TradeStateCode == 5) { text = "無需作業"; };
+            }
+
+            備註：@((c.ReasonText is not null ? c.ReasonText : (c.RejectText is not null ? c.RejectText : text)))
+
+        </h4>
+        @*
+        <h5 class="d-inline-block position-absolute end-0 pe-5 pt-1">預定上架日期：@(c.ReserveDate is not null ? ((DateTime)c.ReserveDate!).ToString("yyyy-MM-ss HH:mm") : "無備註")</h5>
+        *@
+
+    </div>
+
+    @* 第三個表頭區塊  切左右 *@
+    <div class="d-flex">
+
+        @* 左邊 食材資料 *@
+        <div style="flex-basis:48%;">
+
+            <!-- 表頭方塊 -->
+            <div class="rounded-1 shadow d-flex px-5 py-1 mb-3" style="border:1px solid #aaaaaaa0">
+                <h4 class="my-2">1. 惜食資料</h4>
+            </div>
+
+            <!-- 食材資料標題 -->
+            <div class="d-flex mb-2">
+                <span class="px-5 fs-4" style="flex-basis:33%;">@c.IngredientName</span>
+                <span class=" fs-4 text-center" style="flex-basis:33%;width:8rem;">@c.IngredAttributeName</span>
+                <span class="px-5 fs-4" style="flex-basis:33%;">數量 @c.Quantity</span>
+            </div>
+
+            <!-- 食材來源 -->
+            <div class="px-5 my-0 w-100"><p class="col-3 m-0 d-inline-block">購買來源：</p> @c.ObtainSource</div>
+            <div class="px-5 my-0 w-100"><p class="col-3 m-0 d-inline-block">購買日期：</p> @((c.ObtainDate).ToString("yyyy-MM-dd"))</div>
+            <div class="px-5 my-0 w-100"><p class="col-3 m-0 d-inline-block" style="letter-spacing:0.37rem;">截止日：</p> @c.EndDate.ToString("yyyy-MM-dd")</div>
+
+            <!-- 有效期限設置 -->
+            <div class="px-5 my-0 w-100">
+                <p class="col-3 m-0 d-inline-block">有效期限：</p>
+                @{
+                    if (c.CherishValidDate is null)
+                    {
+                        <label class=" btn btn-secondary" for="ifhasValid" id="validSet">設置</label>
+                        <span id="validShow" style="display:none;">
+                            <input class="ms-2" type="date" id="ValidDate" />
+                            <button class="ms-2 btn btn-secondary" id="ValidSummit">確認</button>
+                            <button class="ms-2 btn btn-secondary" id="ValidClose">關閉</button>
+                        </span>
+                    }
+                    else 
+                    {
+                        <span>@Html.Raw(((DateOnly)c.CherishValidDate).ToString("yyyy-MM-dd").Trim())</span>
+                    }
+                }
+                <p class="text-danger ms-1 p-0">@(c.CherishValidDate is null ? "(未設置)" : "(已設置)")</p>
+            </div>
+
+        </div>
+
+        @* 分隔線------ *@
+        <div style="flex-basis:4%"></div>
+
+        @* 右邊 聯絡資料 *@
+        <div style="flex-basis:48%;">
+
+            <!-- 標題 -->
+            <div class="rounded-1 shadow d-flex px-5 py-1 mb-3" style="border:1px solid #aaaaaaa0">
+                <h4 class="my-2">2. 聯絡資料</h4>
+            </div>
+
+            <!-- 內容1.使用者 -->
+            <div class="d-flex mb-2">
+                <span class="ps-5 fs-4 fw-600" style="flex-basis:50%;">暱稱<span class="ms-2 fs-5 fw-400" style="width:8rem;">@c.UserNickname</span></span>
+                <span class=" fs-4 text-start fw-600" style="flex-basis:50%;width:8rem;">地區<span class="ms-2 fw-400  fs-5">@c.CityName</span><span class="ms-2 fw-400  fs-5">@c.RegionName</span></span>
+            </div>
+
+            <!-- 內容2. 聯絡方式 -->
+            <div class="my-0  w-100 d-flex">
+                <div class="ps-5 fw-500 fs-6">聯絡方式：</div>
+                <div class="px-2">
+                    @{
+                        if (c.ContactLine is not null)
+                        {
+                            <span class="ps-1 my-0 w-100"><span class="m-0 me-2 d-inline-block"><img src="~/img/icon/line.svg" width="24px" /></span>@c.ContactLine</span>
+                        }
+                        if (c.ContactPhone is not null)
+                        {
+                            <span class="ps-1 my-0 w-100"><span class="m-0 me-2 d-inline-block"><img src="~/img/icon/phone.svg" width="24px" /></span>@c.ContactPhone</span>
+                        }
+                        if (c.ContactOther is not null)
+                        {
+                            <div class="ps-1 my-0 w-100"><p class="m-0 me-2 d-inline-block"><img src="~/img/icon/contacts.svg" width="24px" /></p>@c.ContactOther</div>
+                        }
+                    }
+                </div>
+            </div>
+
+            <!-- 內容3. 面交時段 -->
+            <div class="d-flex mt-2 ">
+                <div class="ps-5 my-0 w-25 fw-600 fs-6">面礁石間：</div>
+
+                <div class="ps-2">
+                    @{
+                        if (((IEnumerable<CherishTradeTime>)ViewBag.Mon).Any())
+                        {
+                            <div>
+                                <span class="fw-600 me-2">
+                                    星期一
+                                </span>
+                                @foreach (var d in ViewBag.Mon)
+                                {
+                                    <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                                }
+                            </div>
+                        }
+                        if (((IEnumerable<CherishTradeTime>)ViewBag.Tue).Any())
+                        {
+                            <div>
+                                <span class="fw-600 me-2">
+                                    星期二
+                                </span>
+                                @foreach (var d in ViewBag.Tue)
+                                {
+                                    <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                                }
+                            </div>
+                        }
+                        if (((IEnumerable<CherishTradeTime>)ViewBag.Wes).Any())
+                        {
+                            <div>
+                                <span class="fw-600 me-2">
+                                    星期三
+                                </span>
+                                @foreach (var d in ViewBag.Wes)
+                                {
+                                    <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                                }
+                            </div>
+                        }
+                        if (((IEnumerable<CherishTradeTime>)ViewBag.Thr).Any())
+                        {
+                            <div>
+                                <span class="fw-600 me-2">
+                                    星期四
+                                </span>
+                                @foreach (var d in ViewBag.Thr)
+                                {
+                                    <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                                }
+                            </div>
+                        }
+                        if (((IEnumerable<CherishTradeTime>)ViewBag.Fri).Any())
+                        {
+                            <div>
+                                <span class="fw-600 me-2">
+                                    星期五
+                                </span>
+                                @foreach (var d in ViewBag.Fri)
+                                {
+                                    <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                                }
+                            </div>
+                        }
+                        if (((IEnumerable<CherishTradeTime>)ViewBag.Sat).Any())
+                        {
+                            <div>
+                                <span class="fw-600 me-2">
+                                    星期六
+                                </span>
+                                @foreach (var d in ViewBag.Sat)
+                                {
+                                    <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                                }
+                            </div>
+                        }
+                        if (((IEnumerable<CherishTradeTime>)ViewBag.Sun).Any())
+                        {
+                            <div>
+                                <span class="fw-600 me-2">
+                                    星期日
+                                </span>
+                                @foreach (var d in ViewBag.Sun)
+                                {
+                                    <span class="me-2">@TransText(d.TradeTimeCode)</span>
+                                }
+                            </div>
+                        }
+
+
+
+                        string TransText(string text)
+                        {
+                            switch (Convert.ToInt32(text.Split('-')[1]))
+                            {
+                                case 1:
+                                    return "上午";
+
+                                case 2:
+                                    return "下午";
+
+                                case 3:
+                                    return "晚上";
+                                default:
+                                    return "";
+                            }
+                        }
+                    }
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    @* 第四個表頭區塊 *@
+    <div class="mt-2">
+        <div class="rounded-1 shadow d-flex px-5 py-1 mb-3" style="border:1px solid #aaaaaaa0">
+            <h4 class="my-2">3. 良食狀態</h4>
+        </div>
+
+        <div class="d-flex">
+            <div class="px-5 d-flex flex-column" style="flex-basis:56%;">
+                <h4>惜食狀態圖片</h4>
+                <div class="d-flex align-items-center">
+                    <div class="border border-1 d-flex align-items-center me-1" style="flex-basis:50%;height:12rem;"><img src="@($"{Url.Content(c.CherishPhoto)}")" style="width:90%; margin: auto;max-height: 100%;object-fit:contain" /></div>
+                    <div class=" border border-1 d-flex align-items-center" style="flex-basis:50%;height:12rem;"><img src="@(c.OtherPhoto is null ?"/img/icon/EmptyPhoto.png":Url.Content(c.CherishPhoto))" style="width:90%;  margin: auto;max-width: 100%;max-height: 100%;object-fit: contain" /></div>
+                </div>
+            </div>
+            <div class=" d-flex flex-column" style="flex-basis:33%;">
+                <h4>惜食狀態圖片</h4>
+                <div class="border border-1 d-flex align-items-center" style="flex-basis:50%;height:15rem;width:18rem;"><img src="@(c.ValidDatePhoto is null ?"/img/icon/EmptyPhoto.png":Url.Content(c.ValidDatePhoto))" style="width:90%;margin: auto;max-width: 100%;max-height: 100%;object-fit: cover" /></div>
+            </div>
+        </div>
+    </div>
+
+
+    @* 按鈕區域 *@
+    <div class="text-end pe-5 mt-5 mb-5">
+        @{
+            if (c.TradeStateCode != 3 && c.TradeStateCode != 5)
+            {
+                <button id="order-back" class="me-5 col-1 btn btn-danger">退回</button>
+            }
+            if (c.TradeStateCode == 0 || c.TradeStateCode == 1 || c.TradeStateCode == 2)
+            {
+                <button id="order-edit" class="me-5 col-1 btn btn-warning">請修改</button>
+            }
+            if (c.TradeStateCode == 1)
+            {
+                <button id="order-ok" class="me-5 col-1 btn btn-success">已確認</button>
+            }
+            <a class="me-3 col-1 btn btn-secondary" asp-action="cherish">返回</a>
+        }
+    </div>
+
+
+    <!-- PopUp-back -->
+    <div class="py-3 px-5 position-fixed col-3 popup text-center" id="back-popup">
+        <p class="mb-0" style="width: max-content;">
+            退回原因
+        </p>
+        <textarea class="w-100 mt-1" placeholder="請輸入退回原因" style="height:10rem;"></textarea>
+        <div class="my-3"></div>
+        <button class="btn btn-secondary col-3" id="back-popup-close">返回</button>
+        <button class="ms-3 btn btn-danger col-3" id="back-popup-confirm">確認</button>
+        <div class="mb-3"></div>
+    </div>
+
+    <!-- PopUp-edit -->
+    <div class="py-3 px-5 position-fixed col-3 popup text-center" id="edit-popup">
+        <p class="mb-0 text-center fs-4">
+            需要修改的因素
+        </p>
+        <select class="rounded-1 col-8 mt-4" id="reasonSelect" asp-items="@ViewBag.Reason">
+            <option value="0">---請選擇原因---</option>
+        </select>
+        <div class="my-4"></div>
+        <button class=" me-3 col-4 btn btn-secondary" id="edit-popup-close">返回</button>
+        <button class="col-4 btn btn-warning" id="edit-popup-confirm">確認</button>
+        <div class="mb-4"></div>
+    </div>
+
+    <!-- PopUp-ok -->
+    <div class="py-3 px-5 position-fixed col-3 popup text-center" id="ok-popup">
+        <p class="mb-0 mt-3 text-center">
+            是否已確認惜食狀態良好？
+        </p>
+        <button class="my-4 me-3 col-4 btn btn-secondary" id="ok-popup-close">返回</button>
+        <button class="col-4 btn btn-success" id="ok-popup-confirm">確認</button>
+    </div>
+
+
+</div>
+
+
+
+
+
+@section Scripts {
+    <script src="~/js/Cherish/edit.js?@date"></script>
+}
+
+
+
+
+
+
+
+

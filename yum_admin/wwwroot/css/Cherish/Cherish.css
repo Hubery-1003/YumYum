@@ -1,0 +1,195 @@
+﻿body {
+    /*    font-family: 'lato', sans-serif;*/
+
+    overflow-y: scroll;
+}
+
+.container {
+    max-width: 1070px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow-x:hidden;
+}
+
+h2 {
+    font-size: 26px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.responsive-table {
+    list-style-type: none;
+    padding: 0;
+}
+
+.responsive-table li {
+    border-radius: 3px;
+    padding: 20px 15px;
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    /* 垂直置中 */
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.responsive-table .table-header {
+    background-color: #95A5A6;
+    /* font-size: 14px; */
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding:15px 15px;
+}
+
+.responsive-table .table-row {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+}
+
+.responsive-table .table-row:hover {
+    background-color: #e7e7e7;
+    /* 類似 Bootstrap hover 的效果 */
+    box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.2);
+    /* 增加 hover 時的陰影 */
+}
+
+.col-1 {
+    flex-basis: 10%;
+    display: flex;
+    align-items: center;
+    /* 垂直置中 */
+    justify-content: center;
+    /* 水平置中 */
+    text-align: center;
+}
+
+.col-2 {
+    flex-basis: 20%;
+}
+
+.col-3 {
+    flex-basis: 15%;
+}
+
+.col-4 {
+    flex-basis: 15%;
+    display: flex;
+    align-items: center;
+    /* 垂直置中 */
+    justify-content: center;
+    /* 水平置中 */
+    text-align: center;
+}
+
+.col-5 {
+    flex-basis: 15%;
+    font-size:18px;
+}
+
+.col-6 {
+    flex-basis: 10%;
+    display: flex;
+    align-items: center;
+    /* 垂直置中 */
+    justify-content: center;
+    /* 水平置中 */
+    text-align: center;
+}
+
+@media all and (max-width: 767px) {
+    .table-header {
+        display: none;
+    }
+
+    .responsive-table li {
+        display: block;
+    }
+
+    .col {
+        flex-basis: 100%;
+    }
+
+        .col:before {
+            color: #6C7A89;
+            padding-right: 10px;
+            content: attr(data-label);
+            flex-basis: 50%;
+            text-align: right;
+        }
+}
+
+/* 按鈕樣式 */
+/* 通用樣式 */
+.status-label {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem;
+    text-align: center;
+    color: #fff;
+    border-radius: 0.5rem;
+    font-weight: 400;
+}
+
+/* 狀態樣式 */
+#StatusNew .status-label {
+    background-color: #007bff;
+    /* 藍色 */
+}
+
+#StatusReturn .status-label {
+    background-color: #dc3545;
+    /* 紅色 */
+}
+
+#StatusPending .status-label {
+    background-color: #ffc107;
+    /* 黃色 */
+    color: #212529;
+    /* 黃色按鈕文字改為深色 */
+}
+
+#StatusApproved .status-label {
+    background-color: #28a745;
+    /* 綠色 */
+}
+
+
+/* 變更按鈕svg樣式 */
+.btn-hover:hover svg path {
+    fill: var(--bs-white);
+    transition-duration: 0.6s;
+}
+
+.btn-hover {
+    background-color: var(--bs-white);
+}
+
+.btn-hover:hover {
+    color: var(--bs-white);
+    background-color: var(--bs-blue);
+}
+
+.btn-hover > svg path {
+    color: var(--bs-blue);
+    fill: var(--bs-blue);
+}
+
+/* btn-delete */
+
+.btn-delete.btn-hover:hover {
+    color: var(--bs-white);
+    background-color: var(--bs-red);
+}
+
+.btn-delete.btn-hover:hover svg path {
+    fill: var(--bs-white);
+    /* 在hover時，svg path變白 */
+}
+
+.btn-delete.btn-hover > svg path {
+    color: var(--bs-red);
+    fill: var(--bs-red);
+    /* 預設顏色 */
+}

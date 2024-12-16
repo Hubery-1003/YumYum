@@ -1,0 +1,61 @@
+﻿@model yum_admin.Models.RecipeBrief
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>RecipeBrief</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="RecipeName" class="control-label"></label>
+                <input asp-for="RecipeName" class="form-control" />
+                <span asp-validation-for="RecipeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RecipeClassId" class="control-label"></label>
+                <select asp-for="RecipeClassId" class ="form-control" asp-items="ViewBag.RecipeClassId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="FinishMinute" class="control-label"></label>
+                <input asp-for="FinishMinute" class="form-control" />
+                <span asp-validation-for="FinishMinute" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatorId" class="control-label"></label>
+                <select asp-for="CreatorId" class ="form-control" asp-items="ViewBag.CreatorId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersonQuantity" class="control-label"></label>
+                <input asp-for="PersonQuantity" class="form-control" />
+                <span asp-validation-for="PersonQuantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreateDate" class="control-label"></label>
+                <input asp-for="CreateDate" class="form-control" />
+                <span asp-validation-for="CreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClickTime" class="control-label"></label>
+                <input asp-for="ClickTime" class="form-control" />
+                <span asp-validation-for="ClickTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

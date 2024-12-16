@@ -1,0 +1,10 @@
+﻿.popup {
+    max-height: 24rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: 0.5rem solid #fc6925;
+    background: #FFFFFF;
+    top: 30%;
+    left: 42%;
+    display:none;
+}

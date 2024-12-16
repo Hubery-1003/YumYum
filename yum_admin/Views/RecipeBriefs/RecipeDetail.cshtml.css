@@ -1,0 +1,212 @@
+﻿/* 通用表格樣式 */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    /* 垂直置中 */
+    border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody + tbody {
+    border-top: 2px solid #dee2e6;
+}
+
+.table-sm th,
+.table-sm td {
+    padding: 0.3rem;
+}
+
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #dee2e6;
+        font-size: 0.8rem;
+    }
+
+    .table-bordered thead th {
+        border-bottom-width: 2px;
+    }
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.016);
+}
+
+
+/* 主題樣式 */
+.table-secondary,
+.table-secondary > th,
+.table-secondary > td {
+    background-color: #d6d8db;
+    border-color: #b3b7bb;
+}
+
+
+/* 雙表格佈局樣式 */
+.table-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.table-box {
+    width: 48%;
+}
+
+.table img {
+    width: 100px;
+    height: auto;
+}
+
+/* 第一欄水平置中 */
+.table td:first-child,
+.table th:first-child {
+    text-align: center;
+}
+
+/* 選取要退回 */
+.selected-row {
+    background-color: #f8d7da !important;
+}
+
+
+/* 狀態欄 */
+.status-bar {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+}
+
+.circle {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.step div {
+    font-size: 0.9rem;
+}
+
+
+/* 食譜表頭 */
+.responsive-table {
+    list-style-type: none;
+    padding: 0;
+}
+
+    .responsive-table li {
+        border-radius: 3px;
+        padding: 25px 15px;
+        display: flex;
+        /* justify-content: space-between; */
+        align-items: center;
+        /* 垂直置中 */
+        margin-bottom: 20px;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .responsive-table .table-header {
+        background-color: #95A5A6;
+        /* font-size: 14px; */
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+
+    .responsive-table .table-row {
+        background-color: #ffffff;
+        box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+    }
+
+        .responsive-table .table-row:hover {
+            background-color: #e7e7e7;
+            /* 類似 Bootstrap hover 的效果 */
+            box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.2);
+            /* 增加 hover 時的陰影 */
+        }
+
+.col-1 {
+    flex-basis: 20%;
+    display: flex;
+    align-items: center;
+    /* 垂直置中 */
+    justify-content: center;
+    /* 水平置中 */
+    text-align: center;
+}
+
+.col-2 {
+    flex-basis: 30%;
+}
+
+.col-3 {
+    flex-basis: 15%;
+}
+
+.col-4 {
+    flex-basis: 20%;
+    display: flex;
+    align-items: center;
+    /* 垂直置中 */
+    justify-content: center;
+    /* 水平置中 */
+    text-align: center;
+}
+
+.col-5 {
+    flex-basis: 15%;
+}
+
+
+
+
+/* 基本樣式 */
+.status-label {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+    border-radius: 1rem;
+    color: #fff;
+    margin: 0.5rem 0;
+}
+
+/* 顏色樣式 */
+.btn-primary {
+    background-color: #007bff;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: #212529; /* 調整文字顏色，避免黃色背景看不清 */
+}
+
+.btn-success {
+    background-color: #28a745;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+}
+
+
+.col-1 .status-label {
+    display: none; /* 確保沒有被隱藏 */
+    overflow: hidden; /* 確保按鈕內容未被裁剪 */
+}

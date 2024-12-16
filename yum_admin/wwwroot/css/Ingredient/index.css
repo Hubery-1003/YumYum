@@ -1,0 +1,41 @@
+﻿tbody tr:hover {
+    background-color: var(--yum-primary-1);
+}
+
+tr input[type="checkbox"]:checked {
+    width: 3rem;
+    height: 3rem;
+}
+
+.cg-btn {
+    background-color: var(--yum-secondary-3);
+}
+
+.del-btn {
+    background-color: var(--yum-secondary-2);
+}
+
+.cg-btn:hover {
+    opacity: 80%;
+}
+
+.popup button {
+    border-radius: 0.5rem;
+    background-color: lightgray;
+    padding: 0.2rem 0.5rem;
+}
+
+.popup {
+    max-height: 24rem;
+    overflow-y: scroll;
+    border: 0.3rem solid green;
+    background: #FFFFFF;
+    top: 20%;
+    left: 42%;
+}
+
+#cg-popup,
+#store-popup,
+#del-popup {
+    display: none;
+}

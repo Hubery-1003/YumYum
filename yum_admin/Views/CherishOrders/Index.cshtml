@@ -1,0 +1,89 @@
+﻿@model IEnumerable<yum_admin.Models.CherishOrder>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ObtainSource)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ObtainDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubmitDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReserveDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GiverUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IngredAttribute)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ingredient)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TradeStateCodeNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ObtainSource)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ObtainDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubmitDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReserveDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GiverUser.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IngredAttribute.IngredAttributeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ingredient.IngredientId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TradeStateCodeNavigation.TradeStateCode)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CherishId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CherishId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CherishId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

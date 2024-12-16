@@ -1,0 +1,244 @@
+﻿@using yum_admin.Models.ViewModels
+@model List<List<IngredientInfo>>
+
+@{
+	ViewData["Title"] = "Index";
+	string date = DateTime.Now.ToString("hhmmss");
+}
+<link rel="stylesheet" href="~/css/Ingredient/index.css?@date" />
+
+<h1>食材審查</h1>
+<a asp-action="Create">Create New</a>
+<div class="my-5"></div>
+
+<!-- Init-Show-Header -->
+<div class="d-flex">
+	<div class="ms-5" style="width:37%">
+		<h4>用戶新建食材</h4>
+	</div>
+
+	<div style="width:10%"></div>
+
+	<div class="ms-3 d-flex align-items-center" style="width:40%">
+		<h4 class="col-4">現有食材搜尋</h4>
+
+		<!-- 搜尋列 -->
+		<div id="searchbar" class="ms-2 mb-2">
+			<form action="POST" class="d-flex align-items-center position-relative">
+				<!-- 地區 -->
+				
+					<select name="Attr" id="match-attr" class="d-inline-block p-1 rounded-1" asp-items="@ViewBag.Attr">
+						<option value="0">全部種類</option>
+					</select>
+				
+
+				<!-- 輸入文字框 -->
+				
+					<input class="ms-2 col-8 ps-1" placeholder="食材名稱" type="text" name="Food" id="match-name" style="height:2.1rem;width:12rem;">
+					
+				
+
+			</form>
+		</div>
+	</div>
+
+</div>
+
+<!-- Init-Show-Content -->
+<div class="d-flex">
+
+	<!-- 左側 -->
+	<div class="ms-5 m-0 p-0 rounded-2" style="width:37%;">
+		<table class="table text-center m-0 p-0 rounded-2" style="background-color:var(--yum-primary-3);">
+			<thead class="w-50">
+				<tr class="border-bottom border-dark" style="opacity:80%;">
+					<th></th>
+					<th>
+						圖示
+					</th>
+					<th>
+						食材名稱
+					</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody id="left-site">
+				@foreach (var item in Model[0])
+				{
+					<tr class="left-tr">
+						<td style="width:4rem;">
+							<input type="checkbox" name="name" value="@(item.id)" />
+						</td>
+						<td style="width:0.3rem;">
+							@if (!string.IsNullOrEmpty(item.icon) && item.icon.StartsWith('/'))
+							{
+								<img src="@Url.Content($"~{item.icon}")" alt="Ingredient Icon" width="30" />
+							}
+						</td>
+						<td style="width:6rem;">
+							@item.name
+						</td>
+						<td hidden>
+							@item.attrName
+						</td>
+						<td style="width:7rem;">
+							<button id="@(item.id)-store-btn" class="py-1 lh-1">存下</button>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+
+	</div>
+	
+	<div class="text-center position-relative" style="width:10%;"> 
+		<button class="position-fixed start-50 col-1 rounded-2 top-25 ms-1 cg-btn h-25" id="cg-btn">
+			替換
+			<svg height="2.5rem" width="2.5rem" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+				 viewBox="0 0 26.077 26.077" xml:space="preserve">
+				<g>
+					<g id="c103_arrow">
+						<path style="fill:#030104;" d="M25.709,13.552l-9.721,9.994c0,0-1.151,1.219-1.151-0.105c0-1.325,0-4.532,0-4.532
+						s-0.781,0-1.976,0c-3.42,0-9.642,0-12.173,0c0,0-0.688,0.184-0.688-0.861c0.001-1.047,0.001-9.533,0.001-10.279
+						S0.576,7.04,0.576,7.04c2.463,0,8.895,0,12.199,0c1.072,0,1.771,0,1.771,0s0-2.569,0-4.186c0-1.61,1.208-0.395,1.208-0.395
+						s9.081,8.791,10.033,9.744C26.482,12.894,25.709,13.552,25.709,13.552z" />
+					</g>
+				</g>
+			</svg>
+
+			
+		</button>
+		<button class="position-fixed start-50 col-1 rounded-2 ms-1 del-btn" style="top:65%;height:5.4rem;" id="del-btn">
+			刪除
+
+			<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" /></svg>
+
+
+		</button>
+
+	</div>
+
+	<!-- 右側 -->
+	<div class=" rounded-2" style="width:40%;">
+		<table class="table ms-3 text-center rounded-2" style="background-color:var(--yum-primary-3);">
+			<thead class="w-50">
+				<tr class="border-bottom border-dark">
+					<th></th>
+					<th>
+						圖示
+					</th>
+					<th>
+						食材名稱
+					</th>
+					<th>
+						屬性
+					</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody id="insert-site">
+				@foreach (var item in Model[1])
+				{
+					<tr class="right-tr">
+						<td>
+							<input type="checkbox" name="name" value="@(item.id)" />
+						</td>
+						<td style="width:5rem;">
+							@if (!string.IsNullOrEmpty(item.icon) && item.icon.StartsWith('/'))
+							{
+								<img src="@Url.Content($"~{item.icon}")" alt="Ingredient Icon" width="30" />
+							}
+						</td>
+						<td style="width:7rem;">
+							@Html.DisplayFor(modelItem => item.name)
+						</td>
+						<td style="width:10rem;">
+							@Html.DisplayFor(modelItem => item.attrName)
+						</td>
+						<td>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+
+	</div>
+
+</div>
+
+<!-- PopUp-cg -->
+<div class="py-3 position-fixed col-3 text-center popup" id="cg-popup">
+	
+	<p><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M400-280v-400l200 200-200 200Z" /></svg>
+		將這個食材標籤
+	</p>
+	
+	<!-- 食材載入點 -->
+	<div id="cg-popup-insert"></div>
+	
+	<p><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M400-280v-400l200 200-200 200Z" /></svg>
+		變更成現有食材標籤
+	</p>
+
+	<!-- 食材載入點 -->
+	<div id="cg-popup-toFood"></div>
+	
+	<button id="cg-popup-close">返回</button>
+	<button id="cg-popup-confirm">確認</button>
+	
+</div>
+
+<!-- PopUp-storeNew -->
+<div class="py-3 px-5 position-fixed col-3 popup text-center" id="store-popup">
+	<p class="mb-0" style="width: max-content;">
+		食材
+	</p>
+	<input class="w-100 mt-1" type="text"/>
+	<br />
+	<p class="mb-0 mt-3" style="width: max-content;">
+		分類
+	</p>
+	<select class="w-100 mt-1" name="newFood" asp-items="@ViewBag.Attr">
+		<option value="0">分類</option>
+	</select>
+	<br />
+
+	<button class="mt-3" id="store-popup-close">返回</button>
+	<button id="store-popup-confirm">確認</button>
+	
+	
+</div>
+
+
+<!-- popup-del -->
+<div class="py-3 px-5 position-fixed col-3 popup text-center" style="top:35%;" id="del-popup">
+	<h4 class="mb-3" style="width:60%;">
+		確定刪除？
+	</h4>
+
+	<p>
+		<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M400-280v-400l200 200-200 200Z" /></svg>
+		左側食材刪除
+	</p>
+
+	<!-- 食材載入點 -->
+	<div class="text-center" id="del-popup-left"></div>
+
+	<p>
+		<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M400-280v-400l200 200-200 200Z" /></svg>
+		右側食材刪除
+	</p>
+
+	<!-- 食材載入點 -->
+	<div class="text-center" id="del-popup-right"></div>
+	
+	<button id="del-popup-close">返回</button>
+	<button id="del-popup-confirm">確認</button>
+	
+</div>
+
+@section Scripts {
+	<script src="~/js/ingredient/index.js?@date"></script>
+}
+
+

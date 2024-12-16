@@ -1,0 +1,175 @@
+/*
+    YumYum  v1.3 (2024-11-11)
+    ※ 注意引用順序 ※
+    請先引用 bootstrap.css，再引用這份 site.css，最後才引用自己編寫的 .css
+*/
+
+
+/* ===== 字體 ===== */
+/* 英文: Inter - Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/* 繁體中文: Noto Sans Traditional Chinese - Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* ================ */
+
+
+/* === 字型粗細 === */
+.fw-100 {
+    font-weight: 100;
+}
+
+.fw-200 {
+    font-weight: 200;
+}
+
+.fw-300 {
+    font-weight: 300;
+}
+
+.fw-400 {
+    font-weight: 400;
+}
+
+.fw-500 {
+    font-weight: 500;
+}
+
+.fw-600 {
+    font-weight: 600;
+}
+
+.fw-700 {
+    font-weight: 700;
+}
+
+.fw-800 {
+    font-weight: 800;
+}
+
+.fw-900 {
+    font-weight: 900;
+}
+
+/* ================ */
+
+
+/* === 字型大小 === */
+/* 使用 fs-1 到 fs-6 及 h1 到 h6 */
+
+/* ================ */
+
+
+/* === 主題配色 === */
+:root {
+    /* 主色系 primary */
+    --yum-primary-1: #fffae6;
+    --yum-primary-2: #30533f;
+    --yum-primary-3: #e2e3cf;
+    /* 使用範例:
+        p {
+            color: var(--yum-primary-2);
+        }
+        將 p 標籤的文字顏色設定成 --yum-primary-2 的顏色
+    */
+    /* 輔色系 secondary */
+    --yum-secondary-1: #e95631;
+    --yum-secondary-2: #ef2853;
+    --yum-secondary-3: #ffffff;
+    --yum-secondary-4: #b4b4b4;
+    /* 使用範例:
+        button {
+            background-color: var(--yum-secondary-1);
+        }
+        將 button 標籤的背景顏色設定成 --yum-secondary-1 的顏色
+    */
+
+    /* === 11-10 [新增] === */
+    /* 改變 bootstrap a 標籤連結預設的文字顏色 */
+    --bs-link-color: #30533f !important;
+    --bs-link-hover-color: #284535 !important;
+}
+
+/* ================ */
+
+
+/* === 通用設定 === */
+body {
+    font-family: "Inter", "Noto Sans TC";
+    font-size: 1.15rem !important;
+    background-color: var(--yum-primary-1);
+    color: var(--yum-primary-2);
+    /* === 11-07 [新增] === */
+    /* margin-bottom: 60px;*/
+    /* === 11-11 [刪除] === */
+}
+
+/* === 11-07 [新增] === */
+/*html {
+    position: relative;
+    min-height: 100%;
+}*/
+/* === 11-11 [刪除] === */
+
+/*p {
+    margin-bottom: 0;
+}*/
+
+/*li {
+    list-style-type: none;
+}*/
+
+/*a {
+    text-decoration: none;
+    background-color: transparent;
+}*/
+
+/*a:link {
+    color: #000000
+}*/
+
+/*a:hover {
+    color: #000000
+}*/
+
+/*a:visited {
+    color: #000000
+}*/
+
+/*img {
+    object-fit: cover;
+}*/
+
+/* ================ */
+
+
+/*
+    【 版本紀錄 】
+
+    YumYum  v1.3 (2024-11-11)
+    [刪除] — 移除 html 的 relative 設定，一併移除最小高度的設定。
+    html { position: relative; min-height: 100%; }
+    [刪除] — 移除 body 的 margin-bottom 設定。
+    body { margin-bottom: 60px }
+    [新增] — 將 bootstrap a 標籤連結預設的文字顏色更改成主色系二號，並且設定成 !important。
+    :root { --bs-link-color: #30533f !important; }
+    [新增] — 將 bootstrap a 標籤連結:hover 預設的文字顏色更改成 #284535，並且設定成 !important。
+    :root { --bs-link-hover-color: #284535 !important; }
+    -------------------------------------------------------------------
+    YumYum  v1.2 (2024-11-07)
+    [新增] — 將 html 設定成 relative，同時設定最小高度。
+    html { position: relative; min-height: 100%; }
+    [新增] — 對 body 新增 margin-bottom，這樣 footer 才不會跑版。
+    body { margin-bottom: 60px }
+    -------------------------------------------------------------------
+    YumYum  v1.1 (2024-11-06)
+    [修改] — 將內文字型大小調整為 1.15rem，並且設定成 !important。
+    body { font-size: 1.25rem; → font-size: 1.15rem !important; }
+    [新增] — 主題配色新增輔色系四號。
+    :root { --yum-secondary-4: #b4b4b4; }
+    [新增] — 將預設的文字顏色設定成主色系二號，提高配色主題性。
+    body { color: var(--yum-primary-2); }
+    -------------------------------------------------------------------
+    YumYum  v1.0 (2024-10-31)
+
+*/

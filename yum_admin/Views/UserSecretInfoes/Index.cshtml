@@ -1,0 +1,160 @@
+﻿@model IEnumerable<yum_admin.Models.UserSecretInfo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Left Side: User Table -->
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header d-flex align-items-center">
+                    <img src="~/img/icon/contacts.svg" class="me-1" /> <strong>用戶資料</strong>
+                </div>
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <select class="form-select">
+                            <option selected>選擇欄位</option>
+                            <option>ID</option>
+                            <option>Name</option>
+                            <option>Email</option>
+                            <option>Password</option>
+                        </select>
+                        <input type="text" class="form-control" placeholder="輸入關鍵字">
+                    </div>
+                    <table class="table table-bordered align-middle">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UserId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UserNickname)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Email)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Password)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserNickname)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td class="password-cell">
+                                        @Html.DisplayFor(modelItem => item.Password)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.UserId"><img src="~/img/icon/edit.svg" alt="" /></a>
+                                        |
+                                        <a asp-action="Delete" asp-route-id="@item.UserId"><img src="~/img/icon/delete.svg" alt="" /></a>
+                                    </td>
+                                </tr>
+                            }
+                            <!-- Repeat rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: User Edit Form -->
+        @* <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">ID</div>
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">名稱</label>
+                            <input type="text" class="form-control" id="username" value="簡慶芳">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">電子郵件</label>
+                            <input type="email" class="form-control" id="email" value="" placeholder="lin@gmail.com" readonly style="pointer-events: none; user-select: none;">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">密碼</label>
+                            <input type="password" class="form-control" id="password" value="uQtmG2">
+                        </div>
+                        <button type="button" class="btn btn-secondary me-2">清空</button>
+                        <button type="submit" class="btn btn-primary">儲存</button>
+                    </form>
+                </div>
+            </div>
+        </div> *@
+    </div>
+</div>
+
+@* <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserNickname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailChecked)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailValidCode)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserNickname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailChecked)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailValidCode)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table> *@
+
+@section Scripts {
+    <script src="~/js/UserSecretInfo/index.js" asp-append-version="true"></script>
+}

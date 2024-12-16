@@ -5,6 +5,8 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YumYum", "YumYum\YumYum.csproj", "{8A0D9749-AECC-480E-AA62-837AEAFA1E36}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "yum_admin", "yum_admin\yum_admin.csproj", "{10DF1F56-A331-4980-B26C-E70AD98C065C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8A0D9749-AECC-480E-AA62-837AEAFA1E36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A0D9749-AECC-480E-AA62-837AEAFA1E36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A0D9749-AECC-480E-AA62-837AEAFA1E36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10DF1F56-A331-4980-B26C-E70AD98C065C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10DF1F56-A331-4980-B26C-E70AD98C065C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10DF1F56-A331-4980-B26C-E70AD98C065C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10DF1F56-A331-4980-B26C-E70AD98C065C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

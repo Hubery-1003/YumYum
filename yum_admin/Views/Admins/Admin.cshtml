@@ -1,0 +1,91 @@
+﻿@model IEnumerable<yum_admin.Models.Admin>
+
+<body>
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-12 mb-3 d-flex align-items-center justify-content-between">
+					<h2 class="heading-section">管理員團隊</h2>
+					<!--新增員工btn-->
+					<button class="btn btn btn-success text-center justify-content-center lh-5 btn-hover " onclick="window.location.href='@Url.Action("Create", "Admins")';">
+						<svg height="20px" viewBox="0 -960 960 960" width="20px" fill="#fff"><path d="M444-444H240v-72h204v-204h72v204h204v72H516v204h-72v-204Z" /></svg>
+						Add Member
+					</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="table-responsive">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>&nbsp;</th>
+									<th>Username</th>
+									<th>Email</th>
+									<th>Phone</th>
+									<th>Status</th>
+									<th>&nbsp;</th>
+									<th>&nbsp;</th>
+
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (var item in Model)
+								{
+									<tr class="alert" role="alert">
+										<td>
+											<label class="checkbox-wrap checkbox-primary">
+												<input type="checkbox" checked>
+												<span class="checkmark"></span>
+											</label>
+										</td>
+
+										<td>
+											@Html.DisplayFor(modelItem => item.AdminName)
+										</td>
+
+										<td>
+											@Html.DisplayFor(modelItem => item.AdminEmail)
+										</td>
+
+										<td>
+											@Html.DisplayFor(modelItem => item.AdminPhone)
+										</td>
+										<td class="status"><span class="active">Active</span></td>
+
+										<td>
+											@* 編輯按鈕 *@
+											<a asp-action="Edit" asp-route-id="">Edit</a>
+											<button id="@item.AdminId" class="btn text-center justify-content-center lh-5 btn-hover " onclick="window.location.href='@Url.Action("Edit", "Admins", new { AdminId = item.AdminId })';">
+												<svg class="" height="20px" viewBox="0 -960 960 960" width="20px" fill="none">
+													<path d="M216-216h51l375-375-51-51-375 375v51Zm-72 72v-153l498-498q11-11 23.84-16 12.83-5 27-5 14.16 0 27.16 5t24 16l51 51q11 11 16 24t5 26.54q0 14.45-5.02 27.54T795-642L297-144H144Zm600-549-51-51 51 51Zm-127.95 76.95L591-642l51 51-25.95-25.05Z"
+														  fill="#0d6efd" />
+												</svg>
+											</button>
+
+										</td>
+										<td>
+											@* 刪除按鈕 *@
+											<a asp-action="Delete" asp-route-id="@item.AdminId">Delete</a>
+											<button id="@item.AdminId" class="btn text-center justify-content-center lh-5 btn-hover " onclick="window.location.href='@Url.Action("Delete", "Admins", new { AdminId = item.AdminId })';">
+												<svg class="" height="20px" viewBox="0 -960 960 960" width="20px" fill="none">
+													<path d="M312-144q-29.7 0-50.85-21.15Q240-186.3 240-216v-480h-48v-72h192v-48h192v48h192v72h-48v479.57Q720-186 698.85-165T648-144H312Zm336-552H312v480h336v-480ZM384-288h72v-336h-72v336Zm120 0h72v-336h-72v336ZM312-696v480-480Z" fill="#0d6efd" />
+												</svg>
+											</button>
+										</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/popper.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/main.js"></script>
+
+</body>

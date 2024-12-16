@@ -1,0 +1,387 @@
+﻿@using yum_admin.Models.ViewModels
+@model yum_admin.Models.ViewModels.RecipeDetailViewModel
+@using Newtonsoft.Json;
+
+@functions {
+    private static readonly Dictionary<int, (string CssClass, string Text)> StatusDefinitions = new()
+    {
+        { 0, ("btn-secondary", "草稿") },
+        { 1, ("btn-primary text-light", "新上架") },
+        { 2, ("btn-danger text-light", "退回請改") },
+        { 3, ("btn-warning text-light", "待審查") },
+        { 4, ("btn-success text-light", "已確認") },
+        { 5, ("btn-secondary", "已隱藏") }
+    };
+
+    private (string CssClass, string Text) GetStatusInfo(int stateCode)
+    {
+        return StatusDefinitions.TryGetValue(stateCode, out var info)
+            ? info
+            : ("btn-secondary text-muted", "未知狀態");
+    }
+}
+
+
+
+<!--食譜標題-->
+<div class="container">
+    <ul class="responsive-table">
+        <li class="table-row">
+
+            <!-- 動態生成狀態按鈕 -->
+            @{
+                var statusInfo = GetStatusInfo(Model.RecipeStatusCode);
+            }
+            <div class="status-label @statusInfo.CssClass rounded-5 align-content-center fw-400">
+                <span>@statusInfo.Text</span>
+            </div>
+
+
+            <!-- 其他欄位 -->
+            <div class="col col-2 ps-5" data-label="RecipeName">@Model.RecipeName</div>
+            <div class="col col-3" data-label="UserName">@Model.UserNickname</div>
+            <div class="col col-4" data-label="RecipeSteps"></div>
+            <div class="col col-5" data-label="ModificationDate">
+                @Model.RecipeRecDate.ToString("yyyy-MM-dd")
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+
+<div class="container p-3">
+
+    <!-- 狀態欄樣式 -->
+    <div class="container p-3">
+        <div class="status-bar d-flex justify-content-around align-items-center py-3 mb-4 bg-light border rounded">
+            @foreach (var version in Model.RecipeFieldsByVersion)
+            {
+                var versionInfo = GetStatusInfo(version.RecipeStatusCode);
+                <div class="step text-center">
+                    <div class="circle @versionInfo.CssClass d-flex justify-content-center align-items-center"
+                         style="width: 40px; height: 40px; border-radius: 50%;">
+                        @version.RecipeRecVersion
+                    </div>
+                    <div class="text-center mt-2">@versionInfo.Text</div>
+                </div>
+            }
+        </div>
+    </div>
+
+
+    @if (Model?.RecipeFieldsByVersion != null && Model.RecipeFieldsByVersion.Any())
+    {
+        <!-- 食譜審核欄位 -->
+        <div class="table-container">
+            @for (int i = Math.Max(0, Model.RecipeFieldsByVersion.Count() - 2); i < Model.RecipeFieldsByVersion.Count(); i++)
+            {
+                var versionGroup = Model.RecipeFieldsByVersion[i];
+
+                <!-- 左表格 -->
+                <div class="table-box">
+                    <div class="status-label mb-2">
+                        <h5 class="text-success">對照組</h5>
+                        <h6 colspan="5" style="background-color: #f8f8f8; font-weight: bold ;">
+                            <span class="text-dark">版本號: @versionGroup.RecipeRecVersion</span>
+                        </h6>
+                    </div>
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th>&nbsp;</th>
+                                <th>項目</th>
+                                <th>照片</th>
+                                <th>內容</th>
+                                <th>修改留言</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                            <!--食譜詳細資訊-->
+                            @foreach (var field in versionGroup.RecipeFields ?? new List<RecipeFieldDetail>())
+                            {
+                                <tr data-field-id="@field.FieldId">
+                                    <td>
+                                        <input type="checkbox" name="fieldCheckbox" value="@field.FieldId">
+                                    </td>
+                                    <td>@field.FieldName</td>
+                                    <td>
+                                        <!-- 顯示圖片 -->
+                                        @if (!string.IsNullOrEmpty(field.FieldShot))
+                                        {
+                                            <img src="@field.FieldShot"
+                                                 style="width:100px;height:auto;"
+                                                 alt="RecipePhoto"
+                                                 onerror="this.src='/img/icon/EmptyPhoto.png';">
+                                        }
+                                        else
+                                        {
+                                            <img src="/img/icon/EmptyPhoto.png"
+                                                 style="width:100px;height:auto;"
+                                                 alt="RecipePhoto">
+                                        }
+                                    </td>
+                                    <td>@field.FieldDescript</td>
+                                    <td><textarea name="content" class="field-comment">@field.FieldComment</textarea></td>
+                                </tr>
+                            }
+                        </tbody>
+
+
+                    </table>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>無可用數據</p>
+    }
+
+    @* -- Toast 提示訊息 -- *@
+
+    <div id="toast" style="display:none; position:fixed; bottom:20px; right:20px; background:#333; color:#fff; padding:15px; border-radius:5px; z-index:9999;">
+        <span id="toast-message"></span>
+    </div>
+
+
+</div>
+
+<div class="d-flex justify-content-end gap-2 p-3 m-2">
+
+    <label id="return" class="btn btn-secondary" onclick="window.location.href='/RecipeBriefs/Recipe';">
+        <span>返回</span>
+    </label>
+
+
+    <label id="fail" class="btn btn-danger">
+        <span>請修改</span>
+    </label>
+
+
+    <button class="btn btn-success md-4" id="approveRecipeBtn">
+        審核通過
+    </button>
+
+</div>
+
+
+<!-- Toast 組件 -->
+<div class="toast-container position-fixed top-0 end-0 p-3" id="toast-container" style="z-index: 9999;">
+    <div id="toast" class="toast" style="display:none;">
+        <div class="toast-header">
+            <strong class="me-auto">訊息</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="toast-message"></div>
+    </div>
+</div>
+
+
+
+
+
+
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            $("#approveRecipeBtn").click(function () {
+                var recipeId = @Model.RecipeId;  // 假設模型中有 RecipeId
+                var recipeRecVersion = @Model.MaxVersion;  // 假設模型中有 MaxVersion
+
+                // 發送 AJAX 請求
+                $.ajax({
+                    url: '/RecipeBriefs/Approved',
+                    type: 'POST',
+                    data: {
+                        recipeId: recipeId,
+                        recipeRecVersion: recipeRecVersion
+                    },
+                    success: function (response) {
+                        // 根據返回的結果顯示 Alert 訊息
+                        var alertMessage = response.message;
+                        var success = response.success;
+
+                        showAlert(alertMessage, success);
+
+                        // 如果成功，跳轉到 Recipe 頁面
+                        if (success) {
+                            window.location.href = '/RecipeBriefs/Recipe'; // 替換為你的目標頁面路徑
+                        }
+                    },
+                    error: function () {
+                        showAlert("發生錯誤，請稍後再試！", false);
+                    }
+                });
+            });
+
+            function showAlert(message, success) {
+                // 設定顯示訊息
+                if (success) {
+                    alert("成功：" + message);
+                } else {
+                    alert("錯誤：" + message);
+                }
+            }
+        });
+
+
+
+
+
+
+
+        //CHECKBOX定位id
+        //請修改 儲存變更
+        //fail測試按鈕綁定
+        //------------
+        const updatedFields = [
+            { FieldId: 1, FieldComment: "請修改" }
+        ];
+
+        const data = {
+            recipeId: 1424,
+            recipeVersion: 1,
+            updatedFields: updatedFields
+        };
+
+        fetch('/RecipeBriefs/SaveChanges', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+
+        document.getElementById("fail").addEventListener("click", async () => {
+            const recipeId = @Model.RecipeId; // 從 Model 中傳遞 recipeId
+            const recipeVersion = @Model.MaxVersion; // 從 Model 中傳遞 MaxVersion
+
+            console.log("RecipeId:", recipeId);
+            console.log("RecipeVersion:", recipeVersion);
+
+
+            console.log("RecipeId2: @Model.RecipeId");
+            console.log("RecipeVersion2: @Model.MaxVersion");
+
+            const updatedFields = [];
+
+            // 獲取所有勾選的欄位
+            document.querySelectorAll("input[name='fieldCheckbox']:checked").forEach((checkbox) => {
+                const row = checkbox.closest("tr");
+                if (row) {
+                    const fieldId = parseInt(row.getAttribute("data-field-id"));
+                    const fieldComment = row.querySelector("textarea.field-comment").value;
+                    updatedFields.push({
+                        FieldId: fieldId,
+                        FieldComment: fieldComment
+                    });
+                }
+            });
+
+            console.log("Updated Fields:", updatedFields);
+
+            // 如果沒有變更，提示用戶
+            if (updatedFields.length === 0) {
+                alert("請至少選擇一個欄位進行修改！");
+                return;
+            }
+
+            // 發送保存請求
+            try {
+                const response = await fetch('/RecipeBriefs/SaveChanges', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        recipeId,
+                        recipeVersion,
+                        updatedFields
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    alert("食譜需修改 已送出！");
+                    window.location.href = `/RecipeBriefs/RedirectToView?success=true&recipeId=${recipeId}`;
+                } else {
+                    alert("儲存失敗：" + result.message);
+                    window.location.href = `/RecipeBriefs/RedirectToView?success=false&recipeId=${recipeId}`;
+                }
+            } catch (error) {
+                console.error("儲存過程中發生錯誤", error);
+                alert("儲存失敗！");
+            }
+        });
+
+        //是否留言會勾選
+        document.addEventListener("DOMContentLoaded", function () {
+            // 選擇所有 textarea
+            const textareas = document.querySelectorAll("textarea.field-comment");
+
+            textareas.forEach((textarea) => {
+                textarea.addEventListener("input", function () {
+                    const row = textarea.closest("tr"); // 找到 textarea 所在的 tr
+                    const checkbox = row.querySelector("input[type='checkbox']"); // 找到對應的 checkbox
+
+                    if (textarea.value.trim()) {
+                        checkbox.checked = true; // 動態勾選 checkbox
+                    } else {
+                        checkbox.checked = false; // 清空時取消勾選
+                    }
+                });
+
+                // 頁面加載時檢查初始值
+                const row = textarea.closest("tr");
+                const checkbox = row.querySelector("input[type='checkbox']");
+                if (textarea.value.trim()) {
+                    checkbox.checked = true;
+                } else {
+                    checkbox.checked = false;
+                }
+            });
+        });
+
+
+
+        //是否留言且變紅底
+        document.addEventListener("DOMContentLoaded", function () {
+            const textareas = document.querySelectorAll("textarea.field-comment");
+
+            textareas.forEach((textarea) => {
+                textarea.addEventListener("input", function () {
+                    const fieldId = textarea.closest("tr").getAttribute("data-field-id");
+                    if (textarea.value.trim()) {
+                        document.querySelectorAll(`tr[data-field-id="${fieldId}"]`).forEach((row) => {
+                            row.style.backgroundColor = "lightcoral"; // 設置紅色背景
+                        });
+                    } else {
+                        document.querySelectorAll(`tr[data-field-id="${fieldId}"]`).forEach((row) => {
+                            row.style.backgroundColor = ""; // 恢復背景顏色
+                        });
+                    }
+                });
+
+                // 頁面加載時檢查初始值
+                const fieldId = textarea.closest("tr").getAttribute("data-field-id");
+                if (textarea.value.trim()) {
+                    document.querySelectorAll(`tr[data-field-id="${fieldId}"]`).forEach((row) => {
+                        row.style.backgroundColor = "lightcoral";
+                    });
+                }
+            });
+        });
+
+
+
+
+
+    </script>
+
+}

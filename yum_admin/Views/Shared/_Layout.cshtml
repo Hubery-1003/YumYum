@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - yum_admin</title>
+    <link rel="stylesheet" href="/css/Layout.css" />
+    <link rel="stylesheet" href="/css/bootstrap.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+    <link rel="stylesheet" href="/yum_admin.styles.css" />
+    <style>
+        .show {
+            display: block;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0; /* remove the gap so it doesn't close */
+        }
+
+        .container{
+            overflow-y:hidden;
+        }
+    </style>
+</head>
+<body id="page-top">
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-area="" asp-controller="Admins" asp-action="Index">
+                <div class="sidebar-brand-text mx-3">yum-yum <sup>Admin</sup>  </div>
+            </a>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link " asp-controller="Ingredients" asp-action="index">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>食材管理</span>
+                </a>
+                <a class="nav-link " asp-controller="UserSecretInfoes" asp-action="Index">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>用戶資料</span>
+                </a>
+                <a class="nav-link " asp-controller="RecipeBriefs" asp-action="Recipe">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>食譜審查</span>
+                </a>
+                <a class="nav-link " asp-controller="CherishOrders" asp-action="cherish">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>惜食管理</span>
+                </a>
+                <a class="nav-link " asp-controller="Admins" asp-action="Index">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>管理員團隊</span>
+                </a>
+
+            </li>
+        </ul>
+
+
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+
+            <!-- Main Content -->
+            <div id="content">
+
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow pe-3">
+
+                   
+
+                    <div class="dropdown navbar-nav ml-auto">
+                        @if (User.Identity!.IsAuthenticated)
+                        {
+                            <a class="nav-link  dropdown-toggle me-3" style="" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity.Name</span>
+                            </a>
+                            <div class="dropdown-menu top-100 " style="right:1rem" aria-labelledby="dropdownMenuButton">
+                                <form asp-action="Logout" asp-controller="Auth" method="post" class="dropdown-item p-0">
+                                    <button type="submit" class="btn btn-link p-0 text-start w-100">登出</button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+
+
+                </nav>
+
+                <!-- main site -->
+                <div class="container">
+                    <main role="main" class="pb-3">
+                        @RenderBody()
+                    </main>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+    <script src="~/js/shared/jquery.js"></script>
+    <script src="~/js/shared/bootstrap.bundle.js"></script>
+    <script src="~/js/shared/bootstrap.js"></script>
+    <script src="~/js/shared/site.js" asp-append-version="true"></script>
+    
+    <script>
+
+        $('#user-show').addClass('noneShow')
+        $('#user-down').hover(function mouseToggle() {
+                $('#user-show').toggleClass('noneShow');
+            })
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
