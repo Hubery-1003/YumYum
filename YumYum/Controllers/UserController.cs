@@ -6,6 +6,7 @@ using System.Net;
 using YumYum.Models;
 using YumYum.Models.ViewModels;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity;
 namespace YumYum.Controllers
 {
     public class UserController : Controller
@@ -26,209 +27,209 @@ namespace YumYum.Controllers
 
 
 
-		//健誠
-		[HttpGet]
-		public async Task<IActionResult> Index()
-		{
+        //健誠
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
             int? userId = HttpContext.Session.GetInt32("userId");
             //int? foreignUserId = 3205;
             int? foreignUserId = HttpContext.Session.GetInt32("foreignId");
             int? id = (foreignUserId == null) ? userId : foreignUserId;
             ViewBag.userId = userId;
 
-            if(HttpContext.Session.GetInt32("foreignId") is null)
+            if (HttpContext.Session.GetInt32("foreignId") is null)
             {
                 if (HttpContext.Session.GetInt32("userId") is null)
                 {
                     return RedirectToAction("LoginPage", "User");
                 }
             }
-            
-            
 
-			// 設定Breadcrumb 顯示頁面資訊
-			ViewBag.Breadcrumbs = new List<BreadcrumbItem>
-			 {
-			 new BreadcrumbItem("首頁", Url.Action("Index", "Recipe") ?? "#"),
-			 new BreadcrumbItem("會員專區", "#") // 目前的頁面
+
+
+            // 設定Breadcrumb 顯示頁面資訊
+            ViewBag.Breadcrumbs = new List<BreadcrumbItem>
+             {
+             new BreadcrumbItem("首頁", Url.Action("Index", "Recipe") ?? "#"),
+             new BreadcrumbItem("會員專區", "#") // 目前的頁面
              };
 
-			var userQuery = from user in _context.UserBios
-							join userNickname in _context.UserSecretInfos
-							on user.UserId equals userNickname.UserId
-							where user.UserId == id
-							select new UserQueryViewModel
-							{
-								UserId = user.UserId,
-								UserIntro = user.UserIntro,
-								HeadShot = user.HeadShot,
-								Igaccount = user.Igaccount,
-								Fbnickname = user.Fbnickname,
-								YoutuNickname = user.YoutuNickname,
-								WebNickName = user.WebNickName,
-								YoutuLink = user.YoutuLink,
-								Fblink = user.Fblink,
-								WebLink = user.WebLink,
-								UserNickname = userNickname.UserNickname
-							};
+            var userQuery = from user in _context.UserBios
+                            join userNickname in _context.UserSecretInfos
+                            on user.UserId equals userNickname.UserId
+                            where user.UserId == id
+                            select new UserQueryViewModel
+                            {
+                                UserId = user.UserId,
+                                UserIntro = user.UserIntro,
+                                HeadShot = user.HeadShot,
+                                Igaccount = user.Igaccount,
+                                Fbnickname = user.Fbnickname,
+                                YoutuNickname = user.YoutuNickname,
+                                WebNickName = user.WebNickName,
+                                YoutuLink = user.YoutuLink,
+                                Fblink = user.Fblink,
+                                WebLink = user.WebLink,
+                                UserNickname = userNickname.UserNickname
+                            };
 
-			//1125更新
-			var recipeQuery = (from user in userQuery
-							   join recipe in _context.RecipeBriefs
-							   on user.UserId equals recipe.CreatorId
-							   join recipeInfo in _context.RecipeRecords
-							   on recipe.RecipeId equals recipeInfo.RecipeId
-							   //where (recipeInfo.RecipeStatusCode == 1 || recipeInfo.RecipeStatusCode == 4) set if in view
-							   join recipeImage in _context.RecipeRecordFields
-							   on recipe.RecipeId equals recipeImage.RecipeId
-							   where recipeImage.RecipeField == 0
-							   select new RecipeQueryViewModel
-							   {
-								   RecipeId = recipe.RecipeId,
-								   RecipeName = recipe.RecipeName,
-								   RecipeStatusCode = recipeInfo.RecipeStatusCode,
-								   FieldShot = recipeImage.FieldShot,
-								   RecipeRecVersion = recipeInfo.RecipeRecVersion
-							   }).GroupBy(r => r.RecipeId).Select(g => g.OrderByDescending(r => r.RecipeRecVersion).FirstOrDefault()).ToList();
+            //1125更新
+            var recipeQuery = (from user in userQuery
+                               join recipe in _context.RecipeBriefs
+                               on user.UserId equals recipe.CreatorId
+                               join recipeInfo in _context.RecipeRecords
+                               on recipe.RecipeId equals recipeInfo.RecipeId
+                               //where (recipeInfo.RecipeStatusCode == 1 || recipeInfo.RecipeStatusCode == 4) set if in view
+                               join recipeImage in _context.RecipeRecordFields
+                               on recipe.RecipeId equals recipeImage.RecipeId
+                               where recipeImage.RecipeField == 0
+                               select new RecipeQueryViewModel
+                               {
+                                   RecipeId = recipe.RecipeId,
+                                   RecipeName = recipe.RecipeName,
+                                   RecipeStatusCode = recipeInfo.RecipeStatusCode,
+                                   FieldShot = recipeImage.FieldShot,
+                                   RecipeRecVersion = recipeInfo.RecipeRecVersion
+                               }).GroupBy(r => r.RecipeId).Select(g => g.OrderByDescending(r => r.RecipeRecVersion).FirstOrDefault()).ToList();
 
-			var recipeDetailQuery = from recipe in recipeQuery
-									join recipeIngredient in _context.RecipeIngredients on recipe.RecipeId equals recipeIngredient.RecipeId
-									join recipeIngredientName in _context.Ingredients on recipeIngredient.IngredientId equals recipeIngredientName.IngredientId
-									select new RecipeDetailQuery
-									{
-										RecipeId = recipeIngredient.RecipeId,
-										IngredientId = recipeIngredient.IngredientId,
-										IngredientName = recipeIngredientName.IngredientName
-									};
-			var AllList = new RecipeAllUser()
-			{
-				userQueryViewModel = userQuery.ToList(),
-				recipeQueryViewModel = recipeQuery.ToList(),
-				recipeDetailQuery = recipeDetailQuery.ToList(),
-			};
-
-            if(userId is not null)
+            var recipeDetailQuery = from recipe in recipeQuery
+                                    join recipeIngredient in _context.RecipeIngredients on recipe.RecipeId equals recipeIngredient.RecipeId
+                                    join recipeIngredientName in _context.Ingredients on recipeIngredient.IngredientId equals recipeIngredientName.IngredientId
+                                    select new RecipeDetailQuery
+                                    {
+                                        RecipeId = recipeIngredient.RecipeId,
+                                        IngredientId = recipeIngredient.IngredientId,
+                                        IngredientName = recipeIngredientName.IngredientName
+                                    };
+            var AllList = new RecipeAllUser()
             {
-			HttpContext.Session.SetInt32("userId", (int)userId);
+                userQueryViewModel = userQuery.ToList(),
+                recipeQueryViewModel = recipeQuery.ToList(),
+                recipeDetailQuery = recipeDetailQuery.ToList(),
+            };
+
+            if (userId is not null)
+            {
+                HttpContext.Session.SetInt32("userId", (int)userId);
             }
 
-			HttpContext.Session.Remove("foreignId");
-			return View(AllList);
+            HttpContext.Session.Remove("foreignId");
+            return View(AllList);
 
 
-		}
+        }
 
 
-		[HttpGet]
-		public async Task<IActionResult> EditInfo()
-		{
-			// 設定Breadcrumb 顯示頁面資訊
-			ViewBag.Breadcrumbs = new List<BreadcrumbItem>
-			 {
-			 new BreadcrumbItem("首頁", Url.Action("Index", "Recipe") ?? "#"),
-			 new BreadcrumbItem("會員專區", Url.Action("Index", "User") ?? "#"),
-			 new BreadcrumbItem("編輯簡介", "#") // 目前的頁面
+        [HttpGet]
+        public async Task<IActionResult> EditInfo()
+        {
+            // 設定Breadcrumb 顯示頁面資訊
+            ViewBag.Breadcrumbs = new List<BreadcrumbItem>
+             {
+             new BreadcrumbItem("首頁", Url.Action("Index", "Recipe") ?? "#"),
+             new BreadcrumbItem("會員專區", Url.Action("Index", "User") ?? "#"),
+             new BreadcrumbItem("編輯簡介", "#") // 目前的頁面
              };
-			int? userId = HttpContext.Session.GetInt32("userId");
-			//int? userId = 3207;//for test
-			UserSecretInfo? userSecretInfo = await _context.UserSecretInfos.Where(p => p.UserId == userId).FirstOrDefaultAsync();
-			UserBio? userBio = await _context.UserBios.Where(p => p.UserId == userId).FirstOrDefaultAsync();
-			if (userSecretInfo == null || userBio == null)
-			{
-				return NotFound();
-			}
-			var viewModel = new UserViewModel
-			{
-				UserId = userBio.UserId,
-				HeadShot = userBio.HeadShot,
-				UserIntro = userBio.UserIntro,
-				Igaccount = userBio.Igaccount,
-				Fbnickname = userBio.Fbnickname,
-				YoutuNickname = userBio.YoutuNickname,
-				WebNickName = userBio.WebNickName,
-				YoutuLink = userBio.YoutuLink,
-				Fblink = userBio.Fblink,
-				WebLink = userBio.WebLink,
-				UserNickname = userSecretInfo.UserNickname
-			};
-			HttpContext.Session.SetInt32("userId", (int)userId);
-			return View(viewModel);
-		}
+            int? userId = HttpContext.Session.GetInt32("userId");
+            //int? userId = 3207;//for test
+            UserSecretInfo? userSecretInfo = await _context.UserSecretInfos.Where(p => p.UserId == userId).FirstOrDefaultAsync();
+            UserBio? userBio = await _context.UserBios.Where(p => p.UserId == userId).FirstOrDefaultAsync();
+            if (userSecretInfo == null || userBio == null)
+            {
+                return NotFound();
+            }
+            var viewModel = new UserViewModel
+            {
+                UserId = userBio.UserId,
+                HeadShot = userBio.HeadShot,
+                UserIntro = userBio.UserIntro,
+                Igaccount = userBio.Igaccount,
+                Fbnickname = userBio.Fbnickname,
+                YoutuNickname = userBio.YoutuNickname,
+                WebNickName = userBio.WebNickName,
+                YoutuLink = userBio.YoutuLink,
+                Fblink = userBio.Fblink,
+                WebLink = userBio.WebLink,
+                UserNickname = userSecretInfo.UserNickname
+            };
+            HttpContext.Session.SetInt32("userId", (int)userId);
+            return View(viewModel);
+        }
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> EditInfo(UserViewModel viewModel)
-		{
-			int? userId = HttpContext.Session.GetInt32("userId");
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditInfo(UserViewModel viewModel)
+        {
+            int? userId = HttpContext.Session.GetInt32("userId");
 
-			//int? userId = 3207;//for test					
+            //int? userId = 3207;//for test					
 
-			if (ModelState.IsValid)
-			{
-				UserSecretInfo? userSecretInfo = await _context.UserSecretInfos.Where(p => p.UserId == userId).FirstOrDefaultAsync();
-				UserBio? userBio = await _context.UserBios.Where(p => p.UserId == userId).FirstOrDefaultAsync();
+            if (ModelState.IsValid)
+            {
+                UserSecretInfo? userSecretInfo = await _context.UserSecretInfos.Where(p => p.UserId == userId).FirstOrDefaultAsync();
+                UserBio? userBio = await _context.UserBios.Where(p => p.UserId == userId).FirstOrDefaultAsync();
 
-				if (userSecretInfo == null || userBio == null)
-				{
-					return NotFound();
-				}
+                if (userSecretInfo == null || userBio == null)
+                {
+                    return NotFound();
+                }
 
-				userBio.UserIntro = viewModel.UserIntro;
-				//userBio.HeadShot = viewModel.HeadShot;
-				userBio.Igaccount = viewModel.Igaccount;
-				userBio.Fbnickname = viewModel.Fbnickname;
-				userBio.YoutuNickname = viewModel.YoutuNickname;
-				userBio.WebNickName = viewModel.WebNickName;
-				userBio.YoutuLink = viewModel.YoutuLink;
-				userBio.Fblink = viewModel.Fblink;
-				userBio.WebLink = viewModel.WebLink;
-				userSecretInfo.UserNickname = viewModel.UserNickname;
+                userBio.UserIntro = viewModel.UserIntro;
+                //userBio.HeadShot = viewModel.HeadShot;
+                userBio.Igaccount = viewModel.Igaccount;
+                userBio.Fbnickname = viewModel.Fbnickname;
+                userBio.YoutuNickname = viewModel.YoutuNickname;
+                userBio.WebNickName = viewModel.WebNickName;
+                userBio.YoutuLink = viewModel.YoutuLink;
+                userBio.Fblink = viewModel.Fblink;
+                userBio.WebLink = viewModel.WebLink;
+                userSecretInfo.UserNickname = viewModel.UserNickname;
 
-				_context.Update(userBio);
-				_context.Update(userSecretInfo);
-				await _context.SaveChangesAsync();
+                _context.Update(userBio);
+                _context.Update(userSecretInfo);
+                await _context.SaveChangesAsync();
                 TempData["userNickName"] = userSecretInfo.UserNickname;
                 return RedirectToAction(nameof(Index));
-			}
+            }
 
-			HttpContext.Session.SetInt32("userId", (int)userId);
-			return View(viewModel);
+            HttpContext.Session.SetInt32("userId", (int)userId);
+            return View(viewModel);
 
-		}
-		private bool UserBioExists(int id)
-		{
-			return _context.UserBios.Any(e => e.UserId == id);
-		}
+        }
+        private bool UserBioExists(int id)
+        {
+            return _context.UserBios.Any(e => e.UserId == id);
+        }
 
-		//1120 Upload image		
+        //1120 Upload image		
 
-		// POST: User/Upload
-		[HttpPost]
-		public async Task<IActionResult> Upload(IFormFile file)
-		{
-			int? userId = HttpContext.Session.GetInt32("userId");
-			//int? userId = 3207;//for test		
-			if (file != null && file.Length > 0)
-			{
-				var fileNamefromlocal = System.IO.Path.GetFileName(file.FileName);
-				var sideFileName = fileNamefromlocal.Split('.').Last();
-				var fileName = userId.ToString() + "." + sideFileName;
-				var filePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/user", fileName);
-				using (var stream = new FileStream(filePath, FileMode.Create))
-				{
-					await file.CopyToAsync(stream);
-				}
-				UserBio? userBio = await _context.UserBios.Where(p => p.UserId == userId).FirstOrDefaultAsync();
-				userBio.HeadShot = "/img/user/" + fileName;
-				TempData["userHeadShot"] = userBio.HeadShot;
-				_context.Update(userBio);
-				await _context.SaveChangesAsync();
-				return RedirectToAction(nameof(EditInfo));
-			}
-			return Json(new { success = false });
+        // POST: User/Upload
+        [HttpPost]
+        public async Task<IActionResult> Upload(IFormFile file)
+        {
+            int? userId = HttpContext.Session.GetInt32("userId");
+            //int? userId = 3207;//for test		
+            if (file != null && file.Length > 0)
+            {
+                var fileNamefromlocal = System.IO.Path.GetFileName(file.FileName);
+                var sideFileName = fileNamefromlocal.Split('.').Last();
+                var fileName = userId.ToString() + "." + sideFileName;
+                var filePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/user", fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                UserBio? userBio = await _context.UserBios.Where(p => p.UserId == userId).FirstOrDefaultAsync();
+                userBio.HeadShot = "/img/user/" + fileName;
+                TempData["userHeadShot"] = userBio.HeadShot;
+                _context.Update(userBio);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(EditInfo));
+            }
+            return Json(new { success = false });
 
 
-		}
+        }
 
 
 
@@ -427,26 +428,53 @@ namespace YumYum.Controllers
         public async Task<IActionResult> LogInPage([FromBody] UserSecretInfo user)
         {
             UserSecretInfo users = await _context.UserSecretInfos.Where(p => p.Email == user.Email).FirstOrDefaultAsync();
-
-            if (users != null && users.Password == user.Password)
+            if (users.Password.Length < 25)
             {
-                //show user info	on nav bar by 健誠
-                UserBio? userBio = await _context.UserBios.Where(p => p.UserId == users.UserId).FirstOrDefaultAsync();
-                UserSecretInfo? userSecretInfo = await _context.UserSecretInfos.Where(p => p.UserId == users.UserId).FirstOrDefaultAsync();
-                TempData["userHeadShot"] = userBio.HeadShot;
-                TempData["userNickName"] = userSecretInfo.UserNickname;
-                // set session
-                HttpContext.Session.SetInt32("userId", users.UserId);
-                return Json(new { redirectUrl = Url.Action("Index", "Recipe") });
-            }
-            else if (users != null && users.Password != user.Password)
-            {
-                return Json(new { errorMessage = "帳號或密碼錯誤" });
+                if (users != null && users.Password == user.Password)
+                {
+                    //show user info	on nav bar by 健誠
+                    UserBio? userBio = await _context.UserBios.Where(p => p.UserId == users.UserId).FirstOrDefaultAsync();
+                    UserSecretInfo? userSecretInfo = await _context.UserSecretInfos.Where(p => p.UserId == users.UserId).FirstOrDefaultAsync();
+                    TempData["userHeadShot"] = userBio.HeadShot;
+                    TempData["userNickName"] = userSecretInfo.UserNickname;
+                    // set session
+                    HttpContext.Session.SetInt32("userId", users.UserId);
+                    return Json(new { redirectUrl = Url.Action("Index", "Recipe") });
+                }
+                else if (users != null && users.Password != user.Password)
+                {
+                    return Json(new { errorMessage = "帳號或密碼錯誤" });
+                }
+                else
+                {
+                    return Json(new { errorMessage = "帳號未註冊" });
+                }
             }
             else
             {
-                return Json(new { errorMessage = "帳號未註冊" });
+                var passwordHasher = new PasswordHasher<UserSecretInfo>();
+                var result = passwordHasher.VerifyHashedPassword(users, users.Password, user.Password);
+                if (users != null && result == PasswordVerificationResult.Success)
+                {
+                    //show user info	on nav bar by 健誠
+                    UserBio? userBio = await _context.UserBios.Where(p => p.UserId == users.UserId).FirstOrDefaultAsync();
+                    UserSecretInfo? userSecretInfo = await _context.UserSecretInfos.Where(p => p.UserId == users.UserId).FirstOrDefaultAsync();
+                    TempData["userHeadShot"] = userBio.HeadShot;
+                    TempData["userNickName"] = userSecretInfo.UserNickname;
+                    // set session
+                    HttpContext.Session.SetInt32("userId", users.UserId);
+                    return Json(new { redirectUrl = Url.Action("Index", "Recipe") });
+                }
+                else if (users != null && result != PasswordVerificationResult.Success)
+                {
+                    return Json(new { errorMessage = "帳號或密碼錯誤" });
+                }
+                else
+                {
+                    return Json(new { errorMessage = "帳號未註冊" });
+                }
             }
+
         }
 
         public async Task<IActionResult> RegisterPage()
@@ -526,24 +554,28 @@ namespace YumYum.Controllers
             }
 
         }
-		[HttpPost]
-		public async Task<IActionResult> RegisterVerifyPage([FromBody] UserSecretInfo user)
-		{
-			user.EmailChecked = true;
-			await _context.UserSecretInfos.AddAsync(user);
-			await _context.SaveChangesAsync();
-			UserSecretInfo? newUserSecret = await _context.UserSecretInfos.FirstOrDefaultAsync(p => p.Email == user.Email);
-			UserBio newUser = new UserBio()
-			{
-				UserId = newUserSecret.UserId
-			};
-			_context.UserBios.Add(newUser);
-			await _context.SaveChangesAsync();
-			return Json(new { action = Url.Action("Index", "Recipe"), successmessage = "成功新增會員資料" });
-		}
+        [HttpPost]
+        public async Task<IActionResult> RegisterVerifyPage([FromBody] UserSecretInfo user)
+        {
+            user.EmailChecked = true;
+            //新增一個PasswordHasher<UserSecretInfo>，用來將密碼加密
+            var passwordHasher = new PasswordHasher<UserSecretInfo>();
+            user.Password = passwordHasher.HashPassword(user, user.Password);
+            //加密後新增至資料庫
+            await _context.UserSecretInfos.AddAsync(user);
+            await _context.SaveChangesAsync();
+            UserSecretInfo? newUserSecret = await _context.UserSecretInfos.FirstOrDefaultAsync(p => p.Email == user.Email);
+            UserBio newUser = new UserBio()
+            {
+                UserId = newUserSecret.UserId
+            };
+            _context.UserBios.Add(newUser);
+            await _context.SaveChangesAsync();
+            return Json(new { action = Url.Action("Index", "Recipe"), successmessage = "成功新增會員資料" });
+        }
 
 
-		[HttpPost]
+        [HttpPost]
         public async Task<IActionResult> SendVerifyAgain([FromBody] string Email)
         {
             //驗證碼
