@@ -463,7 +463,7 @@ namespace YumYum.Controllers
                 };
                 _context.UserBios.Add(newUser);
                 await _context.SaveChangesAsync();
-
+                TempData["userNickName"] = newUserSecret.UserNickname;
                 HttpContext.Session.SetInt32("userId", newUserSecret.UserId);
                 return RedirectToAction("Index", "Recipe");
             }
