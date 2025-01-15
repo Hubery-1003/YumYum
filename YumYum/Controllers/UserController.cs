@@ -7,6 +7,9 @@ using YumYum.Models;
 using YumYum.Models.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
 namespace YumYum.Controllers
 {
     public class UserController : Controller
@@ -419,6 +422,55 @@ namespace YumYum.Controllers
 
 
         //毅祥
+        //google登入
+        public async Task GoogleLogin()
+        {
+            await HttpContext.ChallengeAsync("Google", new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse") });
+
+        }
+        //google登入回應
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsIdentity = result.Principal!.Identities.FirstOrDefault();
+            //判斷是否已註冊
+            string email = claimsIdentity?.FindFirst(ClaimTypes.Email)?.Value;
+            UserSecretInfo? userSecretInfo = await _context.UserSecretInfos.FirstOrDefaultAsync(p => p.Email == email);
+            if (result.Succeeded && userSecretInfo != null)
+            {
+                HttpContext.Session.SetInt32("userId", userSecretInfo.UserId);
+                TempData["userNickName"] = userSecretInfo.UserNickname;
+                return RedirectToAction("Index", "Recipe");
+            }
+            //新增使用者
+            else
+            {
+                UserSecretInfo user = new UserSecretInfo();
+                Random random = new Random();
+                user.Password = "google" + random.Next(100000, 999999).ToString();
+                var passwordHasher = new PasswordHasher<UserSecretInfo>();
+                user.Password = passwordHasher.HashPassword(user, user.Password);
+                user.Email = email;
+                user.UserNickname = claimsIdentity?.FindFirst(ClaimTypes.Name)?.Value;
+                await _context.UserSecretInfos.AddAsync(user);
+                await _context.SaveChangesAsync();
+
+
+                UserSecretInfo? newUserSecret = await _context.UserSecretInfos.FirstOrDefaultAsync(p => p.Email == user.Email);
+                UserBio newUser = new UserBio()
+                {
+                    UserId = newUserSecret.UserId
+                };
+                _context.UserBios.Add(newUser);
+                await _context.SaveChangesAsync();
+
+                HttpContext.Session.SetInt32("userId", newUserSecret.UserId);
+                return RedirectToAction("Index", "Recipe");
+            }
+
+
+        }
+        //一般登入
         public async Task<IActionResult> LogInPage()
         {
             return View();

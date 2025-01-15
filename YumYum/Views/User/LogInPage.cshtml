@@ -10,7 +10,7 @@
 }
 
 <script src="~/js/shared/jquery.js"></script>
-
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <div class="container" style="width: 700px;margin-top:125px;margin-bottom:100px">
     <div class="row align-items-center justify-content-center" style="min-height: 60vh;">
@@ -40,6 +40,9 @@
             </div>
             <div class="input-group mb-2 ">
                 <button id="button-login" class="btn btn-outline-success w-100 mx-1">登入</button>
+            </div>
+            <div class="input-group mb-2 ">
+                <a asp-action="GoogleLogin" asp-controller="User" class="btn btn-outline-success w-100 mx-1">Google登入</a>
             </div>
             <div class="input-group justify-content-center mb-4 mt-4">
                 <small>還沒有帳戶嗎?&nbsp</small>

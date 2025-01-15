@@ -2,6 +2,8 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using YumYum.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,8 +36,16 @@ builder.Services.AddControllersWithViews()
             );
         options.JsonSerializerOptions.WriteIndented = true;
     });
-
-
+//Google authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+}).AddCookie().AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+{
+    options.ClientId = builder.Configuration.GetSection("GoogleKeys:ClientId").Value;
+    options.ClientSecret = builder.Configuration.GetSection("GoogleKeys:ClientSecret").Value;
+});
 
 
 var connectionString = builder.Configuration.GetConnectionString("connectionString"); // YumYumDB
@@ -77,8 +87,8 @@ app.UseSession();
 
 if (!app.Environment.IsDevelopment())
 {
-	app.UseExceptionHandler("/Home/Error");
-	app.UseHsts();
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
 
 app.MapControllerRoute(
